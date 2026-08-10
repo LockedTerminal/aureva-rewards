@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "brand": "⭐ aurevaRewards",
+    "merchantPortal": "بوابة التاجر",
+    "disconnect": "قطع الاتصال"
+  },
+  "home": {
+    "title": "امتلك مكافآتك",
+    "description": "aurevaRewards تضع رموز الولاء على blockchain Stellar — اكسب، انقل، واستبدل رموز AUR عبر أي تاجر مشارك.",
+    "connectWallet": "ربط محفظة Freighter",
+    "connecting": "جاري الاتصال...",
+    "installFreighter": "تثبيت محفظة Freighter",
+    "freighterRequired": "محفظة Freighter مطلوبة لاستخدام aurevaRewards."
+  },
+  "wallet": {
+    "error": "فشل في الاتصال بالمحفظة"
+  },
+  "date": {
+    "transactionDate": "تاريخ المعاملة"
+  },
+  "currency": {
+    "AurevaTokens": "رموز AUR"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ"
+  }
+}

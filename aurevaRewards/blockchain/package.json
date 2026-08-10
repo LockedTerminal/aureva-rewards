@@ -1,0 +1,10 @@
+{
+  "name": "aureva-rewards-blockchain",
+  "version": "1.0.0",
+  "description": "aurevaRewards Stellar blockchain layer",
+  "main": "stellarService.js",
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "stellar-sdk": "^13.3.0"
+  }
+}

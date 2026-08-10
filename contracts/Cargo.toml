@@ -1,0 +1,55 @@
+[workspace]
+resolver = "2"
+members = [
+    "aureva_token",
+    "reward_pool",
+    "admin_roles",
+    "campaign",
+    "redemption",
+    "contract_state",
+    "distribution",
+    "integration_tests",
+]
+default-members = [
+    "aureva_token",
+    "reward_pool",
+    "admin_roles",
+    "campaign",
+    "redemption",
+    "contract_state",
+    "distribution",
+    "integration_tests",
+]
+
+# Deferred to Aureva v2 (directories preserved in git history):
+#   aureva-rewards   — staking + cross-asset swap
+#   governance     — on-chain proposal voting
+#   vesting        — cliff/linear token vesting
+#   escrow         — merchant payment escrow
+#   referral       — on-chain referral hub
+
+[workspace.package]
+edition = "2021"
+publish = false
+
+[workspace.dependencies]
+soroban-sdk = "27.0.0"
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true
+
+[workspace.metadata.tarpaulin]
+out = ["Html", "Lcov"]
+output-dir = "coverage"
+timeout = "120"

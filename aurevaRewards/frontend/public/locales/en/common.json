@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "brand": "⭐ aurevaRewards",
+    "merchantPortal": "Merchant Portal",
+    "disconnect": "Disconnect"
+  },
+  "home": {
+    "title": "Own Your Rewards",
+    "description": "aurevaRewards puts loyalty tokens on the Stellar blockchain — earn, transfer, and redeem AUR tokens across any participating merchant.",
+    "connectWallet": "Connect Freighter Wallet",
+    "connecting": "Connecting…",
+    "installFreighter": "Install Freighter Wallet",
+    "freighterRequired": "Freighter Wallet is required to use aurevaRewards."
+  },
+  "wallet": {
+    "error": "Wallet connection failed"
+  },
+  "date": {
+    "transactionDate": "Transaction Date"
+  },
+  "currency": {
+    "AurevaTokens": "AUR tokens"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error"
+  }
+}

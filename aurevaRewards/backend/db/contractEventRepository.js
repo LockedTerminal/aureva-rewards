@@ -1,0 +1,264 @@
+'use strict';
+
+const { query, pool } = require('./index');
+
+/**
+ * Records a contract event for audit logging.
+ * Requirements: #182
+ *
+ * @param {object} params
+ * @param {string} params.contractId
+ * @param {string} params.eventType - 'mint' | 'claim' | 'stake' | 'unstake'
+ * @param {object} params.eventData
+ * @param {string} [params.transactionHash]
+ * @param {number} [params.ledgerSequence]
+ * @returns {Promise<object>} The inserted event row
+ */
+async function recordContractEvent({
+  contractId,
+  eventType,
+  eventData,
+  transactionHash,
+  ledgerSequence,
+}) {
+  const result = await query(
+    `INSERT INTO contract_events
+       (contract_id, event_type, event_data, transaction_hash, ledger_sequence)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING *`,
+    [contractId, eventType, JSON.stringify(eventData), transactionHash, ledgerSequence]
+  );
+  return result.rows[0];
+}
+
+/**
+ * Atomically records a contract event AND advances the Horizon cursor in a
+ * single PostgreSQL transaction.
+ *
+ * Why this matters: if the process crashes after the event INSERT but before
+ * the cursor UPDATE (or vice versa), we end up with either a lost event or a
+ * double-replay.  Wrapping both writes in one BEGIN/COMMIT block ensures
+ * they either both commit or both roll back — giving us exactly-once
+ * semantics on crash-restart.
+ *
+ * Isolation level: READ COMMITTED (PostgreSQL default) is sufficient here
+ * because both writes target different rows/tables and there is no
+ * read-modify-write on the event row itself.
+ *
+ * @param {object} params
+ * @param {string} params.contractId
+ * @param {string} params.eventType
+ * @param {object} params.eventData
+ * @param {string} [params.transactionHash]
+ * @param {number} [params.ledgerSequence]
+ * @param {string} params.cursor - The Horizon paging_token to persist
+ * @returns {Promise<object>} The inserted contract_event row
+ */
+async function recordEventAndUpdateCursor({
+  contractId,
+  eventType,
+  eventData,
+  transactionHash,
+  ledgerSequence,
+  cursor,
+}) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    // 1. Insert the event row
+    const { rows } = await client.query(
+      `INSERT INTO contract_events
+         (contract_id, event_type, event_data, transaction_hash, ledger_sequence)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [contractId, eventType, JSON.stringify(eventData), transactionHash, ledgerSequence]
+    );
+
+    // 2. Advance the cursor atomically in the same transaction
+    await client.query(
+      `INSERT INTO contract_event_cursors (contract_id, cursor, updated_at)
+       VALUES ($1, $2, NOW())
+       ON CONFLICT (contract_id) DO UPDATE
+         SET cursor = EXCLUDED.cursor, updated_at = NOW()`,
+      [contractId, cursor]
+    );
+
+    await client.query('COMMIT');
+    return rows[0];
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
+/**
+ * Marks a contract event as processed.
+ * Requirements: #182
+ *
+ * @param {number} eventId
+ * @returns {Promise<object>}
+ */
+async function markEventProcessed(eventId) {
+  const result = await query(
+    `UPDATE contract_events
+     SET status = 'processed', processed_at = NOW()
+     WHERE id = $1
+     RETURNING *`,
+    [eventId]
+  );
+  return result.rows[0];
+}
+
+/**
+ * Marks a contract event as failed and increments retry count.
+ * Requirements: #182
+ *
+ * @param {number} eventId
+ * @param {string} errorMessage
+ * @returns {Promise<object>}
+ */
+async function markEventFailed(eventId, errorMessage) {
+  const result = await query(
+    `UPDATE contract_events
+     SET status = 'failed', 
+         error_message = $2,
+         retry_count = retry_count + 1
+     WHERE id = $1
+     RETURNING *`,
+    [eventId, errorMessage]
+  );
+  return result.rows[0];
+}
+
+/**
+ * Gets pending contract events that need to be retried.
+ * Requirements: #182
+ *
+ * @param {number} maxRetries - Maximum retry count before giving up
+ * @returns {Promise<object[]>}
+ */
+async function getPendingEvents(maxRetries = 5) {
+  const result = await query(
+    `SELECT * FROM contract_events
+     WHERE status = 'pending'
+        OR (status = 'failed' AND retry_count < $1)
+     ORDER BY created_at ASC`,
+    [maxRetries]
+  );
+  return result.rows;
+}
+
+/**
+ * Gets contract events with pagination and filtering.
+ * Requirements: #182
+ *
+ * @param {object} params
+ * @param {string} [params.contractId]
+ * @param {string} [params.eventType]
+ * @param {number} params.page
+ * @param {number} params.limit
+ * @returns {Promise<{data: object[], total: number, page: number, limit: number}>}
+ */
+async function getContractEvents({ contractId, eventType, page = 1, limit = 20 }) {
+  const offset = (page - 1) * limit;
+  const conditions = [];
+  const params = [];
+  let paramIndex = 1;
+
+  if (contractId) {
+    conditions.push(`contract_id = $${paramIndex++}`);
+    params.push(contractId);
+  }
+
+  if (eventType) {
+    conditions.push(`event_type = $${paramIndex++}`);
+    params.push(eventType);
+  }
+
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  // Get total count
+  const countResult = await query(
+    `SELECT COUNT(*) as total FROM contract_events ${whereClause}`,
+    params
+  );
+  const total = parseInt(countResult.rows[0].total, 10);
+
+  // Get paginated data
+  const dataResult = await query(
+    `SELECT * FROM contract_events
+     ${whereClause}
+     ORDER BY created_at DESC
+     LIMIT $${paramIndex++} OFFSET $${paramIndex++}`,
+    [...params, limit, offset]
+  );
+
+  return {
+    data: dataResult.rows,
+    total,
+    page,
+    limit,
+  };
+}
+
+/**
+ * Gets a contract event by ID.
+ * Requirements: #182
+ *
+ * @param {number} eventId
+ * @returns {Promise<object|null>}
+ */
+async function getContractEventById(eventId) {
+  const result = await query(
+    'SELECT * FROM contract_events WHERE id = $1',
+    [eventId]
+  );
+  return result.rows[0] || null;
+}
+
+/**
+ * Gets the last persisted Horizon cursor for a contract stream.
+ * @param {string} contractId
+ * @returns {Promise<string|null>}
+ */
+async function getStreamCursor(contractId) {
+  const result = await query(
+    `SELECT cursor FROM contract_event_cursors WHERE contract_id = $1`,
+    [contractId]
+  );
+  return result.rows[0]?.cursor || null;
+}
+
+/**
+ * Upserts the Horizon cursor for a contract stream.
+ * Prefer recordEventAndUpdateCursor() when also inserting an event so that
+ * both writes are atomic.
+ *
+ * @param {string} contractId
+ * @param {string} cursor
+ * @returns {Promise<void>}
+ */
+async function saveStreamCursor(contractId, cursor) {
+  await query(
+    `INSERT INTO contract_event_cursors (contract_id, cursor, updated_at)
+     VALUES ($1, $2, NOW())
+     ON CONFLICT (contract_id) DO UPDATE
+       SET cursor = EXCLUDED.cursor, updated_at = NOW()`,
+    [contractId, cursor]
+  );
+}
+
+module.exports = {
+  recordContractEvent,
+  recordEventAndUpdateCursor,
+  markEventProcessed,
+  markEventFailed,
+  getPendingEvents,
+  getContractEvents,
+  getContractEventById,
+  getStreamCursor,
+  saveStreamCursor,
+};

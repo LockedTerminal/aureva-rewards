@@ -1,0 +1,24 @@
+[package]
+license = "MIT"
+name = "integration_tests"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+aureva_token  = { path = "../aureva_token" }
+reward_pool   = { path = "../reward_pool" }
+admin_roles   = { path = "../admin_roles" }
+campaign      = { path = "../campaign" }
+distribution  = { path = "../distribution" }
+
+# Deferred to Aureva v2 (removed from workspace, preserved in git history):
+#   aureva-rewards  = { path = "../aureva-rewards" }   # staking + cross-asset swap
+#   governance    = { path = "../governance" }      # on-chain governance
+#   escrow        = { path = "../escrow" }          # merchant payment escrow
+#   referral      = { path = "../referral" }        # referral hub
+#   vesting       = { path = "../vesting" }         # token vesting schedules

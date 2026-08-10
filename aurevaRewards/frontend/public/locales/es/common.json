@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "brand": "⭐ aurevaRewards",
+    "merchantPortal": "Portal del Comerciante",
+    "disconnect": "Desconectar"
+  },
+  "home": {
+    "title": "Posee Tus Recompensas",
+    "description": "aurevaRewards pone tokens de lealtad en la blockchain de Stellar — gana, transfiere y canjea tokens AUR en cualquier comerciante participante.",
+    "connectWallet": "Conectar Freighter Wallet",
+    "connecting": "Conectando…",
+    "installFreighter": "Instalar Freighter Wallet",
+    "freighterRequired": "Se requiere Freighter Wallet para usar aurevaRewards."
+  },
+  "wallet": {
+    "error": "Fallo en la conexión de wallet"
+  },
+  "date": {
+    "transactionDate": "Fecha de Transacción"
+  },
+  "currency": {
+    "AurevaTokens": "Tokens AUR"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error"
+  }
+}

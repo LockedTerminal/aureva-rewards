@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "start": "node dist/main",
+    "start:dev": "nest start --watch",
+    "build": "nest build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "generate-env": "ts-node scripts/generate-env-example.ts"
+  },
+  "dependencies": {
+    "ioredis": "^5.11.1",
+    "winston": "^3.19.0"
+  }
+}
