@@ -322,7 +322,7 @@ Failed audit writes are logged:
 
 3. Check for errors in application logs:
    ```bash
-   grep "\[audit\]" /var/log/nova/backend.log
+   grep "\[audit\]" /var/log/AUR/backend.log
    ```
 
 ### Performance concerns

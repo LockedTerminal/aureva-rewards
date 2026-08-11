@@ -60,7 +60,7 @@ export function useReferral(
       typeof window !== 'undefined'
         ? (() => {
             try {
-              const stored = localStorage.getItem('nova-auth-storage');
+              const stored = localStorage.getItem('AUR-auth-storage');
               return stored ? JSON.parse(stored)?.state?.token ?? '' : '';
             } catch {
               return '';
@@ -93,7 +93,7 @@ export function useReferral(
         if (cancelled) return;
         console.warn('[useReferral] fetch failed, using fallback', err.message);
         // Use a deterministic fallback so the UI is still usable
-        setReferralCode(`NOVA-${String(userId).slice(-6).toUpperCase()}`);
+        setReferralCode(`AUR-${String(userId).slice(-6).toUpperCase()}`);
         setStats(DEFAULT_STATS);
         setError('Could not load referral data. Showing placeholder.');
       })

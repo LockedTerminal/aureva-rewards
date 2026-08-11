@@ -70,7 +70,7 @@ export const useOnboardingStore = create(
         },
       }),
       {
-        name: 'nova-onboarding',
+        name: 'AUR-onboarding',
         partialize: (s) => ({
           currentStep: s.currentStep,
           completedSteps: s.completedSteps,

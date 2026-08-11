@@ -36,7 +36,7 @@ jest.mock('../db/contractEventRepository', () => ({
 
 jest.mock('./configService', () => ({
   HORIZON_URL:              'http://horizon.test',
-  aureva_token_CONTRACT_ID:   'CNOVA',
+  aureva_token_CONTRACT_ID:   'CAUR',
   REWARD_POOL_CONTRACT_ID:  'CRWRD',
 }), { virtual: true });
 

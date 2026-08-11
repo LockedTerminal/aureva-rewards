@@ -63,7 +63,7 @@
 | `calculate_yield` | `user: Address` | `i128` | Preview accrued yield. |
 | `set_annual_rate` | `rate_bps: u32` | — | Set yield rate (bps). Admin only. |
 | `get_annual_rate` | — | `u32` | Query yield rate. |
-| `swap_for_xlm` | `user: Address, nova_amount: i128, min_xlm_out: i128` | `i128` | Burn AUR, receive XLM. |
+| `swap_for_xlm` | `user: Address, aur_amount: i128, min_xlm_out: i128` | `i128` | Burn AUR, receive XLM. |
 | `pause` / `resume` | — | — | Emergency pause. Admin only. |
 | `is_paused` | — | `bool` | Query pause state. |
 | `upgrade` | `new_wasm_hash: BytesN<32>` | — | Upgrade WASM. Admin only. |

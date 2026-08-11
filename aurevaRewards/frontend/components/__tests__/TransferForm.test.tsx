@@ -186,7 +186,7 @@ describe('TokenTransferForm - Acceptance Criteria Tests', () => {
 
       await waitFor(() => {
         expect(screen.getByText(/Network Fee/i)).toBeInTheDocument();
-        // BASE_FEE is 100 stroops = 0.000001 NOVA
+        // BASE_FEE is 100 stroops = 0.000001 AUR
         expect(screen.getByText(/0\.000001/)).toBeInTheDocument();
       });
     });

@@ -61,8 +61,8 @@ md5hash() {
 }
 
 cat > /etc/pgbouncer/userlist.txt <<EOF
-"nova_app"     "$(md5hash "$APP_PASS" "nova_app")"
-"nova_migrate" "$(md5hash "$MIG_PASS" "nova_migrate")"
+"aureva_app"     "$(md5hash "$APP_PASS" "aureva_app")"
+"aureva_migrate" "$(md5hash "$MIG_PASS" "aureva_migrate")"
 EOF
 
 chmod 640 /etc/pgbouncer/userlist.txt

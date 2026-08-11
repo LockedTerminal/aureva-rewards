@@ -56,7 +56,7 @@ const MOCK_NOTIFICATION = {
   user_id: 1,
   type: 'reward_received',
   title: 'Reward Received',
-  message: 'You got 100 NOVA',
+  message: 'You got 100 AUR',
   is_read: false,
   created_at: new Date().toISOString(),
 };

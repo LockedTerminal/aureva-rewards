@@ -21,9 +21,9 @@ jest.mock('../middleware/validateEnv', () => ({ validateEnv: jest.fn() }));
 jest.mock('../services/emailService', () => ({ sendWelcome: jest.fn().mockResolvedValue({ success: true }) }));
 jest.mock('../../blockchain/stellarService', () => ({
   server: {},
-  NOVA: {},
+  AUR: {},
   isValidStellarAddress: jest.fn().mockReturnValue(true),
-  getNOVABalance: jest.fn().mockResolvedValue('0'),
+  getAURBalance: jest.fn().mockResolvedValue('0'),
 }));
 jest.mock('../../blockchain/sendRewards', () => ({ sendRewards: jest.fn() }));
 jest.mock('../../blockchain/issueAsset', () => ({}));

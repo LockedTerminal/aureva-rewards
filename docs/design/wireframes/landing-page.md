@@ -64,9 +64,9 @@ This document provides low-fidelity wireframes for the Aureva Rewards marketing 
 │  │  Earn Points   │  │Redeem Rewards  │  │  Stake Tokens  │  │  Refer  │ │
 │  │  [H3 - 20px]   │  │  [H3 - 20px]   │  │  [H3 - 20px]   │  │ Friends │ │
 │  │                │  │                │  │                │  │         │ │
-│  │ Shop at partner│  │ Exchange NOVA  │  │ Lock tokens to │  │ Invite  │ │
+│  │ Shop at partner│  │ Exchange AUR  │  │ Lock tokens to │  │ Invite  │ │
 │  │ merchants and  │  │ for gift cards,│  │ earn APY and   │  │ friends │ │
-│  │ earn NOVA with │  │ discounts, and │  │ governance     │  │ and earn│ │
+│  │ earn AUR with │  │ discounts, and │  │ governance     │  │ and earn│ │
 │  │ every purchase.│  │ exclusive perks│  │ voting power.  │  │ 10% of  │ │
 │  │ [Body - 16px]  │  │ [Body - 16px]  │  │ [Body - 16px]  │  │  their  │ │
 │  │                │  │                │  │                │  │ rewards │ │
@@ -87,7 +87,7 @@ This document provides low-fidelity wireframes for the Aureva Rewards marketing 
 │       │                          │      │  [Table - 16px]             │   │
 │       │        ╱───╲             │      │                             │   │
 │       │      ╱   40% ╲           │      │ Total Supply:  1,000,000,000│   │
-│       │     │  Comm.  │          │      │                   NOVA       │   │
+│       │     │  Comm.  │          │      │                   AUR       │   │
 │       │     │ Rewards │          │      │                             │   │
 │       │      ╲       ╱           │      │ Community Rewards    40%    │   │
 │       │    20% ╲___╱ 15%         │      │ Staking Rewards      20%    │   │
@@ -148,20 +148,20 @@ This document provides low-fidelity wireframes for the Aureva Rewards marketing 
 ```
 ┌─────────────────────────────────────┐
 │  NAVBAR (collapsed)                 │
-│  [☰ Menu]  Nova    [Connect Wallet] │
+│  [☰ Menu]  AUR    [Connect Wallet] │
 └─────────────────────────────────────┘
 
 ┌─────────────────────────────────────┐
 │         HERO (stacked)              │
 │                                     │
-│       [NOVA Icon - 80x80px]         │
+│       [AUR Icon - 80x80px]         │
 │                                     │
 │   Earn. Stake. Redeem.              │
 │   Own Your Rewards.                 │
 │       [H1 - 32px]                   │
 │                                     │
 │  Transform loyalty into             │
-│  crypto. Earn NOVA with             │
+│  crypto. earn AUR with             │
 │  every purchase.                    │
 │    [Subheading - 16px]              │
 │                                     │
@@ -187,7 +187,7 @@ This document provides low-fidelity wireframes for the Aureva Rewards marketing 
 │  │     [H3 - 18px]              │  │
 │  │                              │  │
 │  │  Shop at partners and earn   │  │
-│  │  NOVA with every purchase.   │  │
+│  │  AUR with every purchase.   │  │
 │  │  [Body - 16px]               │  │
 │  │                              │  │
 │  │  [Learn More →]              │  │
@@ -202,7 +202,7 @@ This document provides low-fidelity wireframes for the Aureva Rewards marketing 
 │  [Pie chart - 280x280px]            │
 │                                     │
 │  [Table below chart]                │
-│  Total: 1B NOVA                     │
+│  Total: 1B AUR                     │
 │  • Community: 40%                   │
 │  • Staking: 20%                     │
 │  • Team: 15%                        │

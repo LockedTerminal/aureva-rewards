@@ -20,7 +20,7 @@ All in `components/ui/Progress.jsx`.
 
 ## Animations
 
-- Bar fill: `width` transition `240ms cubic-bezier(0.4,0,0.2,1)` (`.nova-progress-fill`)
+- Bar fill: `width` transition `240ms cubic-bezier(0.4,0,0.2,1)` (`.AUR-progress-fill`)
 - Circle stroke: `stroke-dashoffset` transition `240ms cubic-bezier(0.4,0,0.2,1)`
 - Step connector: `background-color` transition `300ms`
 - Reduced motion: all transitions set to `none`

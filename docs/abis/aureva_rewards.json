@@ -71,7 +71,7 @@
       "description": "Burns AUR tokens and swaps for XLM via a DEX router.",
       "params": [
         { "name": "user", "type": "Address" },
-        { "name": "nova_amount", "type": "i128" },
+        { "name": "aur_amount", "type": "i128" },
         { "name": "min_xlm_out", "type": "i128", "description": "Minimum XLM to receive (slippage guard)." }
       ],
       "returns": { "type": "i128", "description": "XLM received." },
@@ -170,7 +170,7 @@
     { "name": "staked",       "fields": [{ "name": "user", "type": "Address" }, { "name": "amount", "type": "i128" }] },
     { "name": "unstaked",     "fields": [{ "name": "user", "type": "Address" }, { "name": "amount", "type": "i128" }, { "name": "yield", "type": "i128" }] },
     { "name": "rate_set",     "fields": [{ "name": "rate_bps", "type": "u32" }] },
-    { "name": "swap",         "fields": [{ "name": "user", "type": "Address" }, { "name": "nova_in", "type": "i128" }, { "name": "xlm_out", "type": "i128" }] },
+    { "name": "swap",         "fields": [{ "name": "user", "type": "Address" }, { "name": "aur_in", "type": "i128" }, { "name": "xlm_out", "type": "i128" }] },
     { "name": "paused",       "fields": [] },
     { "name": "resumed",      "fields": [] },
     { "name": "upgraded",     "fields": [{ "name": "new_wasm_hash", "type": "BytesN<32>" }] }

@@ -7,7 +7,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
  *
  * @param {object} filters
  * @param {string}  [filters.contract]    - contract name (e.g. 'aureva-rewards')
- * @param {string}  [filters.event_type]  - e.g. 'nova_rwd:staked'
+ * @param {string}  [filters.event_type]  - e.g. 'aur_rwd:staked'
  * @param {string}  [filters.account]     - Stellar public key
  * @param {number}  [filters.ledger_from]
  * @param {number}  [filters.ledger_to]

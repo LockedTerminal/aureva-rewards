@@ -1,4 +1,4 @@
-const { server, NOVA, isValidStellarAddress } = require('../../blockchain/stellarService');
+const { server, AUR, isValidStellarAddress } = require('../../blockchain/stellarService');
 const {
   recordTransaction: insertTransaction,
   getTransactionByHash,
@@ -240,13 +240,13 @@ async function getWalletHistory(walletAddress) {
       .call();
 
     while (page.records.length > 0) {
-      const novaPayments = page.records.filter(
+      const aurPayments = page.records.filter(
         (record) =>
           record.type === 'payment' &&
-          record.asset_code === NOVA.code &&
-          record.asset_issuer === NOVA.issuer
+          record.asset_code === AUR.code &&
+          record.asset_issuer === AUR.issuer
       );
-      transactions.push(...novaPayments);
+      transactions.push(...aurPayments);
 
       if (transactions.length >= 500) {
         break;

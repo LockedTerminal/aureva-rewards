@@ -59,7 +59,7 @@ export interface aurevaRewardsClient {
   calculate_yield(user: Address): Promise<i128>;
   set_annual_rate(rate_bps: u32): Promise<void>;
   get_annual_rate(): Promise<u32>;
-  swap_for_xlm(user: Address, nova_amount: i128, min_xlm_out: i128): Promise<i128>;
+  swap_for_xlm(user: Address, aur_amount: i128, min_xlm_out: i128): Promise<i128>;
   pause(): Promise<void>;
   resume(): Promise<void>;
   is_paused(): Promise<boolean>;

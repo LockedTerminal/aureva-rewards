@@ -185,7 +185,7 @@ export default function CampaignDetailModal({ campaign, onClose }) {
               gap: '0.75rem',
             }}
           >
-            <StatBox label="Reward Rate" value={`${rewardRate} NOVA/unit`} accent />
+            <StatBox label="Reward Rate" value={`${rewardRate} AUR/unit`} accent />
             <StatBox label="Participants" value={participantCount > 0 ? participantCount.toLocaleString() : '—'} />
             <StatBox label="Start Date" value={start} />
             <StatBox label="End Date" value={end} />

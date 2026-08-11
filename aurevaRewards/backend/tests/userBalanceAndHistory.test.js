@@ -15,10 +15,10 @@ jest.mock('../middleware/rateLimiter', () => {
   return { globalLimiter: noop, authLimiter: noop };
 });
 jest.mock('../../blockchain/stellarService', () => ({
-  getNOVABalance: jest.fn().mockResolvedValue('42.0000000'),
+  getAURBalance: jest.fn().mockResolvedValue('42.0000000'),
   isValidStellarAddress: jest.fn().mockReturnValue(true),
   server: {},
-  NOVA: {},
+  AUR: {},
 }));
 jest.mock('../../blockchain/sendRewards', () => ({}));
 jest.mock('../../blockchain/issueAsset', () => ({}));
@@ -94,7 +94,7 @@ const { client: mockRedis } = require('../lib/redis');
 const { getUserById } = require('../db/userRepository');
 const { getUserBalance } = require('../db/pointTransactionRepository');
 const { getRewardsHistoryCursor } = require('../db/transactionRepository');
-const { getNOVABalance } = require('../../blockchain/stellarService');
+const { getAURBalance } = require('../../blockchain/stellarService');
 
 // Helper: build a minimal JWT-like token for userId
 function makeToken(userId, role = 'user') {
@@ -120,7 +120,7 @@ beforeEach(() => {
 describe('GET /api/users/:id/balance', () => {
   test('200 — returns on-chain and off-chain balance', async () => {
     getUserById.mockResolvedValue(MOCK_USER);
-    getNOVABalance.mockResolvedValue('42.0000000');
+    getAURBalance.mockResolvedValue('42.0000000');
     getUserBalance.mockResolvedValue(500);
 
     const res = await request(app)
@@ -146,7 +146,7 @@ describe('GET /api/users/:id/balance', () => {
     expect(res.status).toBe(200);
     expect(res.body.cached).toBe(true);
     expect(res.body.data.onChainBalance).toBe('10.0');
-    expect(getNOVABalance).not.toHaveBeenCalled();
+    expect(getAURBalance).not.toHaveBeenCalled();
   });
 
   test('200 — returns 0 on-chain balance when no stellar_public_key', async () => {
@@ -159,12 +159,12 @@ describe('GET /api/users/:id/balance', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.data.onChainBalance).toBe('0');
-    expect(getNOVABalance).not.toHaveBeenCalled();
+    expect(getAURBalance).not.toHaveBeenCalled();
   });
 
   test('200 — caches result in Redis after fetch', async () => {
     getUserById.mockResolvedValue(MOCK_USER);
-    getNOVABalance.mockResolvedValue('5.0');
+    getAURBalance.mockResolvedValue('5.0');
     getUserBalance.mockResolvedValue(50);
 
     await request(app).get('/api/users/1/balance').set('Authorization', makeToken(1));

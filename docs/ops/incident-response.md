@@ -16,8 +16,8 @@ This runbook covers uptime incidents for Aureva Rewards public-facing endpoints.
 
 ## General Incident Process
 
-1. **Alert fires** — Alertmanager notifies `#nova-critical` (Slack) and PagerDuty within 2 minutes of downtime.
-2. **Acknowledge** — On-call engineer acknowledges in PagerDuty and posts in `#nova-incidents`.
+1. **Alert fires** — Alertmanager notifies `#AUR-critical` (Slack) and PagerDuty within 2 minutes of downtime.
+2. **Acknowledge** — On-call engineer acknowledges in PagerDuty and posts in `#AUR-incidents`.
 3. **Diagnose** — Follow the relevant section below.
 4. **Mitigate** — Apply the fastest fix to restore service.
 5. **Resolve** — Confirm metrics are stable, close PagerDuty incident.
@@ -42,7 +42,7 @@ On-call schedule: [docs/ops/on-call.md](./on-call.md)
    docker compose logs --tail=50 backend
 
    # ECS
-   aws ecs describe-tasks --cluster nova-prod --tasks $(aws ecs list-tasks --cluster nova-prod --service-name aureva-backend --query 'taskArns[0]' --output text)
+   aws ecs describe-tasks --cluster AUR-prod --tasks $(aws ecs list-tasks --cluster AUR-prod --service-name aureva-backend --query 'taskArns[0]' --output text)
    ```
 
 2. Restart if crashed:
@@ -51,7 +51,7 @@ On-call schedule: [docs/ops/on-call.md](./on-call.md)
    docker compose restart backend
 
    # ECS — force new deployment
-   aws ecs update-service --cluster nova-prod --service aureva-backend --force-new-deployment
+   aws ecs update-service --cluster AUR-prod --service aureva-backend --force-new-deployment
    ```
 
 3. Check database connectivity (a DB outage will cause the health check to fail):
@@ -139,7 +139,7 @@ On-call schedule: [docs/ops/on-call.md](./on-call.md)
 
 **Steps:**
 
-1. Check current API response times in Grafana → Nova Platform Metrics dashboard.
+1. Check current API response times in Grafana → AUR Platform Metrics dashboard.
 2. Look for slow database queries:
    ```sql
    SELECT pid, now() - query_start AS duration, query
@@ -150,7 +150,7 @@ On-call schedule: [docs/ops/on-call.md](./on-call.md)
 3. Check Redis hit rate — a cold cache after a restart will cause elevated latency.
 4. Scale out if load is the cause:
    ```bash
-   aws ecs update-service --cluster nova-prod --service aureva-backend --desired-count 4
+   aws ecs update-service --cluster AUR-prod --service aureva-backend --desired-count 4
    ```
 
 ---
@@ -164,7 +164,7 @@ cd monitoring
 PROMETHEUS_URL=http://localhost:9090 ./scripts/generate-uptime-report.sh
 ```
 
-Reports are saved to `/tmp/nova-uptime-reports/uptime-YYYY-MM.md`. Archive them in `docs/ops/uptime-reports/`.
+Reports are saved to `/tmp/AUR-uptime-reports/uptime-YYYY-MM.md`. Archive them in `docs/ops/uptime-reports/`.
 
 ---
 

@@ -47,7 +47,7 @@ async function main() {
   }
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nova-recovery-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'AUR-recovery-'));
   const tarPath = path.join(tempDir, 'base.tar.gz');
   const walArchiveDir = path.resolve(args['wal-archive-dir'] || manifest.walArchiveDir);
 

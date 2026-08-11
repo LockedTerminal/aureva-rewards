@@ -10,7 +10,7 @@
 jest.mock('../../middleware/validateEnv', () => ({ validateEnv: jest.fn() }));
 jest.mock('../../../blockchain/stellarService', () => ({
   isValidStellarAddress: jest.fn().mockReturnValue(true),
-  getNOVABalance: jest.fn().mockResolvedValue('0'),
+  getAURBalance: jest.fn().mockResolvedValue('0'),
 }));
 jest.mock('../../../blockchain/sendRewards', () => ({ distributeRewards: jest.fn() }));
 jest.mock('../../../blockchain/trustline', () => ({ verifyTrustline: jest.fn().mockResolvedValue({ exists: true }) }));

@@ -25,7 +25,7 @@ jest.mock('../../blockchain/stellarService', () => ({
       })),
     })),
   },
-  NOVA: { code: 'NOVA', issuer: 'GTESTISSUER' },
+  AUR: { code: 'AUR', issuer: 'GTESTISSUER' },
   isValidStellarAddress: jest.fn((addr) => {
     if (typeof addr !== 'string') return false;
     try {

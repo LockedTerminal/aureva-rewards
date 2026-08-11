@@ -124,7 +124,7 @@ POSTGRES_USER=AUR
 POSTGRES_PASSWORD=changeme  # Change this!
 POSTGRES_DB=aureva_rewards
 DATABASE_URL=postgresql://AUR:changeme@localhost:5432/aureva_rewards
-DATABASE_MIGRATE_URL=postgresql://nova_migrate:changeme@localhost:5432/aureva_rewards
+DATABASE_MIGRATE_URL=postgresql://aureva_migrate:changeme@localhost:5432/aureva_rewards
 ```
 
 **Backend Settings:**
@@ -153,13 +153,13 @@ For more environment variables, see `.env.example` comments.
 sudo -u postgres psql
 
 # Create migration user and database
-CREATE USER nova_migrate WITH PASSWORD 'changeme';
+CREATE USER aureva_migrate WITH PASSWORD 'changeme';
 CREATE USER AUR WITH PASSWORD 'changeme';
 CREATE DATABASE aureva_rewards OWNER AUR;
 
 # Grant permissions
 GRANT ALL PRIVILEGES ON DATABASE aureva_rewards TO AUR;
-GRANT ALL PRIVILEGES ON DATABASE aureva_rewards TO nova_migrate;
+GRANT ALL PRIVILEGES ON DATABASE aureva_rewards TO aureva_migrate;
 
 \q
 ```

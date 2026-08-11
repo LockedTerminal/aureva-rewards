@@ -68,7 +68,7 @@ describe('POST /api/tokens/transfer', () => {
 
   it('returns the mapped status/code when the service rejects', async () => {
     tokenTransferService.transferTokens.mockRejectedValue(
-      Object.assign(new Error('Insufficient NOVA balance for this transfer'), { status: 400, code: 'insufficient_balance' })
+      Object.assign(new Error('Insufficient AUR balance for this transfer'), { status: 400, code: 'insufficient_balance' })
     );
 
     const res = await request(app)
@@ -79,7 +79,7 @@ describe('POST /api/tokens/transfer', () => {
     expect(res.body).toEqual({
       success: false,
       error: 'insufficient_balance',
-      message: 'Insufficient NOVA balance for this transfer',
+      message: 'Insufficient AUR balance for this transfer',
     });
   });
 

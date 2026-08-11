@@ -10,7 +10,7 @@ const { getTransactionsByUser, getRewardsHistoryCursor } = require('../db/transa
 const { sendWelcome } = require('../services/emailService');
 const { authenticateUser, requireAdmin, requireOwnershipOrAdmin } = require('../middleware/authenticateUser');
 const { validateUpdateUserDto } = require('../middleware/validateDto');
-const { isValidStellarAddress, getNOVABalance } = require('../../blockchain/stellarService');
+const { isValidStellarAddress, getAURBalance } = require('../../blockchain/stellarService');
 const { client: redisClient } = require('../lib/redis');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
@@ -317,7 +317,7 @@ router.get('/:id/token-balance', async (req, res, next) => {
       }
     }
 
-    tokenBalance = await getNOVABalance(user.stellar_public_key);
+    tokenBalance = await getAURBalance(user.stellar_public_key);
 
     if (redisClient && redisClient.isOpen) {
       try {
@@ -795,7 +795,7 @@ router.get('/:id/balance', authenticateUser, async (req, res, next) => {
 
     // Fetch on-chain balance from Horizon
     const onChainBalance = user.stellar_public_key
-      ? await getNOVABalance(user.stellar_public_key).catch(() => '0')
+      ? await getAURBalance(user.stellar_public_key).catch(() => '0')
       : '0';
 
     // Fetch off-chain point balance

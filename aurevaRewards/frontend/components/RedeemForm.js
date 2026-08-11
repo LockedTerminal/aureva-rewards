@@ -43,7 +43,7 @@ export default function RedeemForm({ onSuccess }) {
       return false;
     }
     if (numValue > Number(senderBalance)) {
-      setAmountError(`Insufficient balance. Available: ${formatTokenAmount(senderBalance)} NOVA`);
+      setAmountError(`Insufficient balance. Available: ${formatTokenAmount(senderBalance)} AUR`);
       return false;
     }
     setAmountError('');
@@ -83,13 +83,13 @@ export default function RedeemForm({ onSuccess }) {
       // Build unsigned payment XDR (customer → merchant)
       const server = new Horizon.Server(HORIZON_URL);
       const account = await server.loadAccount(senderPublicKey);
-      const novaAsset = new Asset('NOVA', ISSUER_PUBLIC);
+      const aurAsset = new Asset('AUR', ISSUER_PUBLIC);
 
       const tx = new TransactionBuilder(account, {
         fee: BASE_FEE,
         networkPassphrase: NETWORK_PASSPHRASE,
       })
-        .addOperation(Operation.payment({ destination: merchantWallet, asset: novaAsset, amount: String(amount) }))
+        .addOperation(Operation.payment({ destination: merchantWallet, asset: aurAsset, amount: String(amount) }))
         .setTimeout(180)
         .build();
 
@@ -130,7 +130,7 @@ export default function RedeemForm({ onSuccess }) {
         placeholder="G..."
         disabled={status === 'loading'}
       />
-      <label className="label">Amount to Redeem (NOVA)</label>
+      <label className="label">Amount to Redeem (AUR)</label>
       <input
         className="input"
         type="number"
@@ -143,7 +143,7 @@ export default function RedeemForm({ onSuccess }) {
       />
       {amountError && <p className="error" style={{ marginTop: '0.25rem', fontSize: '0.875rem' }}>{amountError}</p>}
       <button className="btn btn-primary" type="submit" disabled={status === 'loading'}>
-        {status === 'loading' ? 'Redeeming…' : 'Redeem NOVA'}
+        {status === 'loading' ? 'Redeeming…' : 'Redeem AUR'}
       </button>
       {message && (
         <p className={status === 'error' ? 'error' : 'success'}>

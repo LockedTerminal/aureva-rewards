@@ -39,15 +39,15 @@ const DIST_KEYPAIR = Keypair.fromSecret(DIST_SECRET);
 const RECIPIENT = Keypair.random().publicKey();
 
 // Build a mock account using stellar-sdk Account so TransactionBuilder works correctly
-function mockDistributionAccount(novaBal) {
-  novaBal = novaBal || '500.0000000';
+function mockDistributionAccount(aurBal) {
+  aurBal = aurBal || '500.0000000';
   const acc = new Account(DIST_KEYPAIR.publicKey(), '1000');
   acc.balances = [
     {
       asset_type: 'credit_alphanum4',
       asset_code: 'AUR',
       asset_issuer: ISSUER_KEY,
-      balance: novaBal,
+      balance: aurBal,
     },
   ];
   return acc;

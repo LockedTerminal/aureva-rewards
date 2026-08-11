@@ -109,7 +109,7 @@ export default function CampaignList({ campaigns, loading, onPause, onResume }) 
     {
       key: 'rewardRate',
       label: 'Rate',
-      render: (v) => (v != null ? `${v} NOVA/unit` : '—'),
+      render: (v) => (v != null ? `${v} AUR/unit` : '—'),
     },
     {
       key: 'endDate',

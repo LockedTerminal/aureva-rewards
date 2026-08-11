@@ -415,7 +415,7 @@ Change password. Requires current password verification. Owner only.
 
 ### GET /users/:id/balance
 
-Get combined on-chain NOVA balance and off-chain points. Owner or admin only. Cached 30 s.
+Get combined on-chain AUR balance and off-chain points. Owner or admin only. Cached 30 s.
 
 **Auth:** Bearer JWT
 
@@ -855,7 +855,7 @@ Paginated transaction history (all users, admin use).
 
 ### GET /transactions/:walletAddress
 
-Get NOVA payment history for a wallet from Horizon (falls back to DB if Horizon is unavailable).
+Get AUR payment history for a wallet from Horizon (falls back to DB if Horizon is unavailable).
 
 **Auth:** None
 
@@ -872,7 +872,7 @@ Get NOVA payment history for a wallet from Horizon (falls back to DB if Horizon 
 
 ### POST /trustline/verify
 
-Check whether a wallet has an active NOVA trustline.
+Check whether a wallet has an active AUR trustline.
 
 **Auth:** None
 
@@ -953,7 +953,7 @@ Get the authenticated user's live AUR token balance from Stellar.
 
 **200 OK:**
 ```json
-{ "success": true, "data": { "balance": "150.0000000", "asset": "NOVA", "publicKey": "GBBD..." } }
+{ "success": true, "data": { "balance": "150.0000000", "asset": "AUR", "publicKey": "GBBD..." } }
 ```
 
 **Errors:** `400` no wallet linked, `401`.
@@ -1037,7 +1037,7 @@ Paginated in-app notifications for the authenticated user.
 
 **200 OK:**
 ```json
-{ "success": true, "data": [{ "id": 10, "type": "reward_issued", "message": "You earned 50 NOVA!", "read": false, "created_at": "..." }], "total": 5, "page": 1, "limit": 20 }
+{ "success": true, "data": [{ "id": 10, "type": "reward_issued", "message": "You earned 50 AUR!", "read": false, "created_at": "..." }], "total": 5, "page": 1, "limit": 20 }
 ```
 
 ---
@@ -1067,12 +1067,12 @@ Register a new webhook endpoint.
 
 **Body:**
 ```json
-{ "url": "https://myapp.com/hooks/nova", "events": ["reward.issued", "redemption.created"], "isActive": true }
+{ "url": "https://myapp.com/hooks/AUR", "events": ["reward.issued", "redemption.created"], "isActive": true }
 ```
 
 **201 Created:**
 ```json
-{ "success": true, "data": { "id": 5, "url": "https://myapp.com/hooks/nova", "secret": "whsec_...", "events": [...], "isActive": true } }
+{ "success": true, "data": { "id": 5, "url": "https://myapp.com/hooks/AUR", "secret": "whsec_...", "events": [...], "isActive": true } }
 ```
 
 ---
@@ -1083,7 +1083,7 @@ List all webhooks for the authenticated merchant.
 
 **200 OK:**
 ```json
-{ "success": true, "data": [{ "id": 5, "url": "https://myapp.com/hooks/nova", "events": [...], "isActive": true }] }
+{ "success": true, "data": [{ "id": 5, "url": "https://myapp.com/hooks/AUR", "events": [...], "isActive": true }] }
 ```
 
 ---
@@ -1094,7 +1094,7 @@ Update a webhook's URL, events, or active status.
 
 **Body (all optional):**
 ```json
-{ "url": "https://myapp.com/hooks/nova-v2", "events": ["reward.issued"], "isActive": false }
+{ "url": "https://myapp.com/hooks/AUR-v2", "events": ["reward.issued"], "isActive": false }
 ```
 
 **200 OK:**
@@ -1277,7 +1277,7 @@ Aggregate platform statistics.
 
 **200 OK:**
 ```json
-{ "success": true, "data": { "totalUsers": 15000, "totalMerchants": 120, "totalTransactions": 85000, "totalNovaDistributed": 4200000 } }
+{ "success": true, "data": { "totalUsers": 15000, "totalMerchants": 120, "totalTransactions": 85000, "totalAurDistributed": 4200000 } }
 ```
 
 ---
@@ -1511,7 +1511,7 @@ Readiness check — returns 200 only when DB and cache are reachable.
 | `duplicate_user` | Wallet already registered |
 | `duplicate_merchant` | Merchant wallet already registered |
 | `duplicate_transaction` | Transaction hash already recorded |
-| `no_trustline` | Recipient has no NOVA trustline |
+| `no_trustline` | Recipient has no AUR trustline |
 | `out_of_stock` | Reward stock exhausted |
 | `insufficient_points` | User does not have enough points |
 | `reward_inactive` | Reward is not currently active |

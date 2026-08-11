@@ -75,7 +75,7 @@ export default function BalanceDisplay() {
         Balance
       </span>
       <span className="text-xs font-semibold text-primary-600 dark:text-primary-400">
-        {formattedBalance} NOVA
+        {formattedBalance} AUR
       </span>
     </div>
   );

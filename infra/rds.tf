@@ -1,17 +1,17 @@
 # ── RDS subnet group (private subnets only) ───────────────────────────────────
-resource "aws_db_subnet_group" "nova" {
-  name       = "nova-rewards-${var.environment}"
+resource "aws_db_subnet_group" "aureva" {
+  name       = "aureva-rewards-${var.environment}"
   subnet_ids = var.private_subnet_ids
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "aureva-rewards"
   }
 }
 
 # ── Security group: RDS accepts connections only from EC2 SG ─────────────────
 resource "aws_security_group" "rds" {
-  name        = "nova-rewards-rds-${var.environment}"
+  name        = "aureva-rewards-rds-${var.environment}"
   description = "Allow PostgreSQL from EC2 backend instances only"
   vpc_id      = var.vpc_id
 
@@ -32,13 +32,13 @@ resource "aws_security_group" "rds" {
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "aureva-rewards"
   }
 }
 
 # ── RDS PostgreSQL 16 — db.t3.medium, private, encrypted ─────────────────────
-resource "aws_db_instance" "nova" {
-  identifier        = "nova-rewards-${var.environment}"
+resource "aws_db_instance" "AUR" {
+  identifier        = "aureva-rewards-${var.environment}"
   engine            = "postgres"
   engine_version    = "16"
   instance_class    = "db.t3.medium"
@@ -53,7 +53,7 @@ resource "aws_db_instance" "nova" {
   storage_encrypted     = true
 
   # Network — private subnets, no public access
-  db_subnet_group_name   = aws_db_subnet_group.nova.name
+  db_subnet_group_name   = aws_db_subnet_group.AUR.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   publicly_accessible    = false
   multi_az               = true
@@ -71,11 +71,11 @@ resource "aws_db_instance" "nova" {
   auto_minor_version_upgrade = true
   deletion_protection        = true
   skip_final_snapshot        = false
-  final_snapshot_identifier  = "nova-rewards-${var.environment}-final"
+  final_snapshot_identifier  = "aureva-rewards-${var.environment}-final"
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "aureva-rewards"
   }
 }
 

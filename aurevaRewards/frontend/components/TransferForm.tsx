@@ -38,7 +38,7 @@ const NETWORK_NAME =
 
 // Base fee: 100 stroops per operation (standard Stellar network fee)
 const BASE_FEE_STROOPS = Number(BASE_FEE) || 100; // 100 stroops
-const FEE_IN_NOVA = formatTokenAmount(BASE_FEE_STROOPS / 10_000_000); // Convert stroops to NOVA
+const FEE_IN_AUR = formatTokenAmount(BASE_FEE_STROOPS / 10_000_000); // Convert stroops to AUR
 
 // =====================================================================
 // Validation Schema
@@ -150,7 +150,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
     const numBalance = Number(senderBalance);
 
     if (numAmount > numBalance) {
-      return `Insufficient balance. Available: ${formatTokenAmount(senderBalance)} NOVA`;
+      return `Insufficient balance. Available: ${formatTokenAmount(senderBalance)} AUR`;
     }
 
     return null;
@@ -195,7 +195,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
       }
 
       // ---------------------------------------------------------------
-      // 1. Verify recipient has NOVA trustline (Acceptance Criteria 5.2)
+      // 1. Verify recipient has AUR trustline (Acceptance Criteria 5.2)
       // ---------------------------------------------------------------
 
       addToast('Verifying recipient wallet...', 'info');
@@ -211,13 +211,13 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
         ) {
           throw new Error(
             trustlineResponse.data?.message ||
-              'Recipient does not have a NOVA trustline'
+              'Recipient does not have a AUR trustline'
           );
         }
       } catch (trustlineErr: any) {
         const message =
           trustlineErr.response?.data?.message ||
-          'Recipient does not have a NOVA trustline. They must create one first.';
+          'Recipient does not have a AUR trustline. They must create one first.';
         addToast(message, 'error');
         setIsSubmitting(false);
         return;
@@ -231,7 +231,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
 
       const server = new Horizon.Server(HORIZON_URL);
       const account = await server.loadAccount(senderPublicKey);
-      const novaAsset = new Asset('NOVA', ISSUER_PUBLIC);
+      const aurAsset = new Asset('AUR', ISSUER_PUBLIC);
 
       const tx = new TransactionBuilder(account, {
         fee: String(BASE_FEE_STROOPS),
@@ -240,7 +240,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
         .addOperation(
           Operation.payment({
             destination: recipientValue,
-            asset: novaAsset,
+            asset: aurAsset,
             amount: String(amountValue),
           })
         )
@@ -327,7 +327,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
         } else if (detail.includes('OP_NO_DESTINATION')) {
           errorMessage = 'Invalid recipient address.';
         } else if (detail.includes('NO_TRUST')) {
-          errorMessage = 'Recipient does not have a NOVA trustline.';
+          errorMessage = 'Recipient does not have a AUR trustline.';
         } else {
           errorMessage = `Transaction failed: ${detail}`;
         }
@@ -381,7 +381,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
           {/* Amount Field */}
           <FormField
             id="transfer-amount"
-            label="Amount (NOVA)"
+            label="Amount (AUR)"
             type="number"
             min="0.0000001"
             step="any"
@@ -390,17 +390,17 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
             disabled={isLoading}
             error={insufficientBalance ? balanceError : errors.amount?.message}
             touched={!!errors.amount || insufficientBalance}
-            hint={`Available balance: ${formatTokenAmount(senderBalance)} NOVA | Network fee: ≈ ${FEE_IN_NOVA} NOVA`}
+            hint={`Available balance: ${formatTokenAmount(senderBalance)} AUR | Network fee: ≈ ${FEE_IN_AUR} AUR`}
             {...register('amount')}
           />
 
           {/* Available Balance Info */}
           <div className="rounded-md bg-blue-50 p-3 text-sm text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
             <p>
-              <strong>Your Balance:</strong> {formatTokenAmount(senderBalance)} NOVA
+              <strong>Your Balance:</strong> {formatTokenAmount(senderBalance)} AUR
             </p>
             <p className="text-xs opacity-75 mt-1">
-              Estimated fee: {FEE_IN_NOVA} NOVA per operation
+              Estimated fee: {FEE_IN_AUR} AUR per operation
             </p>
           </div>
 
@@ -428,7 +428,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
             ) : !senderPublicKey ? (
               'Connect Wallet First'
             ) : (
-              'Review & Send NOVA'
+              'Review & Send AUR'
             )}
           </button>
         </div>
@@ -442,7 +442,7 @@ export default function TokenTransferForm({ onSuccess }: TokenTransferFormProps)
         sender={senderPublicKey}
         recipient={recipientValue}
         amount={amountValue}
-        fee={FEE_IN_NOVA}
+        fee={FEE_IN_AUR}
         isSubmitting={isSubmitting}
       />
     </>

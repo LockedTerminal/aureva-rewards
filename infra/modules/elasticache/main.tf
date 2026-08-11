@@ -18,7 +18,7 @@ resource "aws_security_group" "redis" {
 
 resource "aws_elasticache_replication_group" "this" {
   replication_group_id = "${var.app_name}-${var.environment}"
-  description          = "Nova Rewards Redis"
+  description          = "AUR Rewards Redis"
   node_type            = var.node_type
   num_cache_clusters   = var.environment == "prod" ? 2 : 1
   port                 = 6379

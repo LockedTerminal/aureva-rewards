@@ -22,10 +22,10 @@ jest.mock('../../blockchain/stellarService', () => {
       submitTransaction: jest.fn(),
       transactions:      jest.fn(),
     },
-    NOVA: new Asset('NOVA', 'GDQGIY5T5QULPD7V54LJODKC5CMKPNGTWVEMYBQH4LV6STKI6IGO543K'),
+    AUR: new Asset('AUR', 'GDQGIY5T5QULPD7V54LJODKC5CMKPNGTWVEMYBQH4LV6STKI6IGO543K'),
     NETWORK_PASSPHRASE: Networks.TESTNET,
     isValidStellarAddress: jest.fn(() => true),
-    getNOVABalance: jest.fn(),
+    getAURBalance: jest.fn(),
   };
 });
 
@@ -45,7 +45,7 @@ const {
 } = require('../../blockchain/transactionBuilder');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-const NOVA = new Asset('NOVA', ISSUER_KEY);
+const AUR = new Asset('AUR', ISSUER_KEY);
 const distKeypair = Keypair.fromSecret(DIST_SECRET);
 const recipientKey = Keypair.random().publicKey();
 
@@ -60,7 +60,7 @@ describe('buildAssetTransfer', () => {
     const tx = await buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '10',
       account,
     });
@@ -73,7 +73,7 @@ describe('buildAssetTransfer', () => {
     await buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '5',
     });
     expect(server.loadAccount).toHaveBeenCalledWith(distKeypair.publicKey());
@@ -84,7 +84,7 @@ describe('buildAssetTransfer', () => {
     const tx = await buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '25',
       account,
     });
@@ -104,7 +104,7 @@ describe('buildFeeBump', () => {
     const innerTx = await buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '1',
       account,
     });
@@ -151,7 +151,7 @@ describe('buildContractInvocation', () => {
     const dummyTx = await buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '1',
       account: makeAccount(distKeypair.publicKey()),
     });
@@ -186,7 +186,7 @@ describe('submitWithPolling', () => {
     return buildAssetTransfer({
       sourceKeypair: distKeypair,
       destination: recipientKey,
-      asset: NOVA,
+      asset: AUR,
       amount: '1',
       account: makeAccount(distKeypair.publicKey()),
     });

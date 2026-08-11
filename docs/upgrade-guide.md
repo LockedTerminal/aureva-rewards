@@ -215,7 +215,7 @@ All contracts emit this event when the upgrade executes:
 | admin_roles    | `("adm_roles", "upgraded")`   | `(schema_version: 1, new_wasm_hash: BytesN<32>)` |
 | contract_state | `("state", "upgraded")`       | `(schema_version: 1, new_wasm_hash: BytesN<32>)` |
 
-The `aureva-rewards` contract emits `("nova_rwd", "upgraded")` with an additional `migration_version: u32` field from its `migrate()` function.
+The `aureva-rewards` contract emits `("aur_rwd", "upgraded")` with an additional `migration_version: u32` field from its `migrate()` function.
 
 ### State preservation
 

@@ -54,7 +54,7 @@ describe('Card snapshots', () => {
           <CardTitle>Campaign Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Total rewards issued: 1,200 NOVA</p>
+          <p>Total rewards issued: 1,200 AUR</p>
         </CardContent>
         <CardFooter>
           <button>View details</button>

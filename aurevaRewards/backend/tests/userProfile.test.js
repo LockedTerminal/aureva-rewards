@@ -42,7 +42,7 @@ jest.mock('../services/emailService', () => ({
 
 // Mock Stellar service for token balance API
 jest.mock('../../blockchain/stellarService', () => ({
-  getNOVABalance: jest.fn().mockResolvedValue('1337.0000000'),
+  getAURBalance: jest.fn().mockResolvedValue('1337.0000000'),
   isValidStellarAddress: jest.fn().mockReturnValue(true),
 }));
 

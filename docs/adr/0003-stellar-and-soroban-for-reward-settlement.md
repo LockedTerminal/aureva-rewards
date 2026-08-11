@@ -15,7 +15,7 @@ behavior through contracts.
 
 Use Stellar for ledger settlement and Soroban for programmable contract logic:
 
-- `AurevaRewards/blockchain/sendRewards.js` submits NOVA payment operations through
+- `AurevaRewards/blockchain/sendRewards.js` submits AUR payment operations through
   Horizon from a distribution account.
 - `AurevaRewards/blockchain/trustline.js` verifies recipient trustlines before
   transfer attempts.
@@ -32,7 +32,7 @@ user-signed through Freighter.
 
 Positive:
 
-- Users can independently verify NOVA movements on Stellar.
+- Users can independently verify AUR movements on Stellar.
 - Trustline checks fail early and give actionable API errors.
 - Soroban keeps campaign and reward-program logic auditable and upgradeable.
 

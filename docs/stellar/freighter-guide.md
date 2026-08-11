@@ -207,7 +207,7 @@ User clicks "Connect Wallet"
 Page reload
   → zustand/persist rehydrates publicKey + walletType from localStorage
   → onRehydrateStorage calls walletStore.rehydrate()
-      → getNOVABalance() + getTransactionHistory() from Horizon
+      → getAURBalance() + getTransactionHistory() from Horizon
       → checkNetworkMismatch() for Freighter wallets
       → stale key (Horizon 404) → clear localStorage + reset state
 
@@ -375,7 +375,7 @@ sign.mockRejectedValue(new FreighterError('You rejected the signing request.', '
 | `tx_bad_seq` from Horizon | Transaction sequence number is stale | The backend rebuilds the transaction; retry the action |
 | `op_bad_auth` from Horizon | Transaction signed with wrong key or wrong network passphrase | Verify `NEXT_PUBLIC_STELLAR_NETWORK` matches Freighter's network |
 | Balance shows 0 after connecting | Horizon request failed or account not funded | Check `NEXT_PUBLIC_HORIZON_URL`; fund the account via Friendbot |
-| Wallet state lost on page reload | `localStorage` cleared or `zustand/persist` key changed | Check browser storage; the key is `nova-wallet-storage` |
+| Wallet state lost on page reload | `localStorage` cleared or `zustand/persist` key changed | Check browser storage; the key is `AUR-wallet-storage` |
 
 ---
 

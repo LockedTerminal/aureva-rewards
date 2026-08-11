@@ -81,7 +81,7 @@ async function runVerification({ network, silent = false, deploymentId = null })
     throw new Error('ISSUER_PUBLIC and DISTRIBUTION_PUBLIC must be set in environment.');
   }
 
-  const novaAsset = new Asset(cfg.assetCode, issuerPublic);
+  const aurAsset = new Asset(cfg.assetCode, issuerPublic);
 
   if (!silent) {
     console.log(`\n🔍  Verifying Aureva Rewards deployment on ${cfg.name}...\n`);
@@ -156,19 +156,19 @@ async function runVerification({ network, silent = false, deploymentId = null })
 
     runCheck('Distribution account holds AUR tokens', async () => {
       const account  = await server.loadAccount(distributionPublic);
-      const novaBalance = account.balances.find(
+      const aurBalance = account.balances.find(
         (b) =>
           b.asset_type !== 'native' &&
           b.asset_code   === cfg.assetCode &&
           b.asset_issuer === issuerPublic
       );
-      const balance = novaBalance ? parseFloat(novaBalance.balance) : 0;
+      const balance = aurBalance ? parseFloat(aurBalance.balance) : 0;
       const pass    = balance > 0;
-      return { pass, detail: `${novaBalance?.balance ?? '0'} AUR` };
+      return { pass, detail: `${aurBalance?.balance ?? '0'} AUR` };
     }),
 
     runCheck('AUR asset issuer matches environment', async () => {
-      const pass = novaAsset.issuer === issuerPublic;
+      const pass = aurAsset.issuer === issuerPublic;
       return { pass, detail: `asset=${cfg.assetCode}:${issuerPublic.slice(0, 8)}...` };
     }),
 

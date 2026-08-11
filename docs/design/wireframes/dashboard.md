@@ -24,10 +24,10 @@ The dashboard is the primary authenticated view. It provides a real-time overvie
 │  ├────────────────────────────┤  │  └──────────────────────────────────────────────┘ │
 │  │                            │  │                                                    │
 │  │  [🏠] Dashboard  ←active   │  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌──────────┐
-│  │  [⭐] Rewards               │  │  │ NOVA Balance│ │Points Earned│ │Active Camps │ │Referrals │
+│  │  [⭐] Rewards               │  │  │ AUR Balance│ │Points Earned│ │Active Camps │ │Referrals │
 │  │  [📢] Campaigns             │  │  │             │ │             │ │             │ │          │
 │  │  [⚡] Staking               │  │  │  1,234.56   │ │   45,670    │ │      8      │ │    12    │
-│  │  [👤] Profile               │  │  │  NOVA       │ │  points     │ │  campaigns  │ │referrals │
+│  │  [👤] Profile               │  │  │  AUR       │ │  points     │ │  campaigns  │ │referrals │
 │  │  [⚙️] Settings              │  │  │             │ │             │ │             │ │          │
 │  │                            │  │  │  ↑ +12.3%   │ │  ↑ +8.1%   │ │  +2 new     │ │ +$24.50  │
 │  │  ─────────────────         │  │  │  vs 7d ago  │ │  vs 7d ago  │ │  this week  │ │ earned   │
@@ -46,17 +46,17 @@ The dashboard is the primary authenticated view. It provides a real-time overvie
 │                                  │  ┌──────────────────────────────────────────────┐ │
 │                                  │  │  Recent Transactions              [View All →]│ │
 │                                  │  │  ────────────────────────────────────────── │ │
-│                                  │  │  [●] Earn   Coffee House    +50 NOVA  2h ago  │ │
-│                                  │  │  [●] Redeem $5 Gift Card   -200 NOVA  1d ago  │ │
-│                                  │  │  [●] Stake  Pool #3         -500 NOVA  3d ago  │ │
-│                                  │  │  [●] Earn   Bookstore        +30 NOVA  5d ago  │ │
+│                                  │  │  [●] Earn   Coffee House    +50 AUR  2h ago  │ │
+│                                  │  │  [●] Redeem $5 Gift Card   -200 AUR  1d ago  │ │
+│                                  │  │  [●] Stake  Pool #3         -500 AUR  3d ago  │ │
+│                                  │  │  [●] Earn   Bookstore        +30 AUR  5d ago  │ │
 │                                  │  └──────────────────────────────────────────────┘ │
 │                                  │                                                    │
 │                                  │  ┌──────────────────────────────────────────────┐ │
 │                                  │  │  Active Campaigns                  [Browse →] │ │
 │                                  │  │  ┌────────────┐ ┌────────────┐ ┌────────────┐│ │
 │                                  │  │  │Coffee House│ │  BookNook  │ │ TechStore  ││ │
-│                                  │  │  │ +50 NOVA   │ │ +30 NOVA   │ │ +100 NOVA  ││ │
+│                                  │  │  │ +50 AUR   │ │ +30 AUR   │ │ +100 AUR  ││ │
 │                                  │  │  │ per visit  │ │ per $10    │ │ per $50    ││ │
 │                                  │  │  │[Earn Now→] │ │[Earn Now→] │ │[Earn Now→] ││ │
 │                                  │  │  └────────────┘ └────────────┘ └────────────┘│ │
@@ -76,7 +76,7 @@ The dashboard is the primary authenticated view. It provides a real-time overvie
 │  ────                     │  Dashboard  [🔔] [👤] │
 │  [🏠]                     │                        │
 │  [⭐]                     │  ┌──────────┐ ┌──────┐│
-│  [📢]                     │  │NOVA Bal. │ │Points││
+│  [📢]                     │  │AUR Bal. │ │Points││
 │  [⚡]                     │  │ 1,234.56 │ │45,670││
 │  [👤]                     │  └──────────┘ └──────┘│
 │  [⚙️]                     │                        │
@@ -105,8 +105,8 @@ The dashboard is the primary authenticated view. It provides a real-time overvie
 ┌─────────────────────────────────────┐
 │  ← swipe left/right for cards →     │
 │  ┌─────────────────────────────┐    │
-│  │  NOVA Balance               │    │
-│  │  1,234.56 NOVA              │    │
+│  │  AUR Balance               │    │
+│  │  1,234.56 AUR              │    │
 │  │  ↑ +12.3% vs last week      │    │
 │  │  [Send] [Stake] [Receive]   │    │
 │  └─────────────────────────────┘    │
@@ -119,9 +119,9 @@ The dashboard is the primary authenticated view. It provides a real-time overvie
 
 ┌─────────────────────────────────────┐
 │  Recent Transactions      [View All]│
-│  ● +50 NOVA  Coffee House  2h ago   │
-│  ● -200 NOVA Redeem Card   1d ago   │
-│  ● -500 NOVA Staked        3d ago   │
+│  ● +50 AUR  Coffee House  2h ago   │
+│  ● -200 AUR Redeem Card   1d ago   │
+│  ● -500 AUR Staked        3d ago   │
 └─────────────────────────────────────┘
 
 ┌─────────────────────────────────────┐
@@ -159,7 +159,7 @@ Each KPI card shows a key metric with trend data.
 
 | Card | Metric | Unit | Icon | Trend Color |
 |------|--------|------|------|-------------|
-| NOVA Balance | `balance` NOVA | "tokens" | `WalletIcon` | success/error |
+| AUR Balance | `balance` AUR | "tokens" | `WalletIcon` | success/error |
 | Points Earned | `points` | "points earned" | `StarIcon` | success/error |
 | Active Campaigns | `campaigns` | "active campaigns" | `MegaphoneIcon` | neutral |
 | Referrals | `referrals` | "referrals" | `UsersIcon` | success/error |
@@ -238,7 +238,7 @@ Each KPI card shows a key metric with trend data.
 |--------|-------|---------|
 | Type dot | 8px | Color coded: earn=success, redeem=warning, stake=info |
 | Description | flex-1 | Merchant name or action |
-| Amount | 100px | `+/- X NOVA` (green for earn, red for spend) |
+| Amount | 100px | `+/- X AUR` (green for earn, red for spend) |
 | Date | 80px | Relative time (2h ago, 1d ago) |
 
 ### Empty State

@@ -7,9 +7,9 @@ jest.mock("../../blockchain/stellarService", () => ({
     payments: jest.fn(),
     transactions: jest.fn(),
   },
-  NOVA: { code: "NOVA", issuer: "ISSUER_PUBLIC_KEY" },
+  AUR: { code: "AUR", issuer: "ISSUER_PUBLIC_KEY" },
   isValidStellarAddress: jest.fn(),
-  getNOVABalance: jest.fn(),
+  getAURBalance: jest.fn(),
 }));
 
 jest.mock("../db/userRepository");
@@ -72,7 +72,7 @@ describe("WalletService", () => {
         { asset_type: "native", balance: "1000.0000000" },
         {
           asset_type: "credit_alphanum4",
-          asset_code: "NOVA",
+          asset_code: "AUR",
           asset_issuer: "ISSUER_PUBLIC_KEY",
           balance: "500.0000000",
           limit: "1000000.0000000",
@@ -96,7 +96,7 @@ describe("WalletService", () => {
       expect(result.wallet.publicKey).toBe(mockPublicKey);
       expect(result.wallet.walletType).toBe("freighter");
       expect(result.wallet.accountExists).toBe(true);
-      expect(result.wallet.novaTrustline).toBeTruthy();
+      expect(result.wallet.aurTrustline).toBeTruthy();
       expect(result.wallet.nativeBalance).toBe("1000.0000000");
     });
 
@@ -140,7 +140,7 @@ describe("WalletService", () => {
         { asset_type: "native", balance: "1000.0000000" },
         {
           asset_type: "credit_alphanum4",
-          asset_code: "NOVA",
+          asset_code: "AUR",
           asset_issuer: "ISSUER_PUBLIC_KEY",
           balance: "500.0000000",
           limit: "1000000.0000000",
@@ -163,7 +163,7 @@ describe("WalletService", () => {
 
       expect(result.success).toBe(true);
       expect(result.balances.native.XLM).toBe("1000.0000000");
-      expect(result.balances.tokens.NOVA.balance).toBe("500.0000000");
+      expect(result.balances.tokens.AUR.balance).toBe("500.0000000");
       expect(result.balances.tokens.USD.balance).toBe("100.0000000");
       expect(result.account.publicKey).toBe(mockPublicKey);
     });
@@ -243,7 +243,7 @@ describe("WalletService", () => {
           type: "payment",
           from: "from-wallet",
           to: "to-wallet",
-          asset_code: "NOVA",
+          asset_code: "AUR",
           asset_issuer: "ISSUER_PUBLIC_KEY",
           amount: "100.0000000",
           created_at: "2024-01-01T00:00:00Z",
@@ -283,7 +283,7 @@ describe("WalletService", () => {
 
       expect(result.success).toBe(true);
       expect(result.transactions).toHaveLength(2);
-      expect(result.transactions[0].asset).toBe("NOVA");
+      expect(result.transactions[0].asset).toBe("AUR");
       expect(result.transactions[1].asset).toBe("XLM");
       expect(result.hasMore).toBe(false);
     });

@@ -8,7 +8,7 @@ import {
   getFreighterNetwork,
   checkNetworkMismatch,
 } from '../lib/freighter';
-import { getNOVABalance, getTransactionHistory } from '../lib/horizonClient';
+import { getAURBalance, getTransactionHistory } from '../lib/horizonClient';
 import api from '../lib/api';
 
 const STELLAR_NETWORK = process.env.NEXT_PUBLIC_STELLAR_NETWORK || 'testnet';
@@ -97,7 +97,7 @@ export const useWalletStore = create(
 
           try {
             const [bal, txs] = await Promise.all([
-              getNOVABalance(publicKey),
+              getAURBalance(publicKey),
               getTransactionHistory(publicKey),
             ]);
 
@@ -130,7 +130,7 @@ export const useWalletStore = create(
         },
 
         /**
-         * Fetches and updates the current NOVA balance and transaction history.
+         * Fetches and updates the current AUR balance and transaction history.
          * @param {string} wallet - Optional wallet address to fetch for.
          */
         refreshBalance: async (wallet) => {
@@ -140,7 +140,7 @@ export const useWalletStore = create(
           set({ isLoading: true, error: null }, false, 'wallet/refreshBalanceStart');
           try {
             const [bal, txs] = await Promise.all([
-              getNOVABalance(key),
+              getAURBalance(key),
               getTransactionHistory(key),
             ]);
             set({ balance: bal, transactions: txs }, false, 'wallet/refreshBalanceSuccess');
@@ -237,7 +237,7 @@ export const useWalletStore = create(
         clearError: () => set({ error: null }, false, 'wallet/clearError'),
       }),
       {
-        name: 'nova-wallet-storage',
+        name: 'AUR-wallet-storage',
         partialize: (state) => ({
           publicKey: state.publicKey,
           walletType: state.walletType,

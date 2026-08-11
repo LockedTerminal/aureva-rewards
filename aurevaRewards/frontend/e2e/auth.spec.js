@@ -7,7 +7,7 @@ test.describe('User Registration', () => {
     const email = uniqueEmail('reg');
     await page.goto('/register');
 
-    await page.fill('#name', 'Nova Tester');
+    await page.fill('#name', 'AUR Tester');
     await page.fill('#email', email);
     await page.fill('#password', 'Password1');
     await page.fill('#confirmPassword', 'Password1');
@@ -26,7 +26,7 @@ test.describe('User Registration', () => {
 
   test('shows error when passwords do not match', async ({ page }) => {
     await page.goto('/register');
-    await page.fill('#name', 'Nova Tester');
+    await page.fill('#name', 'AUR Tester');
     await page.fill('#email', uniqueEmail('mismatch'));
     await page.fill('#password', 'Password1');
     await page.fill('#confirmPassword', 'Different1');
@@ -37,7 +37,7 @@ test.describe('User Registration', () => {
 
   test('shows error for weak password', async ({ page }) => {
     await page.goto('/register');
-    await page.fill('#name', 'Nova Tester');
+    await page.fill('#name', 'AUR Tester');
     await page.fill('#email', uniqueEmail('weak'));
     await page.fill('#password', 'short');
     await page.fill('#confirmPassword', 'short');

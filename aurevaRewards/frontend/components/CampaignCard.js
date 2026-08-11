@@ -163,7 +163,7 @@ export default function CampaignCard({ campaign, onViewDetails }) {
         >
           <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>Reward rate</span>
           <span style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--accent)' }}>
-            {rewardRate} NOVA<span style={{ fontSize: '0.75rem', fontWeight: 400, color: 'var(--muted)' }}>/unit</span>
+            {rewardRate} AUR<span style={{ fontSize: '0.75rem', fontWeight: 400, color: 'var(--muted)' }}>/unit</span>
           </span>
         </div>
 

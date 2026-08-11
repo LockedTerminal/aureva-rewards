@@ -7,8 +7,8 @@ jest.mock('../../blockchain/stellarService', () => ({
     transactions: jest.fn(),
     payments: jest.fn(),
   },
-  NOVA: {
-    code: 'NOVA',
+  AUR: {
+    code: 'AUR',
     issuer: 'GDQGIY5T5QULPD7V54LJODKC5CMKPNGTWVEMYBQH4LV6STKI6IGO543K',
   },
   isValidStellarAddress: jest.fn((value) => typeof value === 'string' && value.startsWith('G')),

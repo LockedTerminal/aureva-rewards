@@ -23,7 +23,7 @@ jobs:
       postgres:
         image: postgres:15-alpine
         env:
-          POSTGRES_DB: nova_rewards_test
+          POSTGRES_DB: aureva_rewards_test
           POSTGRES_USER: aureva
           POSTGRES_PASSWORD: postgres
         options: >-
@@ -55,22 +55,22 @@ jobs:
           cache: 'npm'
 
       - name: Install backend dependencies
-        working-directory: ./novaRewards/backend
+        working-directory: ./aurevaRewards/backend
         run: npm install --frozen-lockfile
 
       - name: Install frontend dependencies
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         run: npm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         run: npx playwright install --with-deps
 
       - name: Setup environment variables
         run: |
           cat > .env.test << EOF
           NODE_ENV=test
-          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/nova_rewards_test
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/aureva_rewards_test
           REDIS_URL=redis://localhost:6379
           API_BASE_URL=http://localhost:3000/api
           TESTNET_USER_WALLET=${{ secrets.TESTNET_USER_WALLET || 'GBRPYHIL2CI3WHSCULVRJC3P4ABWOY4XHALUKYAPXL73MRLN42HDA5O' }}
@@ -78,26 +78,26 @@ jobs:
           EOF
 
       - name: Run database migrations
-        working-directory: ./novaRewards/backend
+        working-directory: ./aurevaRewards/backend
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nova_rewards_test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/aureva_rewards_test
         run: npm run migrate || true
 
       - name: Seed test data
-        working-directory: ./novaRewards/backend
+        working-directory: ./aurevaRewards/backend
         env:
           DB_HOST: localhost
           DB_PORT: 5432
-          DB_NAME: nova_rewards_test
+          DB_NAME: aureva_rewards_test
           DB_USER: postgres
           DB_PASSWORD: postgres
         run: node scripts/seed-test-data.js
 
       - name: Start backend server
-        working-directory: ./novaRewards/backend
+        working-directory: ./aurevaRewards/backend
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nova_rewards_test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/aureva_rewards_test
           REDIS_URL: redis://localhost:6379
           PORT: 3001
         run: |
@@ -106,7 +106,7 @@ jobs:
         timeout-minutes: 5
 
       - name: Start frontend dev server
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         run: |
           npm run dev &
           sleep 10
@@ -124,14 +124,14 @@ jobs:
           done
 
       - name: Run E2E tests - Reward Issuance Flow
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         env:
           CI: true
           BASE_URL: http://localhost:3000
         run: npx playwright test reward-issuance-flow.spec.js --reporter=html
 
       - name: Run E2E tests - All Specs
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         env:
           CI: true
           BASE_URL: http://localhost:3000
@@ -143,7 +143,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report
-          path: ./novaRewards/frontend/playwright-report/
+          path: ./aurevaRewards/frontend/playwright-report/
           retention-days: 30
 
       - name: Upload test results (JSON)
@@ -151,14 +151,14 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: test-results-json
-          path: ./novaRewards/frontend/test-results/
+          path: ./aurevaRewards/frontend/test-results/
           retention-days: 30
 
       - name: Publish test report
         if: always()
         uses: daghnawal/playwright-report-comment@v3
         with:
-          report-path: ./novaRewards/frontend/playwright-report
+          report-path: ./aurevaRewards/frontend/playwright-report
           only-on-failure: false
 
       - name: Comment PR with test results
@@ -167,7 +167,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const resultsPath = './novaRewards/frontend/test-results/results.json';
+            const resultsPath = './aurevaRewards/frontend/test-results/results.json';
             
             if (fs.existsSync(resultsPath)) {
               const results = JSON.parse(fs.readFileSync(resultsPath, 'utf-8'));
@@ -214,19 +214,19 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         run: npm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         run: npx playwright install --with-deps
 
       - name: Run E2E tests against testnet
-        working-directory: ./novaRewards/frontend
+        working-directory: ./aurevaRewards/frontend
         env:
           CI: true
           TESTNET_MODE: true
-          BASE_URL: ${{ secrets.TESTNET_BASE_URL || 'https://staging.nova-rewards.com' }}
+          BASE_URL: ${{ secrets.TESTNET_BASE_URL || 'https://staging.aureva-rewards.com' }}
           TESTNET_USER_WALLET: ${{ secrets.TESTNET_USER_WALLET }}
           TESTNET_ISSUER_PUBLIC: ${{ secrets.TESTNET_ISSUER_PUBLIC }}
         run: npx playwright test reward-issuance-flow.spec.js --reporter=html
@@ -236,7 +236,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: testnet-playwright-report
-          path: ./novaRewards/frontend/playwright-report/
+          path: ./aurevaRewards/frontend/playwright-report/
           retention-days: 30
 name: Playwright E2E Tests
 
@@ -262,22 +262,22 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - name: Install workspace dependencies
         run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
       - name: Run E2E tests (against staging)
         # When STAGING_URL is set, Playwright hits the live staging environment.
         # When it is not set (e.g. forks or missing secret), we start a local dev
         # server instead so the job doesn't fail outright.
         run: npx playwright test --project=${{ matrix.browser }}
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
         env:
           CI: true
           STAGING_URL: ${{ secrets.STAGING_URL }}
@@ -292,7 +292,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report-${{ matrix.browser }}
-          path: novaRewards/frontend/playwright-report/
+          path: aurevaRewards/frontend/playwright-report/
           retention-days: 14
 
       - name: Upload visual snapshots
@@ -300,5 +300,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: visual-snapshots-${{ matrix.browser }}
-          path: novaRewards/frontend/e2e/**/*.png
+          path: aurevaRewards/frontend/e2e/**/*.png
           retention-days: 14

@@ -40,11 +40,11 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - name: Install all workspace deps
         run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Install depcheck
         run: npm install -g depcheck@1.4.7
@@ -69,7 +69,7 @@ jobs:
             console.log('Unused devDeps:', unusedDev.length ? unusedDev.join(', ') : 'none');
             console.log('Missing:',        missing.length   ? missing.join(', ')   : 'none');
           " 2>/dev/null || echo "$REPORT"
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: depcheck — frontend
         id: depcheck_frontend
@@ -90,7 +90,7 @@ jobs:
             console.log('Unused devDeps:', unusedDev.length ? unusedDev.join(', ') : 'none');
             console.log('Missing:',        missing.length   ? missing.join(', ')   : 'none');
           " 2>/dev/null || echo "$REPORT"
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
       # ── npm audit ─────────────────────────────────────────────────────────
       - name: npm audit — backend
@@ -108,7 +108,7 @@ jobs:
             const v = d.metadata?.vulnerabilities || {};
             console.log('critical:', v.critical||0, 'high:', v.high||0, 'moderate:', v.moderate||0, 'low:', v.low||0);
           " 2>/dev/null || echo "$REPORT"
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: npm audit — frontend
         id: audit_frontend
@@ -125,7 +125,7 @@ jobs:
             const v = d.metadata?.vulnerabilities || {};
             console.log('critical:', v.critical||0, 'high:', v.high||0, 'moderate:', v.moderate||0, 'low:', v.low||0);
           " 2>/dev/null || echo "$REPORT"
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
       # ── PR comment ────────────────────────────────────────────────────────
       - name: Post audit summary as PR comment
@@ -219,9 +219,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: nova
-          POSTGRES_PASSWORD: nova
-          POSTGRES_DB: nova_test
+          POSTGRES_USER: aureva
+          POSTGRES_PASSWORD: aureva
+          POSTGRES_DB: aureva_test
         ports:
           - 5432:5432
         options: >-
@@ -242,7 +242,7 @@ jobs:
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://nova:nova@localhost:5432/nova_test
+      DATABASE_URL: postgresql://aureva:aureva@localhost:5432/aureva_test
       REDIS_URL: redis://localhost:6379
       JWT_SECRET: ci-test-jwt-secret
       JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret
@@ -256,27 +256,27 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - run: npm run lint
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - run: npm test --workspace=backend -- --maxWorkers=2
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: backend-coverage
-          path: novaRewards/backend/coverage
+          path: aurevaRewards/backend/coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
-          files: novaRewards/backend/coverage/lcov.info
+          files: aurevaRewards/backend/coverage/lcov.info
           flags: backend
           fail_ci_if_error: false
 
@@ -286,14 +286,14 @@ jobs:
     needs: secret-scan
     defaults:
       run:
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
     services:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_DB: nova_rewards_test
-          POSTGRES_USER: nova
+          POSTGRES_DB: aureva_rewards_test
+          POSTGRES_USER: aureva
           POSTGRES_PASSWORD: test_password
         options: >-
           --health-cmd pg_isready
@@ -304,7 +304,7 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: postgresql://nova:test_password@localhost:5432/nova_rewards_test
+      DATABASE_URL: postgresql://aureva:test_password@localhost:5432/aureva_rewards_test
       NODE_ENV: test
       JWT_SECRET: test-jwt-secret-at-least-32-chars!!
       JWT_EXPIRES_IN: 15m
@@ -327,23 +327,23 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run database migrations
         run: node ../database/migrate.js
         env:
-          DATABASE_URL: postgresql://nova:test_password@localhost:5432/nova_rewards_test
+          DATABASE_URL: postgresql://aureva:test_password@localhost:5432/aureva_rewards_test
 
       - name: Run integration tests
         run: npx vitest run tests/integration --reporter=verbose
         env:
-          DATABASE_URL: postgresql://nova:test_password@localhost:5432/nova_rewards_test
+          DATABASE_URL: postgresql://aureva:test_password@localhost:5432/aureva_rewards_test
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: integration-test-results
-          path: novaRewards/backend/test-results/
+          path: aurevaRewards/backend/test-results/
 
   # ── Backend security scan ────────────────────────────────────────────────────
   # Issue #948: SQL injection tests run in CI on every PR
@@ -357,9 +357,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: nova
-          POSTGRES_PASSWORD: nova
-          POSTGRES_DB: nova_test
+          POSTGRES_USER: aureva
+          POSTGRES_PASSWORD: aureva
+          POSTGRES_DB: aureva_test
         ports:
           - 5432:5432
         options: >-
@@ -380,7 +380,7 @@ jobs:
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://nova:nova@localhost:5432/nova_test
+      DATABASE_URL: postgresql://aureva:aureva@localhost:5432/aureva_test
       REDIS_URL: redis://localhost:6379
       JWT_SECRET: ci-test-jwt-secret
       JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret
@@ -394,20 +394,20 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run security tests (SQL injection + XSS + auth)
         run: npm run security
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: security-test-results
-          path: novaRewards/backend/test-results/
+          path: aurevaRewards/backend/test-results/
 
   # ── Frontend unit + component tests ─────────────────────────────────────────
   # Issue #949: Frontend component tests run in CI on every PR
@@ -418,7 +418,7 @@ jobs:
     needs: secret-scan
     defaults:
       run:
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
     env:
       NEXT_PUBLIC_API_URL: http://localhost:3001
@@ -434,10 +434,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run frontend unit and component tests
         run: npm run test:ci
@@ -447,13 +447,13 @@ jobs:
         with:
           name: frontend-unit-results
           path: |
-            novaRewards/frontend/coverage/
-            novaRewards/frontend/test-results/
+            aurevaRewards/frontend/coverage/
+            aurevaRewards/frontend/test-results/
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
-          files: novaRewards/frontend/coverage/lcov.info
+          files: aurevaRewards/frontend/coverage/lcov.info
           flags: frontend
           fail_ci_if_error: false
 
@@ -465,10 +465,10 @@ jobs:
     needs: frontend-unit
     defaults:
       run:
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
     env:
-      NEXT_PUBLIC_API_URL: https://api.nova-rewards.xyz
+      NEXT_PUBLIC_API_URL: https://api.aureva-rewards.xyz
       NEXT_PUBLIC_HORIZON_URL: https://horizon.stellar.org
       NEXT_PUBLIC_STELLAR_NETWORK: public
       NEXT_PUBLIC_ISSUER_PUBLIC: GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -481,10 +481,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - run: npm run build
 
@@ -500,8 +500,8 @@ jobs:
     if: |
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && (
-        contains(github.event.pull_request.changed_files, 'novaRewards/frontend') ||
-        contains(github.event.pull_request.changed_files, 'novaRewards/backend') ||
+        contains(github.event.pull_request.changed_files, 'aurevaRewards/frontend') ||
+        contains(github.event.pull_request.changed_files, 'aurevaRewards/backend') ||
         true
       ))
     timeout-minutes: 30
@@ -510,9 +510,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: nova
-          POSTGRES_PASSWORD: nova
-          POSTGRES_DB: nova_test
+          POSTGRES_USER: aureva
+          POSTGRES_PASSWORD: aureva
+          POSTGRES_DB: aureva_test
         ports:
           - 5432:5432
         options: >-
@@ -533,7 +533,7 @@ jobs:
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://nova:nova@localhost:5432/nova_test
+      DATABASE_URL: postgresql://aureva:aureva@localhost:5432/aureva_test
       REDIS_URL: redis://localhost:6379
       JWT_SECRET: ci-test-jwt-secret
       JWT_REFRESH_SECRET: ci-test-jwt-refresh-secret
@@ -552,22 +552,22 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
       - name: Run DB migrations
         run: node ../database/migrate.js
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: Start backend
         run: node server.js &
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
         env:
           PORT: 3001
 
@@ -581,13 +581,13 @@ jobs:
 
       - name: Run E2E tests (all suites including accessibility)
         run: npx playwright test --project=chromium --project=accessibility
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
-          path: novaRewards/frontend/playwright-report/
+          path: aurevaRewards/frontend/playwright-report/
           retention-days: 14
 
   # ── Soroban contract tests ───────────────────────────────────────────────────
@@ -631,9 +631,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_USER: nova
-          POSTGRES_PASSWORD: nova
-          POSTGRES_DB: nova_test
+          POSTGRES_USER: aureva
+          POSTGRES_PASSWORD: aureva
+          POSTGRES_DB: aureva_test
         ports:
           - 5432:5432
         options: >-
@@ -654,7 +654,7 @@ jobs:
 
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://nova:nova@localhost:5432/nova_test
+      DATABASE_URL: postgresql://aureva:aureva@localhost:5432/aureva_test
       REDIS_URL: redis://localhost:6379
       JWT_SECRET: ci-load-test-secret
       INBOUND_WEBHOOK_SECRET: ${{ secrets.LOAD_TEST_WEBHOOK_SECRET || 'ci-webhook-secret' }}
@@ -674,22 +674,22 @@ jobs:
 
       - name: Install backend dependencies
         run: npm install
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run DB migrations
         run: npm run db:migrate
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: Create results directory
-        run: mkdir -p novaRewards/backend/test-results/load
+        run: mkdir -p aurevaRewards/backend/test-results/load
 
       - name: Seed load-test fixtures
         run: node tests/load/seed.js
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: Start backend server
         run: node server.js &
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
         env:
           PORT: 3001
 
@@ -716,7 +716,7 @@ jobs:
             -e WEBHOOK_SECRET=ci-webhook-secret \
             --out json=test-results/load/webhook-actions-raw.json \
             tests/load/scenarios/webhook-actions.js
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: k6 — GET /api/users/:id/balance
         run: |
@@ -728,7 +728,7 @@ jobs:
             -e USER_ID_MAX=100 \
             --out json=test-results/load/user-balance-raw.json \
             tests/load/scenarios/user-balance.js
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: k6 — GET /api/campaigns
         run: |
@@ -738,14 +738,14 @@ jobs:
             -e MERCHANT_API_KEYS="$LOAD_TEST_MERCHANT_KEYS" \
             --out json=test-results/load/campaigns-list-raw.json \
             tests/load/scenarios/campaigns-list.js
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
       - name: Upload load test results
         uses: actions/upload-artifact@v7
         if: always()
         with:
           name: load-test-results
-          path: novaRewards/backend/test-results/load/
+          path: aurevaRewards/backend/test-results/load/
           retention-days: 30
 
   # ── Pact contract tests ──────────────────────────────────────────────────────
@@ -758,7 +758,7 @@ jobs:
     if: ${{ secrets.PACT_BROKER_URL != '' }}
     defaults:
       run:
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
     steps:
       - uses: actions/checkout@v4
@@ -767,11 +767,11 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run consumer Pact tests
         run: npx jest --selectProjects pact --runInBand --testTimeout=30000
@@ -808,15 +808,15 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: novaRewards/package-lock.json
+          cache-dependency-path: aurevaRewards/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: novaRewards
+        working-directory: aurevaRewards
 
       - name: Run provider Pact verification
         run: npx vitest run pact --reporter=verbose
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
         env:
           PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
           PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
@@ -841,7 +841,7 @@ jobs:
       - name: Install Pact CLI
         run: npm install -g @pact-foundation/pact-node
 
-      - name: Can I Deploy — nova-rewards-frontend
+      - name: Can I Deploy — AUR-rewards-frontend
         run: |
           npx pact-broker can-i-deploy \
             --pacticipant aureva-rewards-frontend \
@@ -870,7 +870,7 @@ jobs:
       - name: Install Pact CLI
         run: npm install -g @pact-foundation/pact-node
 
-      - name: Can I Deploy — nova-rewards-backend
+      - name: Can I Deploy — AUR-rewards-backend
         run: |
           npx pact-broker can-i-deploy \
             --pacticipant aureva-rewards-backend \

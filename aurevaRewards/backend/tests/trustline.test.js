@@ -28,7 +28,7 @@ jest.mock('../../blockchain/stellarService', () => {
         return StrKey.isValidEd25519PublicKey(addr);
       } catch { return false; }
     }),
-    getNOVABalance: jest.fn(),
+    getAURBalance: jest.fn(),
   };
 });
 

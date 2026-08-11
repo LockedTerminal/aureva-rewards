@@ -200,7 +200,7 @@ async function handleRawEvent(contractId, raw) {
 
 /**
  * Dispatches a parsed event to the appropriate handler.
- * Supports both legacy plain types and new namespaced types (e.g. "nova_rwd:staked").
+ * Supports both legacy plain types and new namespaced types (e.g. "aur_rwd:staked").
  */
 async function dispatchEvent(contractId, eventType, raw, eventId) {
   switch (eventType) {
@@ -211,10 +211,10 @@ async function dispatchEvent(contractId, eventType, raw, eventId) {
     case 'claim':
       return handleClaimEvent(contractId, raw, eventId);
     case 'stake':
-    case 'nova_rwd:staked':
+    case 'aur_rwd:staked':
       return handleStakeEvent(contractId, raw, eventId);
     case 'unstake':
-    case 'nova_rwd:unstaked':
+    case 'aur_rwd:unstaked':
       return handleUnstakeEvent(contractId, raw, eventId);
     // ── Token events ──────────────────────────────────────────────────────
     case 'aur_tok:burn':
@@ -225,19 +225,19 @@ async function dispatchEvent(contractId, eventType, raw, eventId) {
     case 'aur_tok:dec_allow':
       return handleTokenEvent(contractId, eventType, raw, eventId);
     // ── Aureva Rewards core events ──────────────────────────────────────────
-    case 'nova_rwd:init':
-    case 'nova_rwd:bal_set':
-    case 'nova_rwd:rate_set':
-    case 'nova_rwd:swap':
-    case 'nova_rwd:paused':
-    case 'nova_rwd:resumed':
-    case 'nova_rwd:emrg_paus':
-    case 'nova_rwd:rec_op':
-    case 'nova_rwd:snap':
-    case 'nova_rwd:restore':
-    case 'nova_rwd:rec_tx':
-    case 'nova_rwd:rec_funds':
-    case 'nova_rwd:upgraded':
+    case 'aur_rwd:init':
+    case 'aur_rwd:bal_set':
+    case 'aur_rwd:rate_set':
+    case 'aur_rwd:swap':
+    case 'aur_rwd:paused':
+    case 'aur_rwd:resumed':
+    case 'aur_rwd:emrg_paus':
+    case 'aur_rwd:rec_op':
+    case 'aur_rwd:snap':
+    case 'aur_rwd:restore':
+    case 'aur_rwd:rec_tx':
+    case 'aur_rwd:rec_funds':
+    case 'aur_rwd:upgraded':
       return handleaurevaRewardsEvent(contractId, eventType, raw, eventId);
     // ── Campaign events ───────────────────────────────────────────────────
     case 'camp:created':
@@ -291,7 +291,7 @@ async function dispatchEvent(contractId, eventType, raw, eventId) {
 /**
  * Extracts the event type from a Horizon record.
  * Soroban contract events carry their topic in the `topic` array as XDR symbols.
- * Returns a namespaced key like "nova_rwd:staked" for structured events,
+ * Returns a namespaced key like "aur_rwd:staked" for structured events,
  * or a plain type string for legacy events.
  */
 function extractEventType(record) {

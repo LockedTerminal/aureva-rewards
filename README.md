@@ -6,6 +6,12 @@ Aureva lets merchants create on-chain reward campaigns, issue tokens to users, a
 
 ---
 
+![Aureva Rewards Platform Overview](./assets/images/image%20one.png)
+
+![Aureva Rewards Dashboard](./assets/images/image%20two.png)
+
+---
+
 ## What Aureva Does
 
 | Capability | Description |

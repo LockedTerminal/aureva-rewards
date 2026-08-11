@@ -80,7 +80,7 @@ aws wafv2 update-ip-set --name BlockedIPs --scope REGIONAL --id <ID> \
 
 # Rotate JWT signing secret (forces all sessions to re-authenticate)
 # Update JWT_SECRET in AWS Secrets Manager, then restart backend
-aws secretsmanager put-secret-value --secret-id nova/jwt-secret --secret-string "<NEW_SECRET>"
+aws secretsmanager put-secret-value --secret-id AUR/jwt-secret --secret-string "<NEW_SECRET>"
 
 # Scale down to zero if full API shutdown needed
 aws autoscaling set-desired-capacity --auto-scaling-group-name aureva-backend-asg --desired-capacity 0

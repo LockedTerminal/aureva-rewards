@@ -58,7 +58,7 @@ curl -X POST https://api.aureva-rewards.io/api/merchants/register \
       "business_category": "food_and_beverage",
       "created_at": "2026-06-01T10:00:00Z"
     },
-    "api_key": "nova_live_sk_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+    "api_key": "aureva_live_sk_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
   }
 }
 ```
@@ -72,7 +72,7 @@ If a key is compromised, rotate it immediately. The old key is invalidated as so
 ```bash
 curl -X POST https://api.aureva-rewards.io/api/merchants/rotate-key \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY"
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response `200 OK`:**
@@ -81,7 +81,7 @@ curl -X POST https://api.aureva-rewards.io/api/merchants/rotate-key \
 {
   "success": true,
   "data": {
-    "api_key": "nova_live_sk_z9y8x7w6v5u4z9y8x7w6v5u4z9y8x7w6"
+    "api_key": "aureva_live_sk_z9y8x7w6v5u4z9y8x7w6v5u4z9y8x7w6"
   }
 }
 ```
@@ -95,7 +95,7 @@ All merchant endpoints require the `x-api-key` header. User-facing endpoints use
 ```bash
 # Every merchant request looks like this
 curl https://api.aureva-rewards.io/api/campaigns \
-  -H "x-api-key: $NOVA_API_KEY"
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 Requests with a missing or invalid key return `401 Unauthorized`:
@@ -111,14 +111,14 @@ Requests with a missing or invalid key return `401 Unauthorized`:
 ### Reusable helper (Node.js)
 
 ```javascript
-const BASE_URL = process.env.NOVA_BASE_URL || 'https://api.aureva-rewards.io';
+const BASE_URL = process.env.AUREVA_BASE_URL || 'https://api.aureva-rewards.io';
 
-async function novaRequest(path, options = {}) {
+async function aurevaRequest(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': process.env.NOVA_API_KEY,
+      'x-api-key': process.env.AUREVA_API_KEY,
       ...options.headers,
     },
   });
@@ -158,15 +158,15 @@ curl "https://friendbot.stellar.org?addr=YOUR_PUBLIC_KEY"
 ### Step 2 — Set your environment
 
 ```bash
-export NOVA_BASE_URL=https://sandbox.aureva-rewards.io
-export NOVA_API_KEY=nova_test_sk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+export AUREVA_BASE_URL=https://sandbox.aureva-rewards.io
+export AUREVA_API_KEY=aureva_test_sk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 export STELLAR_NETWORK=testnet
 ```
 
 ### Step 3 — Register on testnet
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/merchants/register \
+curl -X POST $AUREVA_BASE_URL/api/merchants/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Acme Coffee (test)",
@@ -175,7 +175,7 @@ curl -X POST $NOVA_BASE_URL/api/merchants/register \
   }'
 ```
 
-Save the returned `api_key` as `NOVA_API_KEY` and run through the full workflow below before switching to production.
+Save the returned `api_key` as `AUREVA_API_KEY` and run through the full workflow below before switching to production.
 
 ---
 
@@ -184,9 +184,9 @@ Save the returned `api_key` as `NOVA_API_KEY` and run through the full workflow 
 A campaign defines the reward rate (AUR tokens per USD spent) and the active window. Users earn rewards only while a campaign is active.
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/campaigns \
+curl -X POST $AUREVA_BASE_URL/api/campaigns \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
     "name": "Summer Loyalty Boost",
     "reward_rate": 0.05,
@@ -227,16 +227,16 @@ Save the `id` — you will use it when issuing rewards.
 ### List your campaigns
 
 ```bash
-curl $NOVA_BASE_URL/api/campaigns \
-  -H "x-api-key: $NOVA_API_KEY"
+curl $AUREVA_BASE_URL/api/campaigns \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 ### Update a campaign
 
 ```bash
-curl -X PATCH $NOVA_BASE_URL/api/campaigns/7 \
+curl -X PATCH $AUREVA_BASE_URL/api/campaigns/7 \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{"end_date": "2026-09-30"}'
 ```
 
@@ -246,11 +246,11 @@ curl -X PATCH $NOVA_BASE_URL/api/campaigns/7 \
 
 Before rewards can be distributed, your campaign must hold enough AUR tokens. Funding transfers tokens from your merchant wallet to the campaign's escrow on the Stellar network.
 
-### Step 1 — Check your NOVA balance
+### Step 1 — Check your AUR balance
 
 ```bash
-curl $NOVA_BASE_URL/api/merchants/me/balance \
-  -H "x-api-key: $NOVA_API_KEY"
+curl $AUREVA_BASE_URL/api/merchants/me/balance \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -259,7 +259,7 @@ curl $NOVA_BASE_URL/api/merchants/me/balance \
 {
   "success": true,
   "data": {
-    "nova_balance": "5000.0000000",
+    "aur_balance": "5000.0000000",
     "xlm_balance": "98.5000000",
     "wallet_address": "GDQGIY5T5QULPD7V54LJODKC5CMKPNGTWVEMYBQH4LV6STKI6IGO543K"
   }
@@ -269,9 +269,9 @@ curl $NOVA_BASE_URL/api/merchants/me/balance \
 ### Step 2 — Fund the campaign
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/campaigns/7/fund \
+curl -X POST $AUREVA_BASE_URL/api/campaigns/7/fund \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
     "amount": "1000.0000000"
   }'
@@ -296,8 +296,8 @@ The `tx_hash` is the Stellar transaction ID. You can verify it on [Stellar Exper
 ### Step 3 — Verify campaign balance
 
 ```bash
-curl $NOVA_BASE_URL/api/campaigns/7 \
-  -H "x-api-key: $NOVA_API_KEY"
+curl $AUREVA_BASE_URL/api/campaigns/7 \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 The response includes `campaign_balance` — rewards can only be issued up to this amount.
@@ -306,12 +306,12 @@ The response includes `campaign_balance` — rewards can only be issued up to th
 
 ## 7. Distribute Tokens (Issue Rewards)
 
-Call this endpoint each time a customer completes a qualifying purchase. The API calculates the NOVA amount from `purchase_amount * reward_rate`, deducts it from the campaign balance, and submits the on-chain transfer.
+Call this endpoint each time a customer completes a qualifying purchase. The API calculates the AUR amount from `purchase_amount * reward_rate`, deducts it from the campaign balance, and submits the on-chain transfer.
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/rewards/issue \
+curl -X POST $AUREVA_BASE_URL/api/rewards/issue \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
     "user_id": 42,
     "campaign_id": 7,
@@ -336,7 +336,7 @@ curl -X POST $NOVA_BASE_URL/api/rewards/issue \
     "reward_id": 1001,
     "user_id": 42,
     "campaign_id": 7,
-    "nova_amount": "2.5000000",
+    "aur_amount": "2.5000000",
     "tx_hash": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3",
     "status": "confirmed",
     "created_at": "2026-06-15T14:30:00Z"
@@ -344,16 +344,16 @@ curl -X POST $NOVA_BASE_URL/api/rewards/issue \
 }
 ```
 
-> **Trustline requirement:** The user must have established a Stellar trustline for the NOVA asset before receiving tokens. If they have not, the API returns `422 Unprocessable Entity` with `error: "trustline_missing"`. Direct the user to the Aureva Rewards app to set up their wallet.
+> **Trustline requirement:** The user must have established a Stellar trustline for the AUR asset before receiving tokens. If they have not, the API returns `422 Unprocessable Entity` with `error: "trustline_missing"`. Direct the user to the Aureva Rewards app to set up their wallet.
 
 ### Idempotency
 
 To safely retry failed requests without double-issuing rewards, include an `Idempotency-Key` header:
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/rewards/issue \
+curl -X POST $AUREVA_BASE_URL/api/rewards/issue \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -H "Idempotency-Key: order-8675309-user-42" \
   -d '{
     "user_id": 42,
@@ -369,9 +369,9 @@ Duplicate requests with the same key return the original response with `200 OK` 
 For bulk reward issuance (e.g., end-of-day batch processing):
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/rewards/batch \
+curl -X POST $AUREVA_BASE_URL/api/rewards/batch \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
     "campaign_id": 7,
     "rewards": [
@@ -404,8 +404,8 @@ Poll `GET /api/rewards/batch/batch_abc123` to check completion status.
 ### Campaign analytics
 
 ```bash
-curl "$NOVA_BASE_URL/api/campaigns/7/analytics" \
-  -H "x-api-key: $NOVA_API_KEY"
+curl "$AUREVA_BASE_URL/api/campaigns/7/analytics" \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -416,7 +416,7 @@ curl "$NOVA_BASE_URL/api/campaigns/7/analytics" \
   "data": {
     "campaign_id": 7,
     "total_rewards_issued": 142,
-    "total_nova_distributed": "355.0000000",
+    "total_aur_distributed": "355.0000000",
     "campaign_balance_remaining": "645.0000000",
     "unique_users_rewarded": 98,
     "total_purchase_volume_usd": "7100.00",
@@ -431,8 +431,8 @@ curl "$NOVA_BASE_URL/api/campaigns/7/analytics" \
 ### Paginated reward history
 
 ```bash
-curl "$NOVA_BASE_URL/api/rewards?campaign_id=7&page=1&limit=20" \
-  -H "x-api-key: $NOVA_API_KEY"
+curl "$AUREVA_BASE_URL/api/rewards?campaign_id=7&page=1&limit=20" \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -445,7 +445,7 @@ curl "$NOVA_BASE_URL/api/rewards?campaign_id=7&page=1&limit=20" \
       "reward_id": 1001,
       "user_id": 42,
       "campaign_id": 7,
-      "nova_amount": "2.5000000",
+      "aur_amount": "2.5000000",
       "tx_hash": "b2c3d4...",
       "status": "confirmed",
       "created_at": "2026-06-15T14:30:00Z"
@@ -460,8 +460,8 @@ curl "$NOVA_BASE_URL/api/rewards?campaign_id=7&page=1&limit=20" \
 ### Merchant transaction totals
 
 ```bash
-curl $NOVA_BASE_URL/api/transactions/merchant-totals \
-  -H "x-api-key: $NOVA_API_KEY"
+curl $AUREVA_BASE_URL/api/transactions/merchant-totals \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -480,7 +480,7 @@ curl $NOVA_BASE_URL/api/transactions/merchant-totals \
 
 ## 9. Webhook Setup and Payload Verification
 
-Webhooks let Aureva Rewards push real-time events to your server instead of requiring you to poll. Register an HTTPS endpoint and Nova will POST a signed payload whenever a relevant event occurs.
+Webhooks let Aureva Rewards push real-time events to your server instead of requiring you to poll. Register an HTTPS endpoint and AUR will POST a signed payload whenever a relevant event occurs.
 
 ### Supported event types
 
@@ -496,18 +496,18 @@ Webhooks let Aureva Rewards push real-time events to your server instead of requ
 
 ```bash
 # List all supported event types
-curl $NOVA_BASE_URL/api/webhooks/events \
-  -H "x-api-key: $NOVA_API_KEY"
+curl $AUREVA_BASE_URL/api/webhooks/events \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 ### Register a webhook
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/webhooks \
+curl -X POST $AUREVA_BASE_URL/api/webhooks \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
-    "url": "https://yourapp.com/webhooks/nova",
+    "url": "https://yourapp.com/webhooks/AUR",
     "events": ["reward.issued", "campaign.expired", "redemption.completed"]
   }'
 ```
@@ -519,7 +519,7 @@ curl -X POST $NOVA_BASE_URL/api/webhooks \
   "success": true,
   "data": {
     "id": 5,
-    "url": "https://yourapp.com/webhooks/nova",
+    "url": "https://yourapp.com/webhooks/AUR",
     "events": ["reward.issued", "campaign.expired", "redemption.completed"],
     "is_active": true,
     "secret": "whsec_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
@@ -543,22 +543,22 @@ Every webhook POST has this shape:
     "reward_id": 1001,
     "user_id": 42,
     "campaign_id": 7,
-    "nova_amount": "2.5000000",
+    "aur_amount": "2.5000000",
     "tx_hash": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3",
     "status": "confirmed"
   }
 }
 ```
 
-The `x-nova-signature` header contains the HMAC-SHA256 hex digest of the raw request body, signed with your webhook secret.
+The `x-AUR-signature` header contains the HMAC-SHA256 hex digest of the raw request body, signed with your webhook secret.
 
 ### Idempotency and deduplication
 
-Every webhook delivery includes a stable `x-nova-delivery-id` header containing a UUID. This ID is unique per delivery attempt and persists across retries for the same event. Use this header to deduplicate webhook processing on your end and prevent double-crediting users when retries occur.
+Every webhook delivery includes a stable `x-AUR-delivery-id` header containing a UUID. This ID is unique per delivery attempt and persists across retries for the same event. Use this header to deduplicate webhook processing on your end and prevent double-crediting users when retries occur.
 
 **How it works:**
 
-1. Nova generates a UUID when creating a delivery attempt and stores it in the `webhook_deliveries` table.
+1. AUR generates a UUID when creating a delivery attempt and stores it in the `webhook_deliveries` table.
 2. The same `delivery_id` is reused for all retries of that delivery (exponential backoff: 1m, 5m, 30m, 2h, 8h).
 3. The `delivery_id` is included in the HMAC signature, so tampering with either the ID or the payload invalidates the signature.
 4. Your endpoint should record processed `delivery_id` values and reject duplicates.
@@ -571,12 +571,12 @@ const express = require('express');
 const app = express();
 
 // Use raw-body middleware to access unparsed bytes
-app.use('/webhooks/nova', express.raw({ type: 'application/json' }));
+app.use('/webhooks/AUR', express.raw({ type: 'application/json' }));
 
 // In-memory store for processed delivery IDs (use Redis/DB in production)
 const processedDeliveries = new Set();
 
-function verifyNovaSignature(rawBody, signatureHeader, secret, deliveryId) {
+function verifyAurevaSignature(rawBody, signatureHeader, secret, deliveryId) {
   const timestamp = rawBody.toString().match(/\{"timestamp":"([^"]+)"}/)?.[1];
   if (!timestamp) return false;
 
@@ -593,11 +593,11 @@ function verifyNovaSignature(rawBody, signatureHeader, secret, deliveryId) {
   );
 }
 
-app.post('/webhooks/nova', (req, res) => {
-  const signature   = req.headers['x-nova-signature'];
-  const timestamp   = req.headers['x-nova-timestamp'];
-  const deliveryId  = req.headers['x-nova-delivery-id'];
-  const secret      = process.env.NOVA_WEBHOOK_SECRET;
+app.post('/webhooks/AUR', (req, res) => {
+  const signature   = req.headers['x-AUR-signature'];
+  const timestamp   = req.headers['x-AUR-timestamp'];
+  const deliveryId  = req.headers['x-AUR-delivery-id'];
+  const secret      = process.env.AUREVA_WEBHOOK_SECRET;
 
   if (!signature || !timestamp || !deliveryId) {
     return res.status(401).json({ error: 'Missing required headers' });
@@ -610,7 +610,7 @@ app.post('/webhooks/nova', (req, res) => {
   }
 
   // Verify signature (includes delivery_id in signed payload)
-  if (!verifyNovaSignature(req.body, signature, secret, deliveryId)) {
+  if (!verifyAurevaSignature(req.body, signature, secret, deliveryId)) {
     return res.status(401).json({ error: 'Invalid signature' });
   }
 
@@ -630,8 +630,8 @@ app.post('/webhooks/nova', (req, res) => {
 
   switch (event.type) {
     case 'reward.issued':
-      // event.data: { reward_id, user_id, campaign_id, nova_amount, tx_hash, status }
-      console.log(`Reward ${event.data.reward_id}: ${event.data.nova_amount} NOVA → user ${event.data.user_id}`);
+      // event.data: { reward_id, user_id, campaign_id, aur_amount, tx_hash, status }
+      console.log(`Reward ${event.data.reward_id}: ${event.data.aur_amount} AUR → user ${event.data.user_id}`);
       // Process reward (e.g., update user balance, send notification)
       // This will only execute once per delivery_id
       break;
@@ -643,12 +643,12 @@ app.post('/webhooks/nova', (req, res) => {
 
     case 'campaign.balance_low':
       // event.data: { campaign_id, balance_remaining, threshold_percent }
-      console.warn(`Campaign ${event.data.campaign_id} balance low: ${event.data.balance_remaining} NOVA remaining`);
+      console.warn(`Campaign ${event.data.campaign_id} balance low: ${event.data.balance_remaining} AUR remaining`);
       break;
 
     case 'redemption.completed':
-      // event.data: { redemption_id, user_id, campaign_id, nova_amount, redeemed_at }
-      console.log(`Redemption ${event.data.redemption_id}: user ${event.data.user_id} redeemed ${event.data.nova_amount} NOVA`);
+      // event.data: { redemption_id, user_id, campaign_id, aur_amount, redeemed_at }
+      console.log(`Redemption ${event.data.redemption_id}: user ${event.data.user_id} redeemed ${event.data.aur_amount} AUR`);
       break;
 
     default:
@@ -656,14 +656,14 @@ app.post('/webhooks/nova', (req, res) => {
       break;
   }
 
-  // Respond 200 quickly. Nova retries on non-2xx responses.
+  // Respond 200 quickly. AUR retries on non-2xx responses.
   res.status(200).json({ received: true });
 });
 ```
 
 **Important notes:**
 
-- Always verify the `x-nova-delivery-id` header exists before processing.
+- Always verify the `x-AUR-delivery-id` header exists before processing.
 - Store processed delivery IDs in a persistent store (Redis, database) with a TTL of at least 24 hours to cover the full retry window (8 hours for the final retry).
 - The signature is computed as `HMAC-SHA256(secret, `${timestamp}.${deliveryId}.${rawBody}`)`, so changing any of these values invalidates the signature.
 - If your endpoint is unavailable for more than 8 hours, deliveries may be retried with the same `delivery_id` after the retry window resets. Design your deduplication store accordingly.
@@ -677,9 +677,9 @@ app.post('/webhooks/nova', (req, res) => {
 const crypto = require('crypto');
 
 // Use a raw-body middleware so you have access to the unparsed bytes.
-// With Express: app.use('/webhooks/nova', express.raw({ type: 'application/json' }))
+// With Express: app.use('/webhooks/AUR', express.raw({ type: 'application/json' }))
 
-function verifyNovaSignature(rawBody, signatureHeader, secret) {
+function verifyAurevaSignature(rawBody, signatureHeader, secret) {
   const expected = crypto
     .createHmac('sha256', secret)
     .update(rawBody)           // rawBody must be a Buffer or string — NOT a parsed object
@@ -694,14 +694,14 @@ function verifyNovaSignature(rawBody, signatureHeader, secret) {
   );
 }
 
-app.post('/webhooks/nova', express.raw({ type: 'application/json' }), (req, res) => {
-  const signature = req.headers['x-nova-signature'];
+app.post('/webhooks/AUR', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['x-AUR-signature'];
 
   if (!signature) {
     return res.status(401).json({ error: 'Missing signature' });
   }
 
-  if (!verifyNovaSignature(req.body, signature, process.env.NOVA_WEBHOOK_SECRET)) {
+  if (!verifyAurevaSignature(req.body, signature, process.env.AUREVA_WEBHOOK_SECRET)) {
     return res.status(401).json({ error: 'Invalid signature' });
   }
 
@@ -709,8 +709,8 @@ app.post('/webhooks/nova', express.raw({ type: 'application/json' }), (req, res)
 
   switch (event.type) {
     case 'reward.issued':
-      // event.data: { reward_id, user_id, campaign_id, nova_amount, tx_hash, status }
-      console.log(`Reward ${event.data.reward_id}: ${event.data.nova_amount} NOVA → user ${event.data.user_id}`);
+      // event.data: { reward_id, user_id, campaign_id, aur_amount, tx_hash, status }
+      console.log(`Reward ${event.data.reward_id}: ${event.data.aur_amount} AUR → user ${event.data.user_id}`);
       break;
 
     case 'campaign.expired':
@@ -720,12 +720,12 @@ app.post('/webhooks/nova', express.raw({ type: 'application/json' }), (req, res)
 
     case 'campaign.balance_low':
       // event.data: { campaign_id, balance_remaining, threshold_percent }
-      console.warn(`Campaign ${event.data.campaign_id} balance low: ${event.data.balance_remaining} NOVA remaining`);
+      console.warn(`Campaign ${event.data.campaign_id} balance low: ${event.data.balance_remaining} AUR remaining`);
       break;
 
     case 'redemption.completed':
-      // event.data: { redemption_id, user_id, campaign_id, nova_amount, redeemed_at }
-      console.log(`Redemption ${event.data.redemption_id}: user ${event.data.user_id} redeemed ${event.data.nova_amount} NOVA`);
+      // event.data: { redemption_id, user_id, campaign_id, aur_amount, redeemed_at }
+      console.log(`Redemption ${event.data.redemption_id}: user ${event.data.user_id} redeemed ${event.data.aur_amount} AUR`);
       break;
 
     default:
@@ -733,14 +733,14 @@ app.post('/webhooks/nova', express.raw({ type: 'application/json' }), (req, res)
       break;
   }
 
-  // Respond 200 quickly. Nova retries on non-2xx responses.
+  // Respond 200 quickly. AUR retries on non-2xx responses.
   res.status(200).json({ received: true });
 });
 ```
 
 ### Retry behaviour
 
-If your endpoint returns a non-2xx status or times out (>30 s), Nova retries with exponential backoff:
+If your endpoint returns a non-2xx status or times out (>30 s), AUR retries with exponential backoff:
 
 | Attempt | Delay |
 |---------|-------|
@@ -754,8 +754,8 @@ After 5 failed attempts the delivery is marked `failed` and no further retries o
 
 ```bash
 # View delivery log for webhook 5
-curl "$NOVA_BASE_URL/api/webhooks/5/deliveries" \
-  -H "x-api-key: $NOVA_API_KEY"
+curl "$AUREVA_BASE_URL/api/webhooks/5/deliveries" \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 ### Send a test event
@@ -763,8 +763,8 @@ curl "$NOVA_BASE_URL/api/webhooks/5/deliveries" \
 Use this to verify your endpoint is reachable and your signature verification works before going live:
 
 ```bash
-curl -X POST $NOVA_BASE_URL/api/webhooks/5/test \
-  -H "x-api-key: $NOVA_API_KEY"
+curl -X POST $AUREVA_BASE_URL/api/webhooks/5/test \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -783,17 +783,17 @@ curl -X POST $NOVA_BASE_URL/api/webhooks/5/test \
 
 ```bash
 # Disable a webhook temporarily
-curl -X PATCH $NOVA_BASE_URL/api/webhooks/5 \
+curl -X PATCH $AUREVA_BASE_URL/api/webhooks/5 \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{"is_active": false}'
 
 # Update the URL and event list
-curl -X PATCH $NOVA_BASE_URL/api/webhooks/5 \
+curl -X PATCH $AUREVA_BASE_URL/api/webhooks/5 \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $NOVA_API_KEY" \
+  -H "x-api-key: $AUREVA_API_KEY" \
   -d '{
-    "url": "https://yourapp.com/webhooks/nova-v2",
+    "url": "https://yourapp.com/webhooks/AUR-v2",
     "events": ["reward.issued", "redemption.completed"]
   }'
 ```
@@ -801,8 +801,8 @@ curl -X PATCH $NOVA_BASE_URL/api/webhooks/5 \
 ### Delete a webhook
 
 ```bash
-curl -X DELETE $NOVA_BASE_URL/api/webhooks/5 \
-  -H "x-api-key: $NOVA_API_KEY"
+curl -X DELETE $AUREVA_BASE_URL/api/webhooks/5 \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 ---
@@ -813,8 +813,8 @@ Users redeem AUR tokens through the Aureva Rewards app. When a redemption is tie
 
 ```bash
 # All redemptions for your campaigns
-curl "$NOVA_BASE_URL/api/redemptions?page=1&limit=20" \
-  -H "x-api-key: $NOVA_API_KEY"
+curl "$AUREVA_BASE_URL/api/redemptions?page=1&limit=20" \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 **Response:**
@@ -827,7 +827,7 @@ curl "$NOVA_BASE_URL/api/redemptions?page=1&limit=20" \
       "id": 301,
       "user_id": 42,
       "campaign_id": 7,
-      "nova_amount": "10.0000000",
+      "aur_amount": "10.0000000",
       "status": "completed",
       "tx_hash": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
       "redeemed_at": "2026-07-01T09:15:00Z"
@@ -841,8 +841,8 @@ curl "$NOVA_BASE_URL/api/redemptions?page=1&limit=20" \
 
 ```bash
 # Redemptions for a specific campaign
-curl "$NOVA_BASE_URL/api/campaigns/7/redemptions" \
-  -H "x-api-key: $NOVA_API_KEY"
+curl "$AUREVA_BASE_URL/api/campaigns/7/redemptions" \
+  -H "x-api-key: $AUREVA_API_KEY"
 ```
 
 ---
@@ -868,10 +868,10 @@ curl "$NOVA_BASE_URL/api/campaigns/7/redemptions" \
 {
   "success": false,
   "error": "trustline_missing",
-  "message": "User 42 has not established a NOVA trustline. Direct them to set up their wallet.",
+  "message": "User 42 has not established a AUR trustline. Direct them to set up their wallet.",
   "details": {
     "user_id": 42,
-    "asset": "NOVA"
+    "asset": "AUR"
   }
 }
 ```
@@ -879,12 +879,12 @@ curl "$NOVA_BASE_URL/api/campaigns/7/redemptions" \
 ### Retry with exponential backoff (Node.js)
 
 ```javascript
-async function novaRequestWithRetry(path, options = {}, maxRetries = 3) {
+async function aurevaRequestWithRetry(path, options = {}, maxRetries = 3) {
   let attempt = 0;
 
   while (attempt <= maxRetries) {
     try {
-      return await novaRequest(path, options);
+      return await aurevaRequest(path, options);
     } catch (err) {
       // Do not retry client errors (4xx) except 429
       if (err.status >= 400 && err.status < 500 && err.status !== 429) throw err;
@@ -911,11 +911,11 @@ Once you have completed a full end-to-end test on testnet, switch to production:
 1. **Register a production merchant account** at `https://api.aureva-rewards.io/api/merchants/register` using your mainnet Stellar wallet.
 2. **Update your environment variables:**
    ```bash
-   export NOVA_BASE_URL=https://api.aureva-rewards.io
-   export NOVA_API_KEY=nova_live_sk_<your_production_key>
+   export AUREVA_BASE_URL=https://api.aureva-rewards.io
+   export AUREVA_API_KEY=aureva_live_sk_<your_production_key>
    export STELLAR_NETWORK=mainnet
    ```
-3. **Fund your production wallet** with enough XLM for transaction fees and enough NOVA to cover your expected reward distribution volume.
+3. **Fund your production wallet** with enough XLM for transaction fees and enough AUR to cover your expected reward distribution volume.
 4. **Create your first production campaign** and fund it.
 5. **Register your production webhook endpoint** and verify the test event succeeds.
 6. **Monitor** your campaign balance via the analytics endpoint and set up alerts on the `campaign.balance_low` webhook event.
@@ -929,7 +929,7 @@ Once you have completed a full end-to-end test on testnet, switch to production:
 | Horizon URL | `https://horizon-testnet.stellar.org` | `https://horizon.stellar.org` |
 | AUR tokens | Test tokens (no real value) | Real AUR tokens |
 | XLM | Free via Friendbot | Real XLM required |
-| API key prefix | `nova_test_sk_` | `nova_live_sk_` |
+| API key prefix | `aureva_test_sk_` | `aureva_live_sk_` |
 
 ---
 
@@ -939,4 +939,4 @@ A ready-to-import Postman collection with pre-configured environments for both t
 
 [`docs/api/postman/aureva-rewards.postman_collection.json`](./postman/aureva-rewards.postman_collection.json)
 
-Import it, set the `NOVA_API_KEY` and `NOVA_BASE_URL` environment variables, and every request above is ready to run.
+Import it, set the `AUREVA_API_KEY` and `AUREVA_BASE_URL` environment variables, and every request above is ready to run.

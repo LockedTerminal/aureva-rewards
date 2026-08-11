@@ -3,7 +3,7 @@ version: 2
 updates:
   # Backend npm
   - package-ecosystem: npm
-    directory: /novaRewards/backend
+    directory: /aurevaRewards/backend
     schedule:
       interval: weekly
       day: monday
@@ -16,7 +16,7 @@ updates:
 
   # Frontend npm
   - package-ecosystem: npm
-    directory: /novaRewards/frontend
+    directory: /aurevaRewards/frontend
     schedule:
       interval: weekly
       day: monday
@@ -29,7 +29,7 @@ updates:
 
   # Root npm (shared workspace)
   - package-ecosystem: npm
-    directory: /novaRewards
+    directory: /aurevaRewards
     schedule:
       interval: weekly
       day: monday

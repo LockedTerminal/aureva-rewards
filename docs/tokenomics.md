@@ -337,8 +337,8 @@ sequenceDiagram
     participant NT as AUR token
     participant DEX as Stellar DEX
 
-    U->>NR: swap_for_xlm(nova_amount)
-    NR->>NT: burn(user, nova_amount)
+    U->>NR: swap_for_xlm(aur_amount)
+    NR->>NT: burn(user, aur_amount)
     Note over NT: Tokens permanently removed
     NR->>DEX: Multi-hop swap (AUR → XLM)
     DEX->>U: XLM transferred
@@ -386,10 +386,10 @@ The AUR token implements a deflationary model where tokens are permanently remov
 **Current Implementation:**
 ```rust
 // From contracts/aureva-rewards/src/lib.rs
-pub fn swap_for_xlm(env: Env, from: Address, nova_amount: i128) {
+pub fn swap_for_xlm(env: Env, from: Address, aur_amount: i128) {
     from.require_auth();
     // Burn the full AUR amount
-    aureva_token_client.burn(&from, &nova_amount);
+    aureva_token_client.burn(&from, &aur_amount);
     // Execute multi-hop swap for XLM
     // ...
 }

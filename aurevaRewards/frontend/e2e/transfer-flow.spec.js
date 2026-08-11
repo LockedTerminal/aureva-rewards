@@ -105,7 +105,7 @@ test.describe('Token Transfer Flow (#942)', () => {
   test('navigates to dashboard and finds transfer form', async ({ page }) => {
     await page.goto('/dashboard');
     // The transfer form may be on dashboard or a dedicated page
-    const transferLink = page.locator('a:has-text("Transfer"), a:has-text("Send"), button:has-text("Send NOVA")').first();
+    const transferLink = page.locator('a:has-text("Transfer"), a:has-text("Send"), button:has-text("Send AUR")').first();
     if (await transferLink.count() > 0) {
       await transferLink.click();
     } else {
@@ -137,7 +137,7 @@ test.describe('Token Transfer Flow (#942)', () => {
     await amountInput.fill('10');
 
     // Submit the form
-    const submitBtn = page.locator('button[type="submit"]:has-text("Send"), button:has-text("Send NOVA")').first();
+    const submitBtn = page.locator('button[type="submit"]:has-text("Send"), button:has-text("Send AUR")').first();
     await submitBtn.click();
 
     // Confirm in modal if present
@@ -192,7 +192,7 @@ test.describe('Token Transfer Flow (#942)', () => {
     const amountInput = page.locator('input[type="number"], input[name="amount"]').first();
     await amountInput.fill('10');
 
-    const submitBtn = page.locator('button[type="submit"]:has-text("Send"), button:has-text("Send NOVA")').first();
+    const submitBtn = page.locator('button[type="submit"]:has-text("Send"), button:has-text("Send AUR")').first();
     await submitBtn.click();
 
     const confirmBtn = page.locator('button:has-text("Confirm"), button:has-text("Yes")').first();

@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: novaRewards/backend
+        working-directory: aurevaRewards/backend
 
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: novaRewards/frontend
+        working-directory: aurevaRewards/frontend
 
     steps:
       - uses: actions/checkout@v4

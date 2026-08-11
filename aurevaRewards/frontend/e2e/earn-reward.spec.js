@@ -38,7 +38,7 @@ test.describe('Earn Reward Flow', () => {
     );
 
     await page.goto('/dashboard');
-    await expect(page.locator('text=/150|points|NOVA/i')).toBeVisible({ timeout: 8_000 });
+    await expect(page.locator('text=/150|points|AUR/i')).toBeVisible({ timeout: 8_000 });
   });
 
   test('reward issuance shows confirmation feedback', async ({ page }) => {

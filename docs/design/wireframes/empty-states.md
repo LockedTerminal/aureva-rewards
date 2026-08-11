@@ -74,7 +74,7 @@ Check back soon — new merchant campaigns are added regularly.
 ```
 [👛 Wallet illustration]
 Connect your wallet
-Connect a Stellar wallet to see your NOVA balance and transactions.
+Connect a Stellar wallet to see your AUR balance and transactions.
 [Connect Wallet →]
 ```
 

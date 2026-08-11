@@ -94,7 +94,7 @@ export default function TransferConfirmationModal({
                 {formatTokenAmount(amount)}
               </span>
               <span className="text-lg font-medium text-gray-600 dark:text-gray-400">
-                NOVA
+                AUR
               </span>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function TransferConfirmationModal({
                 <div className="font-mono text-sm font-medium text-gray-700 dark:text-gray-300">
                   {fee}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">NOVA</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">AUR</div>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function TransferConfirmationModal({
                   {totalCost}
                 </span>
                 <span className="text-sm font-medium text-purple-600 dark:text-purple-400">
-                  NOVA
+                  AUR
                 </span>
               </div>
             </div>

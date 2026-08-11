@@ -1,28 +1,28 @@
 # ── KMS key for backup encryption ────────────────────────────────────────────
 resource "aws_kms_key" "backup" {
-  description             = "nova-rewards-${var.environment} database backup encryption"
+  description             = "AUR-rewards-${var.environment} database backup encryption"
   deletion_window_in_days = 14
   enable_key_rotation     = true
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "AUR-rewards"
   }
 }
 
 resource "aws_kms_alias" "backup" {
-  name          = "alias/nova-rewards-${var.environment}-backup"
+  name          = "alias/AUR-rewards-${var.environment}-backup"
   target_key_id = aws_kms_key.backup.key_id
 }
 
 # ── S3 backup bucket ──────────────────────────────────────────────────────────
 resource "aws_s3_bucket" "backup" {
-  bucket        = "nova-rewards-${var.environment}-db-backups"
+  bucket        = "AUR-rewards-${var.environment}-db-backups"
   force_destroy = false
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "AUR-rewards"
   }
 }
 
@@ -78,18 +78,18 @@ resource "aws_s3_bucket_lifecycle_configuration" "backup" {
 
 # ── SNS topic for backup failure alerts ──────────────────────────────────────
 resource "aws_sns_topic" "backup_alerts" {
-  name              = "nova-rewards-${var.environment}-backup-alerts"
+  name              = "AUR-rewards-${var.environment}-backup-alerts"
   kms_master_key_id = aws_kms_key.backup.id
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "AUR-rewards"
   }
 }
 
 # ── IAM role for the backup job (GitHub Actions OIDC or EC2 instance profile) ─
 resource "aws_iam_role" "backup" {
-  name = "nova-rewards-${var.environment}-backup"
+  name = "AUR-rewards-${var.environment}-backup"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -117,12 +117,12 @@ resource "aws_iam_role" "backup" {
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "AUR-rewards"
   }
 }
 
 resource "aws_iam_role_policy" "backup" {
-  name = "nova-rewards-${var.environment}-backup-policy"
+  name = "AUR-rewards-${var.environment}-backup-policy"
   role = aws_iam_role.backup.id
 
   policy = jsonencode({

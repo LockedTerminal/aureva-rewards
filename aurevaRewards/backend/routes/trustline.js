@@ -11,7 +11,7 @@ const { asyncLocalStorage, getLogger } = require('../lib/logger');
  * /trustline/verify:
  *   post:
  *     tags: [Trustline]
- *     summary: Check whether a wallet has an active NOVA trustline
+ *     summary: Check whether a wallet has an active AUR trustline
  *     requestBody:
  *       required: true
  *       content:

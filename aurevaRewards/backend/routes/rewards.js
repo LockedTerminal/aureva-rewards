@@ -170,7 +170,7 @@ router.post('/distribute', authenticateMerchant, slidingRewards, checkRewardFarm
       return res.status(400).json({
         success: false,
         error: 'no_trustline',
-        message: 'Recipient does not have a NOVA trustline. Please add NOVA trustline first.',
+        message: 'Recipient does not have a AUR trustline. Please add AUR trustline first.',
       });
     }
 

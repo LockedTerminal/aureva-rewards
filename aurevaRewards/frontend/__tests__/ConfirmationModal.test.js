@@ -25,9 +25,9 @@ describe('ConfirmationModal', () => {
     expect(screen.getByText(/50/)).toBeInTheDocument();
   });
 
-  test('defaults to NOVA asset and transfer operation', () => {
+  test('defaults to AUR asset and transfer operation', () => {
     render(<ConfirmationModal {...defaultProps} />);
-    expect(screen.getByText('50 NOVA')).toBeInTheDocument();
+    expect(screen.getByText('50 AUR')).toBeInTheDocument();
     expect(screen.getByText('Confirm transfer')).toBeInTheDocument();
   });
 

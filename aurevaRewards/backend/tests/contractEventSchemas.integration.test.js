@@ -120,19 +120,19 @@ describe('Token transfer events (aur_tok)', () => {
 // Acceptance criterion: reward issued event
 // =============================================================================
 describe('Reward issued events', () => {
-  test('nova_rwd:staked — parseable with schema_version, staker, amount, timestamp', () => {
-    const event = mockRpcEvent('nova_rwd', 'staked', [SCHEMA_V1, ADDR_A, 5000, 1748649600]);
+  test('aur_rwd:staked — parseable with schema_version, staker, amount, timestamp', () => {
+    const event = mockRpcEvent('aur_rwd', 'staked', [SCHEMA_V1, ADDR_A, 5000, 1748649600]);
     const parsed = parseEvent(event);
-    assertEvent(parsed, 'nova_rwd', 'staked', 3);
+    assertEvent(parsed, 'aur_rwd', 'staked', 3);
     expect(parsed.fields[0]).toBe(ADDR_A);
     expect(parsed.fields[1]).toBe(5000);
     expect(parsed.fields[2]).toBe(1748649600);
   });
 
-  test('nova_rwd:unstaked — parseable with staker, principal, yield, timestamp', () => {
-    const event = mockRpcEvent('nova_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, 5000, 250, 1748736000]);
+  test('aur_rwd:unstaked — parseable with staker, principal, yield, timestamp', () => {
+    const event = mockRpcEvent('aur_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, 5000, 250, 1748736000]);
     const parsed = parseEvent(event);
-    assertEvent(parsed, 'nova_rwd', 'unstaked', 4);
+    assertEvent(parsed, 'aur_rwd', 'unstaked', 4);
     expect(parsed.fields[1]).toBe(5000);  // principal
     expect(parsed.fields[2]).toBe(250);   // yield
   });
@@ -176,14 +176,14 @@ describe('Campaign created event', () => {
 // Acceptance criterion: stake event
 // =============================================================================
 describe('Stake event', () => {
-  test('nova_rwd:staked — schema_version is first data element', () => {
-    const event = mockRpcEvent('nova_rwd', 'staked', [SCHEMA_V1, ADDR_A, 5000, 1748649600]);
+  test('aur_rwd:staked — schema_version is first data element', () => {
+    const event = mockRpcEvent('aur_rwd', 'staked', [SCHEMA_V1, ADDR_A, 5000, 1748649600]);
     const parsed = parseEvent(event);
     expect(parsed.schemaVersion).toBe(SCHEMA_V1);
   });
 
-  test('nova_rwd:staked — amount is positive integer', () => {
-    const event = mockRpcEvent('nova_rwd', 'staked', [SCHEMA_V1, ADDR_A, 10000, 1748649600]);
+  test('aur_rwd:staked — amount is positive integer', () => {
+    const event = mockRpcEvent('aur_rwd', 'staked', [SCHEMA_V1, ADDR_A, 10000, 1748649600]);
     const parsed = parseEvent(event);
     expect(parsed.fields[1]).toBeGreaterThan(0);
   });
@@ -193,17 +193,17 @@ describe('Stake event', () => {
 // Acceptance criterion: unstake event
 // =============================================================================
 describe('Unstake event', () => {
-  test('nova_rwd:unstaked — yield can be zero', () => {
-    const event = mockRpcEvent('nova_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, 5000, 0, 1748649600]);
+  test('aur_rwd:unstaked — yield can be zero', () => {
+    const event = mockRpcEvent('aur_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, 5000, 0, 1748649600]);
     const parsed = parseEvent(event);
-    assertEvent(parsed, 'nova_rwd', 'unstaked', 4);
+    assertEvent(parsed, 'aur_rwd', 'unstaked', 4);
     expect(parsed.fields[2]).toBe(0);
   });
 
-  test('nova_rwd:unstaked — total return = principal + yield', () => {
+  test('aur_rwd:unstaked — total return = principal + yield', () => {
     const principal = 5000;
     const yieldAmt = 250;
-    const event = mockRpcEvent('nova_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, principal, yieldAmt, 1748736000]);
+    const event = mockRpcEvent('aur_rwd', 'unstaked', [SCHEMA_V1, ADDR_A, principal, yieldAmt, 1748736000]);
     const parsed = parseEvent(event);
     expect(parsed.fields[1] + parsed.fields[2]).toBe(principal + yieldAmt);
   });
@@ -241,10 +241,10 @@ describe('Role change event', () => {
 // Upgrade events — ContractUpgraded emitted with old/new WASM hash
 // =============================================================================
 describe('ContractUpgraded events', () => {
-  test('nova_rwd:upgraded — parseable with wasm_hash and migration_version', () => {
-    const event = mockRpcEvent('nova_rwd', 'upgraded', [SCHEMA_V1, WASM_HASH, 2]);
+  test('aur_rwd:upgraded — parseable with wasm_hash and migration_version', () => {
+    const event = mockRpcEvent('aur_rwd', 'upgraded', [SCHEMA_V1, WASM_HASH, 2]);
     const parsed = parseEvent(event);
-    assertEvent(parsed, 'nova_rwd', 'upgraded', 2);
+    assertEvent(parsed, 'aur_rwd', 'upgraded', 2);
     expect(parsed.fields[1]).toBe(2); // migration_version
   });
 
@@ -312,15 +312,15 @@ describe('EVENT_TYPES registry completeness', () => {
     // Token transfers
     'aur_tok:mint', 'aur_tok:burn', 'aur_tok:transfer',
     // Reward issued
-    'nova_rwd:staked', 'nova_rwd:unstaked', 'camp:rwd_issued', 'dist:distributed',
+    'aur_rwd:staked', 'aur_rwd:unstaked', 'camp:rwd_issued', 'dist:distributed',
     // Campaign created
     'camp:created',
     // Stake / unstake
-    'nova_rwd:staked', 'nova_rwd:unstaked',
+    'aur_rwd:staked', 'aur_rwd:unstaked',
     // Role change
     'adm_roles:role_chg', 'adm_roles:adm_prop', 'adm_roles:adm_xfer',
     // Upgrade events
-    'nova_rwd:upgraded', 'camp:upgraded', 'escrow:upgraded',
+    'aur_rwd:upgraded', 'camp:upgraded', 'escrow:upgraded',
     'dist:upgraded', 'gov:upgraded', 'adm_roles:upgraded', 'state:upgraded',
   ];
 
@@ -344,12 +344,12 @@ describe('Malformed event handling', () => {
   });
 
   test('throws on empty data array', () => {
-    expect(() => parseEvent(mockRpcEvent('nova_rwd', 'staked', [])))
+    expect(() => parseEvent(mockRpcEvent('aur_rwd', 'staked', [])))
       .toThrow('no data');
   });
 
   test('throws when schema_version is a string instead of number', () => {
-    expect(() => parseEvent(mockRpcEvent('nova_rwd', 'staked', ['1', ADDR_A, 5000, 123])))
+    expect(() => parseEvent(mockRpcEvent('aur_rwd', 'staked', ['1', ADDR_A, 5000, 123])))
       .toThrow('schema_version must be a number');
   });
 
@@ -361,7 +361,7 @@ describe('Malformed event handling', () => {
   });
 
   test('event with only schema_version in data has zero fields', () => {
-    const event = mockRpcEvent('nova_rwd', 'init', [SCHEMA_V1]);
+    const event = mockRpcEvent('aur_rwd', 'init', [SCHEMA_V1]);
     // init only has schema_version + admin, but test with just version
     const data = event.value;
     expect(data[0]).toBe(SCHEMA_V1);

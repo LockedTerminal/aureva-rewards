@@ -72,18 +72,18 @@ function confirm(question) {
  * Fetches AUR balance for an account.
  * @returns {Promise<{balance: string, raw: object|null}>}
  */
-async function getNovaBalance(server, publicKey, asset) {
+async function getAURBalance(server, publicKey, asset) {
   try {
     const account  = await server.loadAccount(publicKey);
-    const novaEntry = account.balances.find(
+    const aurEntry = account.balances.find(
       (b) =>
         b.asset_type !== 'native' &&
         b.asset_code   === asset.code &&
         b.asset_issuer === asset.issuer
     );
     return {
-      balance:      novaEntry ? novaEntry.balance : '0',
-      hasTrustline: !!novaEntry,
+      balance:      aurEntry ? aurEntry.balance : '0',
+      hasTrustline: !!aurEntry,
     };
   } catch {
     return { balance: '0', hasTrustline: false };
@@ -174,18 +174,18 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
   const distributionKeypair = Keypair.fromSecret(process.env.DISTRIBUTION_SECRET);
   const issuerPublic        = issuerKeypair.publicKey();
   const distributionPublic  = distributionKeypair.publicKey();
-  const novaAsset           = new Asset(cfg.assetCode, issuerPublic);
+  const aurAsset           = new Asset(cfg.assetCode, issuerPublic);
 
   console.log('\n🔄  Starting rollback...\n');
 
   try {
     // ── Rollback 1: Burn AUR tokens ─────────────────────────────────────────
     if (hasInitialSupply && !dryRun) {
-      const { balance: novaBalance, hasTrustline } = await getNovaBalance(
-        server, distributionPublic, novaAsset
+      const { balance: aurBalance, hasTrustline } = await getAURBalance(
+        server, distributionPublic, aurAsset
       );
 
-      if (!hasTrustline || parseFloat(novaBalance) === 0) {
+      if (!hasTrustline || parseFloat(aurBalance) === 0) {
         log.step({
           name:   'Burn AUR tokens',
           status: Status.SKIPPED,
@@ -193,7 +193,7 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
         });
         console.log('  ⏭   Burn AUR tokens — skipped (balance is 0)');
       } else {
-        console.log(`  Burning ${novaBalance} AUR (sending back to issuer)...`);
+        console.log(`  Burning ${aurBalance} AUR (sending back to issuer)...`);
 
         const distAccount = await server.loadAccount(distributionPublic);
         const burnTx = new TransactionBuilder(distAccount, {
@@ -203,8 +203,8 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
           .addOperation(
             Operation.payment({
               destination: issuerPublic,
-              asset:       novaAsset,
-              amount:      novaBalance,
+              asset:       aurAsset,
+              amount:      aurBalance,
             })
           )
           .setTimeout(cfg.txTimeout)
@@ -217,7 +217,7 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
           name:   'Burn AUR tokens',
           status: Status.ROLLEDBACK,
           data:   {
-            amount:   novaBalance,
+            amount:   aurBalance,
             txHash:   burnResult.hash,
             explorer: `${cfg.explorerBase}/${burnResult.hash}`,
           },
@@ -231,8 +231,8 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
 
     // ── Rollback 2: Remove trustline ─────────────────────────────────────────
     if (hasTrustlineStep && !dryRun) {
-      const { balance: novaBalance, hasTrustline } = await getNovaBalance(
-        server, distributionPublic, novaAsset
+      const { balance: aurBalance, hasTrustline } = await getAURBalance(
+        server, distributionPublic, aurAsset
       );
 
       if (!hasTrustline) {
@@ -242,14 +242,14 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
           data:   { reason: 'trustline already absent' },
         });
         console.log('  ⏭   Remove AUR trustline — skipped (not present)');
-      } else if (parseFloat(novaBalance) > 0) {
+      } else if (parseFloat(aurBalance) > 0) {
         log.step({
           name:   'Remove AUR trustline',
           status: Status.FAILED,
-          error:  `Cannot remove trustline: AUR balance is ${novaBalance}. Burn tokens first.`,
+          error:  `Cannot remove trustline: AUR balance is ${aurBalance}. Burn tokens first.`,
         });
         throw new Error(
-          `Cannot remove AUR trustline: Distribution Account still holds ${novaBalance} AUR. ` +
+          `Cannot remove AUR trustline: Distribution Account still holds ${aurBalance} AUR. ` +
           'The burn step must complete first.'
         );
       } else {
@@ -262,7 +262,7 @@ async function rollback({ network, deploymentId = null, dryRun = false }) {
         })
           .addOperation(
             Operation.changeTrust({
-              asset: novaAsset,
+              asset: aurAsset,
               limit: '0',  // Setting limit to 0 removes the trustline
             })
           )

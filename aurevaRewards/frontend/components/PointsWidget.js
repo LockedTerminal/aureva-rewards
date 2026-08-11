@@ -60,7 +60,7 @@ export default function PointsWidget() {
   if (loading) {
     return (
       <div className={styles.widgetContainer}>
-        <div className={styles.label}>Nova Points</div>
+        <div className={styles.label}>AUR Points</div>
         <div className={styles.skeleton}></div>
       </div>
     );
@@ -79,7 +79,7 @@ export default function PointsWidget() {
 
   return (
     <div className={styles.widgetContainer} data-tour="points-widget">
-      <div className={styles.label}>Nova Points</div>
+      <div className={styles.label}>AUR Points</div>
       <div className={styles.balanceWrapper}>
         <div className={styles.balanceWithAnimation}>
         <AnimatedCounter value={balance} className={styles.balance} />

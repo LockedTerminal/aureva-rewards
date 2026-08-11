@@ -298,7 +298,7 @@ Not a standalone contract — event emission is embedded directly in each contra
 | ReferralHub | `"referral"` | `"ref_cred"` | `(referrer, referred, reward_amount)` |
 | Staking | `"staked"` | `staker` | `(amount, timestamp)` |
 | Staking | `"unstaked"` | `staker` | `(principal, yield, timestamp)` |
-| CrossAssetSwap | `"swap"` | `user` | `(nova_amount, xlm_received, path)` |
+| CrossAssetSwap | `"swap"` | `user` | `(aur_amount, xlm_received, path)` |
 | Upgrade | `"upgrade"` | `old_hash` | `new_hash`, `migration_version` |
 | ClaimDistribution | `"claim_dist"` | `"claimed"` | `(claimant, amount)` |
 
@@ -419,19 +419,19 @@ Burns AUR points for the caller and routes them through a configured DEX router 
 | Signature | Parameters | Returns | Access Control |
 |-----------|-----------|---------|---------------|
 | `set_swap_config(env, xlm_token, router)` | `xlm_token: Address`, `router: Address` | `()` | `Admin::require_auth()` |
-| `swap_for_xlm(env, user, nova_amount, min_xlm_out, path)` | `user: Address`, `nova_amount: i128`, `min_xlm_out: i128`, `path: Vec<Address>` (max 5) | `i128` (XLM received) | `user.require_auth()`; slippage guard |
+| `swap_for_xlm(env, user, aur_amount, min_xlm_out, path)` | `user: Address`, `aur_amount: i128`, `min_xlm_out: i128`, `path: Vec<Address>` (max 5) | `i128` (XLM received) | `user.require_auth()`; slippage guard |
 
 **Router interface expected:**
 
 ```rust
-fn swap_exact_in(sender: Address, nova_amount: i128, min_out: i128, path: Vec<Address>) -> i128
+fn swap_exact_in(sender: Address, aur_amount: i128, min_out: i128, path: Vec<Address>) -> i128
 ```
 
 #### Emitted Events
 
 | Event Name | Topics | Data |
 |-----------|--------|------|
-| `swap` | `("swap", user: Address)` | `(nova_amount: i128, xlm_received: i128, path: Vec<Address>)` |
+| `swap` | `("swap", user: Address)` | `(aur_amount: i128, xlm_received: i128, path: Vec<Address>)` |
 
 ---
 

@@ -11,8 +11,8 @@ const redisConfig = {
 };
 
 // ── Prometheus Counter ──────────────────────────────────────────────
-const novaRewardDlqTotal = metricsMiddleware.createCounter(
-  'nova_reward_dlq_total',
+const aurevaRewardDlqTotal = metricsMiddleware.createCounter(
+  'aureva_reward_dlq_total',
   'Total number of reward issuance jobs moved to DLQ after max retries',
   ['reason']
 );
@@ -37,7 +37,7 @@ rewardIssuanceQueue.on('failed', async (job, err) => {
   }
 
   const reason = err?.name || err?.message || 'unknown';
-  novaRewardDlqTotal.inc({ reason });
+  aurevaRewardDlqTotal.inc({ reason });
 
   try {
     await rewardIssuanceFailureRepository.recordFailure({
@@ -115,5 +115,5 @@ module.exports = {
   webhookDeliveryQueue,
   rewardDistributionQueue,
   serverAdapter,
-  novaRewardDlqTotal,
+  aurevaRewardDlqTotal,
 };

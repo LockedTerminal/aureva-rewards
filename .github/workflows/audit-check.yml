@@ -99,7 +99,7 @@ jobs:
           AUDITED_CONTRACTS=""
           if [ -f "docs/audits/README.md" ]; then
             # Extract contract names from audit table
-            AUDITED_CONTRACTS=$(grep -i "nova-" docs/audits/README.md | grep -v "No completed audits" | wc -l)
+            AUDITED_CONTRACTS=$(grep -i "AUR-" docs/audits/README.md | grep -v "No completed audits" | wc -l)
           fi
           
           echo "Found $(echo "$CONTRACT_FILES" | wc -l) contract files"

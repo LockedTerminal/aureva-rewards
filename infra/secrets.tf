@@ -7,13 +7,13 @@ resource "random_password" "rds_master" {
 
 # ── Secrets Manager secret (stores master credentials) ───────────────────────
 resource "aws_secretsmanager_secret" "rds_master" {
-  name                    = "nova-rewards/${var.environment}/rds-master"
-  description             = "Nova Rewards RDS master credentials"
+  name                    = "AUR-rewards/${var.environment}/rds-master"
+  description             = "Aureva Rewards RDS master credentials"
   recovery_window_in_days = 7
 
   tags = {
     Environment = var.environment
-    Project     = "nova-rewards"
+    Project     = "aureva-rewards"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_secretsmanager_secret_version" "rds_master" {
   secret_string = jsonencode({
     username = var.db_master_username
     password = random_password.rds_master.result
-    host     = aws_db_instance.nova.address
+    host     = aws_db_instance.aureva.address
     port     = 5432
     dbname   = var.db_name
   })
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "lambda_assume" {
 }
 
 resource "aws_iam_role" "rotation_lambda" {
-  name               = "nova-rewards-secret-rotation-${var.environment}"
+  name               = "aureva-rewards-secret-rotation-${var.environment}"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume.json
 }
 
@@ -84,13 +84,13 @@ resource "aws_iam_role_policy" "rotation_lambda_secrets" {
 
 # Deploy the AWS-provided Serverless Application for RDS PostgreSQL rotation
 resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotation" {
-  name           = "nova-rewards-rds-rotation-${var.environment}"
+  name           = "aureva-rewards-rds-rotation-${var.environment}"
   application_id = "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser"
   # Use latest semantic version — pin in production
   semantic_version = "1.1.367"
 
   parameters = {
-    functionName = "nova-rewards-rds-rotation-${var.environment}"
+    functionName = "aureva-rewards-rds-rotation-${var.environment}"
     endpoint     = "https://secretsmanager.${var.aws_region}.amazonaws.com"
   }
 
@@ -106,7 +106,7 @@ resource "aws_lambda_function" "secret_rotation" {
   # This is a data-only reference; the actual function is managed by SAR above.
   # We create a minimal shim so the rotation resource has a valid ARN to reference
   # before SAR output is available. In practice, reference locals.rotation_lambda_arn.
-  function_name = "nova-rewards-rds-rotation-${var.environment}"
+  function_name = "aureva-rewards-rds-rotation-${var.environment}"
   role          = aws_iam_role.rotation_lambda.arn
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.11"

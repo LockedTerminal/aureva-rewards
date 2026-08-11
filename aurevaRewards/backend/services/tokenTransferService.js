@@ -1,7 +1,7 @@
 'use strict';
 
 const { Operation, Keypair, StrKey } = require('stellar-sdk');
-const { NOVA, isValidStellarAddress, getNOVABalance } = require('../../blockchain/stellarService');
+const { AUR, isValidStellarAddress, getAURBalance } = require('../../blockchain/stellarService');
 const { verifyTrustline } = require('../../blockchain/trustline');
 const stellarTxService = require('./stellarTransactionService');
 
@@ -11,7 +11,7 @@ const AMOUNT_PATTERN = /^\d+(\.\d{1,7})?$/;
 // bindings directly) so unit tests can substitute fakes for the Horizon/DB
 // calls without a real network connection.
 const deps = {
-  getNOVABalance,
+  getAURBalance,
   verifyTrustline,
   submit: (...args) => stellarTxService.submit(...args),
 };
@@ -45,16 +45,16 @@ function validateAmount(amount) {
 function mapStellarSubmissionError(err) {
   const message = err?.message || '';
   if (message.includes('op_underfunded')) {
-    return createError('Sender has insufficient NOVA balance for this transfer', 400, 'insufficient_balance');
+    return createError('Sender has insufficient AUR balance for this transfer', 400, 'insufficient_balance');
   }
   if (message.includes('op_no_destination')) {
     return createError('Destination account does not exist on the Stellar network', 400, 'destination_not_found');
   }
   if (message.includes('op_no_trust')) {
-    return createError('Destination account does not have a NOVA trustline', 400, 'destination_no_trustline');
+    return createError('Destination account does not have a AUR trustline', 400, 'destination_no_trustline');
   }
   if (message.includes('op_line_full')) {
-    return createError("Destination account's NOVA trustline limit would be exceeded", 400, 'destination_trustline_full');
+    return createError("Destination account's AUR trustline limit would be exceeded", 400, 'destination_trustline_full');
   }
   return err;
 }
@@ -68,7 +68,7 @@ function mapStellarSubmissionError(err) {
  * @param {number} params.userId - Authenticated user's DB id
  * @param {string} params.walletAddress - Authenticated user's linked Stellar public key
  * @param {string} params.destination - Recipient's Stellar public key
- * @param {string|number} params.amount - Amount of NOVA to transfer
+ * @param {string|number} params.amount - Amount of AUR to transfer
  * @param {string} params.signerSecret - Secret key of the sending wallet
  * @param {string} [params.memo] - Optional memo text
  * @returns {Promise<{ txHash: string, ledger: number, status: string, amount: string, fromWallet: string, toWallet: string, balance: string }>}
@@ -97,19 +97,19 @@ async function transferTokens({ userId, walletAddress, destination, amount, sign
     throw createError("signerSecret does not match the authenticated user's linked wallet", 403, 'forbidden');
   }
 
-  const currentBalance = await deps.getNOVABalance(walletAddress);
+  const currentBalance = await deps.getAURBalance(walletAddress);
   if (Number(currentBalance) < Number(validAmount)) {
-    throw createError('Insufficient NOVA balance for this transfer', 400, 'insufficient_balance');
+    throw createError('insufficient AUR balance for this transfer', 400, 'insufficient_balance');
   }
 
   const { exists: destinationHasTrustline } = await deps.verifyTrustline(destination);
   if (!destinationHasTrustline) {
-    throw createError('Destination account does not have a NOVA trustline', 400, 'destination_no_trustline');
+    throw createError('Destination account does not have a AUR trustline', 400, 'destination_no_trustline');
   }
 
   const paymentOp = Operation.payment({
     destination,
-    asset: NOVA,
+    asset: AUR,
     amount: validAmount,
   });
 
@@ -132,7 +132,7 @@ async function transferTokens({ userId, walletAddress, destination, amount, sign
     throw mapStellarSubmissionError(err);
   }
 
-  const updatedBalance = await deps.getNOVABalance(walletAddress).catch(() => currentBalance);
+  const updatedBalance = await deps.getAURBalance(walletAddress).catch(() => currentBalance);
 
   return {
     txHash: result.txHash,

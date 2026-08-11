@@ -62,7 +62,7 @@ export function ProgressBar({
       >
         {/* Fill */}
         <div
-          className={`h-full rounded-full ${colors[color]} ${animated ? 'nova-progress-fill' : ''}`}
+          className={`h-full rounded-full ${colors[color]} ${animated ? 'aureva-progress-fill' : ''}`}
           style={{ width: `${pct}%` }}
         />
       </div>

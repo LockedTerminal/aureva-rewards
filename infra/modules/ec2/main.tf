@@ -139,7 +139,7 @@ resource "aws_launch_template" "this" {
     SECRET=$(aws secretsmanager get-secret-value \
       --secret-id ${var.app_secret_name} \
       --query SecretString --output text)
-    echo "$SECRET" > /etc/nova-rewards.env
+    echo "$SECRET" > /etc/AUR-rewards.env
   EOF
   )
 

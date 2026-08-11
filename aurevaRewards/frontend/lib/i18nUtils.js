@@ -10,7 +10,7 @@ export function useDateFormatter() {
     return date.setLocale(locale).toLocaleString(DateTime[format + 'DateTime']);
   };
 
-  const formatCurrency = (amount, currency = 'NOVA') => {
+  const formatCurrency = (amount, currency = 'AUR') => {
     const locale = i18n.language || 'en';
     return new Intl.NumberFormat(locale, {
       style: 'currency',

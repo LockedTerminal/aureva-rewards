@@ -19,7 +19,7 @@ All services communicate within a private VPC. The ALB is the only public-facing
 
 **Via systemd (EC2):**
 ```bash
-sudo systemctl restart nova-api
+sudo systemctl restart aureva-api
 ```
 
 **Via ECS (force new deployment):**
@@ -131,7 +131,7 @@ aws rds create-db-snapshot \
 **Via CLI:**
 ```bash
 aws rds restore-db-instance-from-db-snapshot \
-  --db-instance-identifier nova-restored-<date> \
+  --db-instance-identifier aureva-restored-<date> \
   --db-snapshot-identifier pre-deploy-<date>
 ```
 
@@ -199,7 +199,7 @@ aws rds restore-db-instance-from-db-snapshot \
 **Symptoms:** On-chain events not reflected in the database; event processor CloudWatch metric `blocks_behind` increasing.
 
 **Steps:**
-1. Check event processor logs in CloudWatch (`/nova/event-processor`)
+1. Check event processor logs in CloudWatch (`/aureva/event-processor`)
 2. Verify the Stellar RPC endpoint is healthy:
    ```bash
    curl <placeholder-stellar-rpc-url>/health

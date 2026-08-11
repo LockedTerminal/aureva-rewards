@@ -1,6 +1,6 @@
 const logger = require('../lib/logger');
 const router = require('express').Router();
-const { server, NOVA, isValidStellarAddress } = require('../../blockchain/stellarService');
+const { server, AUR, isValidStellarAddress } = require('../../blockchain/stellarService');
 const { recordTransaction, getTransactionsByMerchant, getMerchantTotals } = require('../db/transactionRepository');
 const { query } = require('../db/index');
 const { log } = require('../monitoring/eventsLogger');
@@ -21,7 +21,7 @@ router.post('/record', async (req, res, next) => {
 const { getUserByWallet } = require('../db/userRepository');
 const circuitBreakerService = require('../services/circuitBreakerService');
 const { logSpan } = require('../middleware/tracingMiddleware');
-const { isValidStellarAddress, server, NOVA } = require('../../blockchain/stellarService');
+const { isValidStellarAddress, server, AUR } = require('../../blockchain/stellarService');
 const { query } = require('../db/index');
 
 /**
@@ -140,7 +140,7 @@ router.post('/reconcile', authenticateMerchant, async (req, res, next) => {
     }
 
     try {
-      // Fetch all NOVA payments from Horizon with pagination
+      // Fetch all AUR payments from Horizon with pagination
       const transactions = await circuitBreakerService.execute(
         'horizon_payments',
         async () => {
@@ -153,13 +153,13 @@ router.post('/reconcile', authenticateMerchant, async (req, res, next) => {
             .call();
 
           while (page.records.length > 0) {
-            const novaPayments = page.records.filter(
+            const aurPayments = page.records.filter(
               (r) =>
                 r.type === 'payment' &&
-                r.asset_code === NOVA.code &&
-                r.asset_issuer === NOVA.issuer
+                r.asset_code === AUR.code &&
+                r.asset_issuer === AUR.issuer
             );
-            results.push(...novaPayments);
+            results.push(...aurPayments);
 
             // Stop after 500 records to avoid runaway pagination
             if (results.length >= 500) break;

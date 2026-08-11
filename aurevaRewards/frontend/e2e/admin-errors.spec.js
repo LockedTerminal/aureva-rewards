@@ -7,7 +7,7 @@ test.describe('Admin Operations', () => {
   async function seedAdminSession(page) {
     await page.goto('/login');
     await page.evaluate(() => {
-      const adminUser = { id: 1, name: 'Admin', email: 'admin@nova.test', role: 'admin' };
+      const adminUser = { id: 1, name: 'Admin', email: 'admin@AUR.test', role: 'admin' };
       localStorage.setItem('authToken', 'mock-admin-token');
       localStorage.setItem('authUser', JSON.stringify(adminUser));
     });

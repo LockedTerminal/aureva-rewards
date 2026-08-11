@@ -29,33 +29,33 @@ data   : (schema_version: u32, ...fields)
 
 ---
 
-## 1. AurevaRewards (`nova_rwd`)
+## 1. AurevaRewards (`aur_rwd`)
 
 Source: `contracts/aureva-rewards/src/utils/events.rs`
 
 | event_type  | topics tuple                        | data (after schema_version)                                      | trigger                        |
 |-------------|-------------------------------------|------------------------------------------------------------------|--------------------------------|
-| `init`      | `("nova_rwd", "init")`              | `admin: Address`                                                 | Contract first initialised     |
-| `bal_set`   | `("nova_rwd", "bal_set")`           | `user: Address, amount: i128`                                    | Admin sets user balance        |
-| `staked`    | `("nova_rwd", "staked")`            | `staker: Address, amount: i128, timestamp: u64`                  | User stakes tokens             |
-| `unstaked`  | `("nova_rwd", "unstaked")`          | `staker: Address, principal: i128, yield: i128, timestamp: u64`  | User unstakes + collects yield |
-| `rate_set`  | `("nova_rwd", "rate_set")`          | `rate: i128`                                                     | Admin updates annual rate (bps)|
-| `swap`      | `("nova_rwd", "swap")`              | `user: Address, nova_amount: i128, xlm_received: i128, path: Vec<Address>` | AUR → XLM swap    |
-| `paused`    | `("nova_rwd", "paused")`            | `procedure: Symbol, timestamp: u64`                              | Contract paused                |
-| `resumed`   | `("nova_rwd", "resumed")`           | `timestamp: u64`                                                 | Contract resumed               |
-| `emrg_paus` | `("nova_rwd", "emrg_paus")`         | `expiry: u64`                                                    | Emergency pause with auto-expiry|
-| `rec_op`    | `("nova_rwd", "rec_op")`            | `recovery_admin: Address`                                        | Recovery admin assigned        |
-| `snap`      | `("nova_rwd", "snap")`              | `user: Address, balance: i128, timestamp: u64`                   | Account snapshot captured      |
-| `restore`   | `("nova_rwd", "restore")`           | `user: Address, balance: i128, timestamp: u64`                   | Account snapshot restored      |
-| `rec_tx`    | `("nova_rwd", "rec_tx")`            | `user: Address, delta: i128, new_balance: i128`                  | Recovery balance delta applied |
-| `rec_funds` | `("nova_rwd", "rec_funds")`         | `from: Address, to: Address, amount: i128`                       | Recovery fund transfer         |
-| `upgraded`  | `("nova_rwd", "upgraded")`          | `wasm_hash: BytesN<32>, migration_version: u32`                  | WASM upgraded + migrated       |
+| `init`      | `("aur_rwd", "init")`              | `admin: Address`                                                 | Contract first initialised     |
+| `bal_set`   | `("aur_rwd", "bal_set")`           | `user: Address, amount: i128`                                    | Admin sets user balance        |
+| `staked`    | `("aur_rwd", "staked")`            | `staker: Address, amount: i128, timestamp: u64`                  | User stakes tokens             |
+| `unstaked`  | `("aur_rwd", "unstaked")`          | `staker: Address, principal: i128, yield: i128, timestamp: u64`  | User unstakes + collects yield |
+| `rate_set`  | `("aur_rwd", "rate_set")`          | `rate: i128`                                                     | Admin updates annual rate (bps)|
+| `swap`      | `("aur_rwd", "swap")`              | `user: Address, aur_amount: i128, xlm_received: i128, path: Vec<Address>` | AUR → XLM swap    |
+| `paused`    | `("aur_rwd", "paused")`            | `procedure: Symbol, timestamp: u64`                              | Contract paused                |
+| `resumed`   | `("aur_rwd", "resumed")`           | `timestamp: u64`                                                 | Contract resumed               |
+| `emrg_paus` | `("aur_rwd", "emrg_paus")`         | `expiry: u64`                                                    | Emergency pause with auto-expiry|
+| `rec_op`    | `("aur_rwd", "rec_op")`            | `recovery_admin: Address`                                        | Recovery admin assigned        |
+| `snap`      | `("aur_rwd", "snap")`              | `user: Address, balance: i128, timestamp: u64`                   | Account snapshot captured      |
+| `restore`   | `("aur_rwd", "restore")`           | `user: Address, balance: i128, timestamp: u64`                   | Account snapshot restored      |
+| `rec_tx`    | `("aur_rwd", "rec_tx")`            | `user: Address, delta: i128, new_balance: i128`                  | Recovery balance delta applied |
+| `rec_funds` | `("aur_rwd", "rec_funds")`         | `from: Address, to: Address, amount: i128`                       | Recovery fund transfer         |
+| `upgraded`  | `("aur_rwd", "upgraded")`          | `wasm_hash: BytesN<32>, migration_version: u32`                  | WASM upgraded + migrated       |
 
 ### Example: `staked` event (decoded)
 
 ```json
 {
-  "topics": ["nova_rwd", "staked"],
+  "topics": ["aur_rwd", "staked"],
   "data": [1, "GABC...XYZ", 5000000, 1748649600]
 }
 ```
@@ -216,7 +216,7 @@ Every contract that implements the M-of-N upgrade mechanism emits a `ContractUpg
 
 | Contract       | topic 0      | topic 1    | data                                          |
 |----------------|--------------|------------|-----------------------------------------------|
-| aureva-rewards   | `nova_rwd`   | `upgraded` | `(v, wasm_hash: BytesN<32>, migration_version: u32)` |
+| aureva-rewards   | `aur_rwd`   | `upgraded` | `(v, wasm_hash: BytesN<32>, migration_version: u32)` |
 | campaign       | `camp`       | `upgraded` | `(v, wasm_hash: BytesN<32>)`                  |
 | escrow         | `escrow`     | `upgraded` | `(v, wasm_hash: BytesN<32>)`                  |
 | distribution   | `dist`       | `upgraded` | `(v, wasm_hash: BytesN<32>)`                  |
@@ -232,7 +232,7 @@ The `backend/routes/contractEvents.js` `EVENT_TYPES` map must be kept in sync wi
 
 ```js
 // Example entry format:
-'nova_rwd:staked': { contract: 'aureva-rewards', description: 'Tokens staked' },
+'aur_rwd:staked': { contract: 'aureva-rewards', description: 'Tokens staked' },
 ```
 
 The indexer parses events from the Soroban RPC `getEvents` response. Topic symbols are decoded as strings; data tuples are decoded as XDR `ScVal` arrays. The first data element (`schema_version`) should be validated against the expected version before processing.

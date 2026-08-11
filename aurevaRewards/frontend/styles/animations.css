@@ -1,42 +1,42 @@
 /*
- * Nova Rewards — Animation Utilities
+ * Aureva Rewards — Animation Utilities
  * All animations respect prefers-reduced-motion.
  * Only transform + opacity are animated (compositor-thread safe).
  */
 
 /* ── Keyframes ──────────────────────────────────────────────────────────── */
 
-@keyframes nova-fade-in {
+@keyframes aureva-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes nova-fade-out {
+@keyframes aureva-fade-out {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
 
-@keyframes nova-slide-up {
+@keyframes aureva-slide-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes nova-slide-down {
+@keyframes aureva-slide-down {
   from { opacity: 0; transform: translateY(-16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes nova-scale-in {
+@keyframes aureva-scale-in {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes nova-scale-out {
+@keyframes aureva-scale-out {
   from { opacity: 1; transform: scale(1); }
   to   { opacity: 0; transform: scale(0.95); }
 }
 
-@keyframes nova-shake {
+@keyframes aureva-shake {
   0%,100% { transform: translateX(0); }
   15%     { transform: translateX(-8px); }
   35%     { transform: translateX(8px); }
@@ -44,19 +44,19 @@
   75%     { transform: translateX(4px); }
 }
 
-@keyframes nova-bounce-in {
+@keyframes aureva-bounce-in {
   0%   { opacity: 0; transform: scale(0); }
   60%  { opacity: 1; transform: scale(1.1); }
   80%  { transform: scale(0.95); }
   100% { transform: scale(1); }
 }
 
-@keyframes nova-spin {
+@keyframes aureva-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-@keyframes nova-pulse-opacity {
+@keyframes aureva-pulse-opacity {
   0%,100% { opacity: 1; }
   50%     { opacity: 0.5; }
 }
@@ -66,47 +66,47 @@
   to   { transform: translateX(200%); }
 }
 
-@keyframes nova-draw-check {
+@keyframes aureva-draw-check {
   from { stroke-dashoffset: 40; }
   to   { stroke-dashoffset: 0; }
 }
 
-@keyframes nova-toast-in {
+@keyframes aureva-toast-in {
   from { opacity: 0; transform: translateY(-100%) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes nova-toast-out {
+@keyframes aureva-toast-out {
   from { opacity: 1; transform: translateY(0) scale(1); }
   to   { opacity: 0; transform: translateY(-100%) scale(0.96); }
 }
 
-@keyframes nova-dots {
+@keyframes aureva-dots {
   0%,80%,100% { opacity: 0; transform: scale(0); }
   40%          { opacity: 1; transform: scale(1); }
 }
 
 /* ── Utility classes ────────────────────────────────────────────────────── */
 
-.nova-fade-in  { animation: nova-fade-in  150ms ease-out both; }
-.nova-fade-out { animation: nova-fade-out 150ms ease-in  both; }
+.aureva-fade-in  { animation: aureva-fade-in  150ms ease-out both; }
+.aureva-fade-out { animation: aureva-fade-out 150ms ease-in  both; }
 
-.nova-slide-up   { animation: nova-slide-up   200ms ease-out both; }
-.nova-slide-down { animation: nova-slide-down 200ms ease-out both; }
+.aureva-slide-up   { animation: aureva-slide-up   200ms ease-out both; }
+.aureva-slide-down { animation: aureva-slide-down 200ms ease-out both; }
 
-.nova-scale-in  { animation: nova-scale-in  200ms ease-out both; }
-.nova-scale-out { animation: nova-scale-out 150ms ease-in  both; }
+.aureva-scale-in  { animation: aureva-scale-in  200ms ease-out both; }
+.aureva-scale-out { animation: aureva-scale-out 150ms ease-in  both; }
 
-.nova-bounce-in { animation: nova-bounce-in 300ms cubic-bezier(0.34,1.56,0.64,1) both; }
+.aureva-bounce-in { animation: aureva-bounce-in 300ms cubic-bezier(0.34,1.56,0.64,1) both; }
 
-.nova-shake { animation: nova-shake 400ms ease-in-out; }
+.aureva-shake { animation: aureva-shake 400ms ease-in-out; }
 
-.nova-spin  { animation: nova-spin 400ms linear infinite; }
+.aureva-spin  { animation: aureva-spin 400ms linear infinite; }
 
-.nova-pulse { animation: nova-pulse-opacity 2s ease-in-out infinite; }
+.aureva-pulse { animation: aureva-pulse-opacity 2s ease-in-out infinite; }
 
-.nova-toast-in  { animation: nova-toast-in  200ms ease-out both; }
-.nova-toast-out { animation: nova-toast-out 150ms ease-in  both; }
+.aureva-toast-in  { animation: aureva-toast-in  200ms ease-out both; }
+.aureva-toast-out { animation: aureva-toast-out 150ms ease-in  both; }
 
 /* Skeleton shimmer block */
 .skeleton-shimmer::after {
@@ -124,56 +124,56 @@
 }
 
 /* Loading dots */
-.nova-loading-dots span {
+.aureva-loading-dots span {
   display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: currentColor;
-  animation: nova-dots 1.2s ease-in-out infinite;
+  animation: aureva-dots 1.2s ease-in-out infinite;
 }
-.nova-loading-dots span:nth-child(2) { animation-delay: 0.15s; }
-.nova-loading-dots span:nth-child(3) { animation-delay: 0.30s; }
+.aureva-loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.aureva-loading-dots span:nth-child(3) { animation-delay: 0.30s; }
 
 /* Success checkmark SVG draw */
-.nova-check-draw {
+.aureva-check-draw {
   stroke-dasharray: 40;
   stroke-dashoffset: 40;
-  animation: nova-draw-check 300ms ease-out forwards;
+  animation: aureva-draw-check 300ms ease-out forwards;
 }
 
 /* Progress bar fill */
-.nova-progress-fill {
+.aureva-progress-fill {
   transition: width var(--animation-progress-fill-duration, 240ms) cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ── Reduced motion overrides ───────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .nova-fade-in,
-  .nova-fade-out,
-  .nova-slide-up,
-  .nova-slide-down,
-  .nova-scale-in,
-  .nova-scale-out,
-  .nova-bounce-in,
-  .nova-toast-in,
-  .nova-toast-out {
+  .aureva-fade-in,
+  .aureva-fade-out,
+  .aureva-slide-up,
+  .aureva-slide-down,
+  .aureva-scale-in,
+  .aureva-scale-out,
+  .aureva-bounce-in,
+  .aureva-toast-in,
+  .aureva-toast-out {
     animation: none;
     opacity: 1;
     transform: none;
   }
 
-  .nova-shake {
+  .aureva-shake {
     /* Replace motion shake with color change — handled in component */
     animation: none;
   }
 
-  .nova-spin {
+  .aureva-spin {
     animation-duration: 2s; /* Slow spin is still functional */
   }
 
-  .nova-pulse {
+  .aureva-pulse {
     animation: none;
     opacity: 1;
   }
@@ -182,15 +182,15 @@
     animation: none;
   }
 
-  .nova-loading-dots span {
-    animation: nova-pulse-opacity 1s ease-in-out infinite;
+  .aureva-loading-dots span {
+    animation: aureva-pulse-opacity 1s ease-in-out infinite;
   }
 
-  .nova-progress-fill {
+  .aureva-progress-fill {
     transition: none;
   }
 
-  .nova-check-draw {
+  .aureva-check-draw {
     stroke-dashoffset: 0;
     animation: none;
   }

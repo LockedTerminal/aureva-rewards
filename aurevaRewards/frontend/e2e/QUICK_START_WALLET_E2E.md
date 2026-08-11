@@ -179,7 +179,7 @@ When you run `npm run test:e2e`:
 4. **Error Handling:** No extension → error shown ✓
 5. **Network Checks:** Wrong network → error shown ✓
 6. **Persistence:** Reload → wallet still connected ✓
-7. **Balance:** NOVA balance displays correctly ✓
+7. **Balance:** AUR balance displays correctly ✓
 8. **Error Recovery:** Can retry after error ✓
 
 ## Performance

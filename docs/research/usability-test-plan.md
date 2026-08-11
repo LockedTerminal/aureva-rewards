@@ -92,7 +92,7 @@ See `docs/research/screener-survey.md`.
 **Task:** "Tell me what you see on your dashboard."
 
 **Questions:**
-- "What is your current NOVA balance?"
+- "What is your current AUR balance?"
 - "How many rewards have you earned this week?"
 - "What does the chart show?"
 - "Where would you go to see all your transactions?"

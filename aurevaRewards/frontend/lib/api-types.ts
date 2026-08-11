@@ -1720,7 +1720,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get total NOVA distributed and redeemed for the authenticated merchant */
+        /** Get total AUR distributed and redeemed for the authenticated merchant */
         get: {
             parameters: {
                 query?: never;
@@ -1775,7 +1775,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get NOVA transaction history for a wallet
+         * Get AUR transaction history for a wallet
          * @description Queries Horizon first; falls back to PostgreSQL if Horizon is unavailable.
          */
         get: {
@@ -1906,7 +1906,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Check whether a wallet has an active NOVA trustline */
+        /** Check whether a wallet has an active AUR trustline */
         post: {
             parameters: {
                 query?: never;

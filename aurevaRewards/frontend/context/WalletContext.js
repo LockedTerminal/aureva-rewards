@@ -7,7 +7,7 @@ import {
   getFreighterNetwork,
   checkNetworkMismatch,
 } from '../lib/freighter';
-import { getNOVABalance, getTransactionHistory } from '../lib/horizonClient';
+import { getAURBalance, getTransactionHistory } from '../lib/horizonClient';
 
 const WalletContext = createContext(null);
 
@@ -81,7 +81,7 @@ export function WalletProvider({ children }) {
     if (storedKey) {
       setPublicKey(storedKey);
       setWalletType(storedType);
-      Promise.all([getNOVABalance(storedKey), getTransactionHistory(storedKey)])
+      Promise.all([getAURBalance(storedKey), getTransactionHistory(storedKey)])
         .then(([bal, txs]) => { setBalance(bal); setTransactions(txs); })
         .catch(() => {
           localStorage.removeItem('walletPublicKey');
@@ -97,7 +97,7 @@ export function WalletProvider({ children }) {
     const key = wallet || publicKey;
     if (!key) return;
     try {
-      const [bal, txs] = await Promise.all([getNOVABalance(key), getTransactionHistory(key)]);
+      const [bal, txs] = await Promise.all([getAURBalance(key), getTransactionHistory(key)]);
       setBalance(bal);
       setTransactions(txs);
     } catch (err) {

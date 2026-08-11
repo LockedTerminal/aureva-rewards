@@ -407,22 +407,22 @@ describe('processRewardIssuance — Stellar validation errors', () => {
     const job = makeJob(data, 2);
     getActiveCampaign.mockResolvedValue(makeCampaign());
     distributeRewards.mockRejectedValue(
-      Object.assign(new Error('Recipient does not have a NOVA trustline'), { code: 'no_trustline' })
+      Object.assign(new Error('Recipient does not have a AUR trustline'), { code: 'no_trustline' })
     );
 
-    await expect(processRewardIssuance(job)).rejects.toThrow('Recipient does not have a NOVA trustline');
-    expect(markFailed).toHaveBeenCalledWith(data.issuanceId, 'Recipient does not have a NOVA trustline');
+    await expect(processRewardIssuance(job)).rejects.toThrow('Recipient does not have a AUR trustline');
+    expect(markFailed).toHaveBeenCalledWith(data.issuanceId, 'Recipient does not have a AUR trustline');
   });
 
   it('insufficient balance error — marks failed on final attempt', async () => {
     const job = makeJob(data, 2);
     getActiveCampaign.mockResolvedValue(makeCampaign());
     distributeRewards.mockRejectedValue(
-      Object.assign(new Error('Distribution Account has insufficient NOVA balance'), { code: 'insufficient_balance' })
+      Object.assign(new Error('Distribution Account has insufficient AUR balance'), { code: 'insufficient_balance' })
     );
 
-    await expect(processRewardIssuance(job)).rejects.toThrow('Distribution Account has insufficient NOVA balance');
-    expect(markFailed).toHaveBeenCalledWith(data.issuanceId, 'Distribution Account has insufficient NOVA balance');
+    await expect(processRewardIssuance(job)).rejects.toThrow('Distribution Account has insufficient AUR balance');
+    expect(markFailed).toHaveBeenCalledWith(data.issuanceId, 'Distribution Account has insufficient AUR balance');
   });
 });
 

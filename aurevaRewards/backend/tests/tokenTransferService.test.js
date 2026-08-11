@@ -36,7 +36,7 @@ function baseParams(overrides = {}) {
 
 describe('transferTokens', () => {
   beforeEach(() => {
-    _deps.getNOVABalance = vi.fn().mockResolvedValue('100.0000000');
+    _deps.getAURBalance = vi.fn().mockResolvedValue('100.0000000');
     _deps.verifyTrustline = vi.fn().mockResolvedValue({ exists: true });
     _deps.submit = vi.fn().mockResolvedValue({
       txHash: 'abctxhash',
@@ -47,7 +47,7 @@ describe('transferTokens', () => {
   });
 
   it('successfully transfers and returns tx hash + updated balance', async () => {
-    _deps.getNOVABalance
+    _deps.getAURBalance
       .mockResolvedValueOnce('100.0000000') // pre-check
       .mockResolvedValueOnce('89.5000000'); // post-submit
 
@@ -129,12 +129,12 @@ describe('transferTokens', () => {
   });
 
   it('throws 400 when the sender has insufficient balance', async () => {
-    _deps.getNOVABalance.mockResolvedValueOnce('5.0000000');
+    _deps.getAURBalance.mockResolvedValueOnce('5.0000000');
     await expect(transferTokens(baseParams({ amount: '10' })))
       .rejects.toMatchObject({ status: 400, code: 'insufficient_balance' });
   });
 
-  it('throws 400 when the destination has no NOVA trustline', async () => {
+  it('throws 400 when the destination has no AUR trustline', async () => {
     _deps.verifyTrustline.mockResolvedValue({ exists: false });
     await expect(transferTokens(baseParams()))
       .rejects.toMatchObject({ status: 400, code: 'destination_no_trustline' });
@@ -182,7 +182,7 @@ describe('transferTokens', () => {
   });
 
   it('falls back to the pre-submission balance if the post-submit balance fetch fails', async () => {
-    _deps.getNOVABalance
+    _deps.getAURBalance
       .mockResolvedValueOnce('100.0000000')
       .mockRejectedValueOnce(new Error('Horizon down'));
 

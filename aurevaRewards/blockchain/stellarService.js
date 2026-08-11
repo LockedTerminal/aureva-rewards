@@ -10,7 +10,7 @@ const server = new Horizon.Server(
  * Returns a Stellar Asset object.
  * Returns Asset.native() if code is 'XLM', otherwise returns a non-native Asset.
  *
- * @param {string} code - Asset code (e.g. 'NOVA', 'XLM')
+ * @param {string} code - Asset code (e.g. 'AUR', 'XLM')
  * @param {string} [issuer] - Asset issuer public key (optional for XLM)
  * @returns {Asset}
  */
@@ -21,8 +21,8 @@ function getAsset(code, issuer) {
   const asset = new Asset(code, issuer);
   return asset;
 }
-// NOVA asset definition — issued by the Issuer Account
-const NOVA = getAsset("NOVA", process.env.ISSUER_PUBLIC);
+// AUR asset definition — issued by the Issuer Account
+const AUR = getAsset("AUR", process.env.ISSUER_PUBLIC);
 
 /**
  * Validates that a string is a valid Stellar public key.
@@ -43,22 +43,22 @@ function isValidStellarAddress(address) {
 
 /**
  * Queries Horizon for the account's current AUR token balance.
- * Returns '0' if the account has no trustline for NOVA.
+ * Returns '0' if the account has no trustline for AUR.
  * Requirements: 6.1, 8.3
  *
  * @param {string} walletAddress - Stellar public key
- * @returns {Promise<string>} NOVA balance as a string (e.g. "100.0000000")
+ * @returns {Promise<string>} AUR balance as a string (e.g. "100.0000000")
  */
-async function getNOVABalance(walletAddress) {
+async function getAURBalance(walletAddress) {
   try {
     const account = await server.loadAccount(walletAddress);
-    const novaBalance = account.balances.find(
+    const aurBalance = account.balances.find(
       (b) =>
         b.asset_type !== "native" &&
-        b.asset_code === "NOVA" &&
+        b.asset_code === "AUR" &&
         b.asset_issuer === process.env.ISSUER_PUBLIC,
     );
-    return novaBalance ? novaBalance.balance : "0";
+    return aurBalance ? aurBalance.balance : "0";
   } catch (err) {
     if (
       err.response?.status === 404 ||
@@ -72,8 +72,8 @@ async function getNOVABalance(walletAddress) {
 
 module.exports = {
   server,
-  NOVA,
+  AUR,
   isValidStellarAddress,
-  getNOVABalance,
+  getAURBalance,
   getAsset,
 };

@@ -13,7 +13,7 @@ const STEPS = [
     target: '[data-tour="points-widget"]',
     title: '⭐ Your Points Balance',
     content:
-      'This widget shows your current NOVA points in real time. Points update automatically as you earn and redeem rewards.',
+      'This widget shows your current AUR points in real time. Points update automatically as you earn and redeem rewards.',
     placement: 'bottom',
     disableBeacon: true,
   },
@@ -29,7 +29,7 @@ const STEPS = [
     target: '[data-tour="referral-link"]',
     title: '👥 Referral Program',
     content:
-      'Share your unique referral link with friends. Every successful referral earns you bonus NOVA points.',
+      'Share your unique referral link with friends. Every successful referral earns you bonus AUR points.',
     placement: 'right',
     disableBeacon: true,
   },

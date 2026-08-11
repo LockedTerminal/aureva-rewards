@@ -101,7 +101,7 @@ try {
 | `"contract must be paused"` | `restore_account`, `recover_transaction`, `recover_funds` | Recovery operations require the contract to be paused first. | Admin must call `pause` before executing recovery operations. |
 | `"duration must be > 0"` | `emergency_pause` | Emergency pause duration must be a positive number of seconds. | Pass a `duration_secs` value greater than 0. |
 | `"not initialized"` | All functions | Contract storage has no admin set. | Call `initialize` first. |
-| `"nova_amount must be positive"` | `swap_for_xlm` | Swap amount must be greater than zero. | Pass a positive `nova_amount`. |
+| `"aur_amount must be positive"` | `swap_for_xlm` | Swap amount must be greater than zero. | Pass a positive `aur_amount`. |
 | `"min_xlm_out must be non-negative"` | `swap_for_xlm` | Slippage floor cannot be negative. | Pass `min_xlm_out >= 0`. |
 | `"path exceeds maximum of 5 hops"` | `swap_for_xlm` | Swap path is too long. | Reduce the swap path to at most 5 token addresses. |
 | `"insufficient AUR balance"` | `swap_for_xlm` | User does not have enough AUR points to burn. | Check `get_balance` before calling `swap_for_xlm`. |
@@ -239,12 +239,12 @@ if (isPaused) {
 ### Retry on Slippage
 
 ```typescript
-async function swapWithRetry(novaAmount: bigint, maxRetries = 3) {
+async function swapWithRetry(aurAmount: bigint, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
       // Reduce min_xlm_out by 1% per retry
       const minXlm = (expectedXlm * BigInt(99 - i)) / 100n;
-      return await client.swap_for_xlm({ user, nova_amount: novaAmount, min_xlm_out: minXlm, path });
+      return await client.swap_for_xlm({ user, aur_amount: aurAmount, min_xlm_out: minXlm, path });
     } catch (e) {
       if (!e.message.includes("slippage") || i === maxRetries - 1) throw e;
     }

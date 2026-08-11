@@ -240,10 +240,10 @@ describe('rewardIssuanceWorker', () => {
 });
 
 describe('queues.js DLQ persistence', () => {
-  it('creates nova_reward_dlq_total counter on module load', async () => {
+  it('creates aureva_reward_dlq_total counter on module load', async () => {
     await loadQueuesModule();
     expect(mockCreateCounter).toHaveBeenCalledWith(
-      'nova_reward_dlq_total',
+      'aureva_reward_dlq_total',
       'Total number of reward issuance jobs moved to DLQ after max retries',
       ['reason']
     );

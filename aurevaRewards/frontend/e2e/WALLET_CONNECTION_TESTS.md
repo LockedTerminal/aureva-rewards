@@ -37,7 +37,7 @@ Main test suite with 15+ test scenarios covering:
 #### Connected Wallet Display Tests
 3. **Wallet address visible** — After connection, truncated address appears in header
 4. **Full address in detail view** — Complete public key visible in wallet section
-5. **Balance display** — NOVA balance fetched and displayed
+5. **Balance display** — AUR balance fetched and displayed
 
 #### Disconnect Tests
 6. **Disconnect clears session** — Click disconnect → wallet removed from localStorage → connect button returns

@@ -85,14 +85,14 @@ router.get("/balance", authenticateUser, async (req, res) => {
     const result = await walletService.getBalances(user.stellar_public_key);
 
     if (result.success) {
-      // Extract NOVA balance and format to 7 decimal places
-      const novaBalance = result.balances?.tokens?.NOVA?.balance || "0";
-      const formattedBalance = parseFloat(novaBalance).toFixed(7);
+      // Extract AUR balance and format to 7 decimal places
+      const aurBalance = result.balances?.tokens?.AUR?.balance || "0";
+      const formattedBalance = parseFloat(aurBalance).toFixed(7);
 
       res.json({
         success: true,
         balance: formattedBalance,
-        raw: novaBalance,
+        raw: aurBalance,
         stellarPublicKey: user.stellar_public_key,
       });
     } else {

@@ -27,7 +27,7 @@ export const useAuthStore = create(
          */
         logout: () => {
           if (typeof window !== 'undefined') {
-            localStorage.removeItem('nova-auth-storage');
+            localStorage.removeItem('AUR-auth-storage');
           }
           return set({ user: null, token: null, isAuthenticated: false }, false, 'auth/logout');
         },
@@ -40,7 +40,7 @@ export const useAuthStore = create(
           set((state) => ({ user: { ...state.user, ...userData } }), false, 'auth/updateUser'),
       }),
       {
-        name: 'nova-auth-storage', // Name of the item in storage (localStorage by default)
+        name: 'AUR-auth-storage', // Name of the item in storage (localStorage by default)
         partialize: (state) => ({ 
           user: state.user, 
           token: state.token, 

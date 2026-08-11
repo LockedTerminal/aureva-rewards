@@ -26,7 +26,7 @@ describe('StakeForm', () => {
 
     expect(screen.getByLabelText(/amount to stake/i)).toBeInTheDocument();
     expect(screen.getByText(/MAX/i)).toBeInTheDocument();
-    expect(screen.getByText(/Available: 1,000\.0000000 NOVA/i)).toBeInTheDocument();
+    expect(screen.getByText(/Available: 1,000\.0000000 AUR/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /stake tokens/i })).toBeInTheDocument();
   });
 

@@ -74,7 +74,7 @@ export default function WalletConnectButton() {
               {truncateAddress(publicKey)}
             </span>
             <span className="text-xs font-semibold text-primary-600 dark:text-primary-400">
-              {formatTokenAmount(balance)} NOVA
+              {formatTokenAmount(balance)} AUR
             </span>
           </div>
           {/* Network badge */}

@@ -3,7 +3,7 @@ export const EMPTY_STATE_VARIANTS = {
   'no-rewards':      { icon: 'rewards',      title: 'No rewards earned yet',       description: 'Browse partner campaigns to start earning AUR tokens.',  actionLabel: 'Browse Campaigns' },
   'no-transactions': { icon: 'transactions', title: 'No activity yet',             description: 'Earn or redeem AUR tokens to see your transaction history.', actionLabel: 'Start Earning' },
   'no-campaigns':    { icon: 'campaigns',    title: 'No active campaigns',         description: 'Check back soon — new merchant campaigns are added regularly.', actionLabel: null },
-  'no-wallet':       { icon: 'inbox',        title: 'Connect your wallet',         description: 'Connect a Stellar wallet to see your NOVA balance and transactions.', actionLabel: 'Connect Wallet' },
+  'no-wallet':       { icon: 'inbox',        title: 'Connect your wallet',         description: 'Connect a Stellar wallet to see your AUR balance and transactions.', actionLabel: 'Connect Wallet' },
   'loading-error':   { icon: 'search',       title: 'Something went wrong',        description: 'We couldn\'t load this content. Please try again.',        actionLabel: 'Try Again' },
   'search-empty':    { icon: 'search',       title: 'No results found',            description: 'Try a different search term or browse all campaigns.',     actionLabel: 'Clear Search' },
 };

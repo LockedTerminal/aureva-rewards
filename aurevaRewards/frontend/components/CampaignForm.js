@@ -88,9 +88,9 @@ const STEPS = [
             id="token-symbol"
             name="tokenSymbol"
             className="input"
-            value={data.tokenSymbol ?? 'NOVA'}
+            value={data.tokenSymbol ?? 'AUR'}
             onChange={(e) => update('tokenSymbol', e.target.value.toUpperCase())}
-            placeholder="NOVA"
+            placeholder="AUR"
             maxLength={12}
             aria-describedby={errors.tokenSymbol ? 'sym-err' : undefined}
             aria-invalid={Boolean(errors.tokenSymbol)}
@@ -303,12 +303,12 @@ function renderSummary(data) {
   const rows = [
     ['Campaign Name', data.name],
     ['Description', data.description],
-    ['Token Symbol', data.tokenSymbol || 'NOVA'],
+    ['Token Symbol', data.tokenSymbol || 'AUR'],
     ['Reward Rate', `${data.rewardRate} tokens / unit`],
     ['Eligible Action', data.eligibleAction || 'purchase'],
     ['Min Spend', data.minSpend ? `${data.minSpend}` : 'None'],
     ['Max Reward / User', data.maxRewardPerUser ? `${data.maxRewardPerUser}` : 'Unlimited'],
-    ['Total Budget', `${data.totalBudget} NOVA`],
+    ['Total Budget', `${data.totalBudget} AUR`],
     ['Start Date', data.startDate],
     ['End Date', data.endDate],
   ];
@@ -367,7 +367,7 @@ function TxConfirmModal({ data, onConfirm, onCancel, submitting }) {
 // ---------------------------------------------------------------------------
 
 const INITIAL_DATA = {
-  name: '', description: '', tokenSymbol: 'NOVA', rewardRate: '',
+  name: '', description: '', tokenSymbol: 'AUR', rewardRate: '',
   eligibleAction: 'purchase', minSpend: '', maxRewardPerUser: '',
   totalBudget: '', startDate: '', endDate: '', tokenRows: [],
 };
@@ -387,7 +387,7 @@ export default function CampaignForm({ merchantId, apiKey, onSuccess, editData }
         merchantId,
         name: pendingData.name.trim(),
         description: pendingData.description.trim(),
-        tokenSymbol: pendingData.tokenSymbol || 'NOVA',
+        tokenSymbol: pendingData.tokenSymbol || 'AUR',
         rewardRate: pendingData.rewardRate,
         eligibleAction: pendingData.eligibleAction,
         minSpend: pendingData.minSpend || null,
@@ -416,7 +416,7 @@ export default function CampaignForm({ merchantId, apiKey, onSuccess, editData }
     ? {
         name: editData.name || '',
         description: editData.description || '',
-        tokenSymbol: editData.token_symbol || 'NOVA',
+        tokenSymbol: editData.token_symbol || 'AUR',
         rewardRate: editData.reward_rate || '',
         eligibleAction: editData.eligible_action || 'purchase',
         minSpend: editData.min_spend || '',

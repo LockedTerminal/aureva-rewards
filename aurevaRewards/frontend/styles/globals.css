@@ -92,30 +92,30 @@ a:hover {
 }
 
 /* ── Page & list entry animations ────────────────────────────────────────── */
-@keyframes nova-fade-in {
+@keyframes aureva-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes nova-slide-up {
+@keyframes aureva-slide-up {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Apply to <ul> or <ol> to stagger children 50 ms apart */
-.nova-list-stagger > * {
-  animation: nova-slide-up var(--animation-list-item-duration) var(--animation-page-fade-timing-function) both;
+.aureva-list-stagger > * {
+  animation: aureva-slide-up var(--animation-list-item-duration) var(--animation-page-fade-timing-function) both;
 }
-.nova-list-stagger > *:nth-child(1)  { animation-delay:   0ms; }
-.nova-list-stagger > *:nth-child(2)  { animation-delay:  50ms; }
-.nova-list-stagger > *:nth-child(3)  { animation-delay: 100ms; }
-.nova-list-stagger > *:nth-child(4)  { animation-delay: 150ms; }
-.nova-list-stagger > *:nth-child(5)  { animation-delay: 200ms; }
-.nova-list-stagger > *:nth-child(6)  { animation-delay: 250ms; }
-.nova-list-stagger > *:nth-child(7)  { animation-delay: 300ms; }
-.nova-list-stagger > *:nth-child(8)  { animation-delay: 350ms; }
-.nova-list-stagger > *:nth-child(9)  { animation-delay: 400ms; }
-.nova-list-stagger > *:nth-child(10) { animation-delay: 450ms; }
+.aureva-list-stagger > *:nth-child(1)  { animation-delay:   0ms; }
+.aureva-list-stagger > *:nth-child(2)  { animation-delay:  50ms; }
+.aureva-list-stagger > *:nth-child(3)  { animation-delay: 100ms; }
+.aureva-list-stagger > *:nth-child(4)  { animation-delay: 150ms; }
+.aureva-list-stagger > *:nth-child(5)  { animation-delay: 200ms; }
+.aureva-list-stagger > *:nth-child(6)  { animation-delay: 250ms; }
+.aureva-list-stagger > *:nth-child(7)  { animation-delay: 300ms; }
+.aureva-list-stagger > *:nth-child(8)  { animation-delay: 350ms; }
+.aureva-list-stagger > *:nth-child(9)  { animation-delay: 400ms; }
+.aureva-list-stagger > *:nth-child(10) { animation-delay: 450ms; }
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {

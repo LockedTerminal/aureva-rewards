@@ -29,18 +29,18 @@ async function checkAccountBalances(name, publicKey) {
     const account = await server.loadAccount(publicKey);
 
     const xlm = account.balances.find((b) => b.asset_type === 'native');
-    const nova = account.balances.find(
-      (b) => b.asset_type !== 'native' && b.asset_code === 'NOVA' && b.asset_issuer === ISSUER_PUBLIC
+    const aur = account.balances.find(
+      (b) => b.asset_type !== 'native' && b.asset_code === 'AUR' && b.asset_issuer === ISSUER_PUBLIC
     );
 
     console.log(`XLM: ${xlm ? xlm.balance : '0'}`);
-    console.log(`NOVA: ${nova ? nova.balance : '0'} (trustline ${nova ? 'exists' : 'missing'})`);
+    console.log(`AUR: ${aur ? AUR.balance : '0'} (trustline ${AUR ? 'exists' : 'missing'})`);
 
     if (!xlm || Number(xlm.balance) <= 1) {
       console.warn('Warning: XLM balance is low (<=1) for fees.');
     }
-    if (!nova) {
-      console.warn('Warning: NOVA trustline not found (balance 0).');
+    if (!aur) {
+      console.warn('Warning: AUR trustline not found (balance 0).');
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {

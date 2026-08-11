@@ -13,9 +13,9 @@ jest.mock('../middleware/validateEnv', () => ({ validateEnv: jest.fn() }));
 jest.mock('../services/emailService', () => ({ sendWelcome: jest.fn().mockResolvedValue({ success: true }) }));
 jest.mock('../../blockchain/stellarService', () => ({
   server: {},
-  NOVA: {},
+  AUR: {},
   isValidStellarAddress: jest.fn().mockReturnValue(true),
-  getNOVABalance: jest.fn().mockResolvedValue('1000'),
+  getAURBalance: jest.fn().mockResolvedValue('1000'),
 }));
 jest.mock('../../blockchain/sendRewards', () => ({ sendRewards: jest.fn() }));
 jest.mock('../../blockchain/issueAsset', () => ({}));
@@ -112,7 +112,7 @@ beforeEach(() => jest.clearAllMocks());
 // ============================================================================
 describe('POST /api/campaigns', () => {
   test('201 — creates campaign in DB and registers on-chain', async () => {
-    stellar.getNOVABalance.mockResolvedValue('1000');
+    stellar.getAURBalance.mockResolvedValue('1000');
     repo.createCampaign.mockResolvedValue(DB_CAMPAIGN);
     soroban.registerCampaign.mockResolvedValue({ txHash: 'txhash-abc', contractCampaignId: 'contract-id-abc' });
     repo.confirmOnChain.mockResolvedValue(CONFIRMED_CAMPAIGN);
@@ -180,7 +180,7 @@ describe('POST /api/campaigns', () => {
   });
 
   test('400 — returns insufficient_balance when merchant balance < tokenAmount', async () => {
-    stellar.getNOVABalance.mockResolvedValue('100');
+    stellar.getAURBalance.mockResolvedValue('100');
 
     const res = await request(app).post('/api/campaigns').send({ ...VALID_BODY, tokenAmount: 500 });
 
@@ -190,7 +190,7 @@ describe('POST /api/campaigns', () => {
   });
 
   test('400 — treats balance fetch failure as zero balance', async () => {
-    stellar.getNOVABalance.mockRejectedValue(new Error('Horizon unavailable'));
+    stellar.getAURBalance.mockRejectedValue(new Error('Horizon unavailable'));
 
     const res = await request(app).post('/api/campaigns').send({ ...VALID_BODY, tokenAmount: 500 });
 
@@ -200,7 +200,7 @@ describe('POST /api/campaigns', () => {
   });
 
   test('502 — marks DB failed and returns chain_error when Soroban throws', async () => {
-    stellar.getNOVABalance.mockResolvedValue('1000');
+    stellar.getAURBalance.mockResolvedValue('1000');
     repo.createCampaign.mockResolvedValue(DB_CAMPAIGN);
     soroban.registerCampaign.mockRejectedValue(new Error('RPC timeout'));
 

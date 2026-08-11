@@ -11,7 +11,7 @@ services:
     env_file: .env.staging
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-aureva_rewards_staging}
-      POSTGRES_USER: ${POSTGRES_USER:-nova_staging}
+      POSTGRES_USER: ${POSTGRES_USER:-aureva_staging}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -37,7 +37,7 @@ services:
       - -c
       - log_min_duration_statement=500
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nova_staging} -d ${POSTGRES_DB:-aureva_rewards_staging}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aureva_staging} -d ${POSTGRES_DB:-aureva_rewards_staging}"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -54,7 +54,7 @@ services:
     command: ["node", "/migrations/migrate.js"]
     env_file: .env.staging
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-nova_staging}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-aureva_rewards_staging}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-aureva_staging}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-aureva_rewards_staging}
       NODE_ENV: staging
     volumes:
       - ./database:/migrations:ro
@@ -96,7 +96,7 @@ services:
     environment:
       PORT: 3001
       NODE_ENV: staging
-      DATABASE_URL: postgresql://${POSTGRES_USER:-nova_staging}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-aureva_rewards_staging}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-aureva_staging}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-aureva_rewards_staging}
       REDIS_URL: redis://redis:6379
       REDIS_MODE: single
       ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:?ALLOWED_ORIGIN is required}

@@ -11,7 +11,7 @@ if [ -z "$STAGED_FILES" ]; then
   exit 0
 fi
 
-cd "$(git rev-parse --show-toplevel)/novaRewards/frontend"
+cd "$(git rev-parse --show-toplevel)/aurevaRewards/frontend"
 
 echo "Running ESLint on staged files..."
 echo "$STAGED_FILES" | xargs npx eslint --max-warnings=0

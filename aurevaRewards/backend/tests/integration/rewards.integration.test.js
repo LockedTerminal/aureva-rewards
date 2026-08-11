@@ -20,7 +20,7 @@ jest.mock('../../../blockchain/trustline', () => ({
 }));
 jest.mock('../../../blockchain/stellarService', () => ({
   isValidStellarAddress: jest.fn().mockReturnValue(true),
-  getNOVABalance: jest.fn().mockResolvedValue('0'),
+  getAURBalance: jest.fn().mockResolvedValue('0'),
 }));
 jest.mock('../../lib/redis', () => ({
   client: { isOpen: false, on: jest.fn() },
@@ -70,7 +70,7 @@ function buildRewardsApp() {
 
       const trustline = await verifyTrustline(walletAddress);
       if (!trustline?.exists) {
-        return res.status(400).json({ success: false, error: 'no_trustline', message: 'Recipient does not have a NOVA trustline.' });
+        return res.status(400).json({ success: false, error: 'no_trustline', message: 'Recipient does not have a AUR trustline.' });
       }
 
       const result = await distributeRewards({ recipient: recipientWallet, amount, campaignId });

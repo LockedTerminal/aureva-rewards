@@ -5,4 +5,4 @@
 environment     = "dev"
 aws_region      = "us-east-1"
 certificate_arn = "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID"
-app_secret_name = "nova-rewards/app"
+app_secret_name = "AUR-rewards/app"

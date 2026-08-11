@@ -102,6 +102,43 @@ app.get('/health', (req, res) => {
   res.json({ success: true, data: { status: 'ok' } });
 });
 
+// Detailed health check (includes database and redis)
+app.get('/health/detailed', async (req, res) => {
+  try {
+    const { db } = require('./db/index');
+    
+    // Check database
+    const dbStatus = await db.$queryRaw`SELECT 1`.then(() => 'connected').catch(() => 'disconnected');
+    
+    // Check redis (if available)
+    let redisStatus = 'not-configured';
+    try {
+      const redis = require('./lib/redis').getRedisClient();
+      if (redis) {
+        redisStatus = (await redis.ping()) === 'PONG' ? 'connected' : 'disconnected';
+      }
+    } catch (e) {
+      redisStatus = 'error';
+    }
+    
+    const status = dbStatus === 'connected' ? 200 : 503;
+    res.status(status).json({
+      success: dbStatus === 'connected',
+      data: {
+        status: dbStatus === 'connected' ? 'healthy' : 'unhealthy',
+        database: dbStatus,
+        redis: redisStatus,
+        timestamp: new Date().toISOString(),
+      }
+    });
+  } catch (error) {
+    res.status(503).json({
+      success: false,
+      data: { status: 'error', error: error.message }
+    });
+  }
+});
+
 // Prometheus metrics scrape endpoint (deferred: full monitoring stack is Aureva v2)
 app.get("/metrics", async (req, res) => {
   try {

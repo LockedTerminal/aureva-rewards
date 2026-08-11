@@ -6,10 +6,10 @@ const {
   Networks,
   BASE_FEE,
 } = require('stellar-sdk');
-const { server, NOVA } = require('./stellarService');
+const { server, AUR } = require('./stellarService');
 
 /**
- * Builds an unsigned changeTrust XDR for the NOVA asset.
+ * Builds an unsigned changeTrust XDR for the AUR asset.
  * The returned XDR string is intended to be signed client-side via Freighter.
  * Requirements: 2.1
  *
@@ -30,7 +30,7 @@ async function buildTrustlineXDR(walletAddress) {
   })
     .addOperation(
       Operation.changeTrust({
-        asset: NOVA,
+        asset: AUR,
       })
     )
     .setTimeout(180)
@@ -40,7 +40,7 @@ async function buildTrustlineXDR(walletAddress) {
 }
 
 /**
- * Checks whether a wallet has an active trustline for the NOVA asset
+ * Checks whether a wallet has an active trustline for the AUR asset
  * by querying the Horizon API.
  * Requirements: 2.3, 2.4
  *
@@ -53,8 +53,8 @@ async function verifyTrustline(walletAddress) {
     const exists = account.balances.some(
       (b) =>
         b.asset_type !== 'native' &&
-        b.asset_code === NOVA.code &&
-        b.asset_issuer === NOVA.issuer
+        b.asset_code === AUR.code &&
+        b.asset_issuer === AUR.issuer
     );
     return { exists };
   } catch (err) {
@@ -68,11 +68,11 @@ async function verifyTrustline(walletAddress) {
 
 /**
  * Checks whether a wallet has an active trustline for any Stellar asset.
- * Accepts explicit assetCode + issuer so it works beyond just NOVA.
+ * Accepts explicit assetCode + issuer so it works for any Stellar asset.
  * Requirements: #661
  *
  * @param {string} accountId  - Stellar public key
- * @param {string} assetCode  - Asset code, e.g. "NOVA"
+ * @param {string} assetCode  - Asset code, e.g. "AUR"
  * @param {string} issuer     - Asset issuer public key
  * @returns {Promise<{ exists: boolean }>}
  */

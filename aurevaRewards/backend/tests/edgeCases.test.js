@@ -48,13 +48,13 @@ describe('Edge Cases — wallet balance (#944)', () => {
   test('returns zero balance gracefully', async () => {
     walletService.getBalances.mockResolvedValue({
       success: true,
-      balances: { native: '0', nova: '0' },
+      balances: { native: '0', aur: '0' },
     });
     const res = await request(app)
       .get('/api/wallet/balances/GABC')
       .expect(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.balances.nova).toBe('0');
+    expect(res.body.balances.aur).toBe('0');
   });
 
   test('returns empty balances array without crashing', async () => {
@@ -72,13 +72,13 @@ describe('Edge Cases — wallet balance (#944)', () => {
   test('handles null balance fields in service response', async () => {
     walletService.getBalances.mockResolvedValue({
       success: true,
-      balances: { native: null, nova: null },
+      balances: { native: null, aur: null },
     });
     const res = await request(app)
       .get('/api/wallet/balances/GABC')
       .expect(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.balances.nova).toBeNull();
+    expect(res.body.balances.aur).toBeNull();
   });
 
   test('missing publicKey param returns 400', async () => {

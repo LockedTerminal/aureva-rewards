@@ -12,7 +12,7 @@ Consistent across all charts. References design tokens:
 
 | Segment | Token | Hex | Usage |
 |---------|-------|-----|-------|
-| Primary | `primary-500` | `#8b5cf6` | NOVA earned, primary series |
+| Primary | `primary-500` | `#8b5cf6` | AUR earned, primary series |
 | Secondary | `secondary-500` | `#6366f1` | Staked tokens |
 | Success | `success-500` | `#22c55e` | Positive trend, redeemed |
 | Warning | `warning-500` | `#f59e0b` | Pending, near-expiry |
@@ -38,7 +38,7 @@ Consistent across all charts. References design tokens:
 ┌──────────────────────────────────────────────────────────────────┐
 │  Rewards Over Time                [7d] [30d] [90d] [All]         │
 │                                                                  │
-│  NOVA ▲                                                          │
+│  AUR ▲                                                          │
 │  200  ┤                    ╭────────╮                            │
 │  150  ┤          ╭─────────╯        ╰──────╮                    │
 │  100  ┤    ╭─────╯                          ╰─────╮             │
@@ -46,7 +46,7 @@ Consistent across all charts. References design tokens:
 │    0  └──────────────────────────────────────────────────→ Date │
 │       Jan   Feb   Mar   Apr   May   Jun   Jul                    │
 │                                                                  │
-│  [● NOVA Earned]                                                 │
+│  [● AUR Earned]                                                 │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -76,7 +76,7 @@ Consistent across all charts. References design tokens:
         color: 'white',
         fontSize: '13px',
       }}
-      formatter={(value) => [`${value} NOVA`, 'Earned']}
+      formatter={(value) => [`${value} AUR`, 'Earned']}
     />
     <Line
       type="monotone"
@@ -145,7 +145,7 @@ Consistent across all charts. References design tokens:
               │    ╭─────╮    │
               │  ╱         ╲  │
               │ │  1,234.56 │ │  ← center text (total)
-              │ │    NOVA   │ │
+              │ │    AUR   │ │
               │  ╲         ╱  │
               │    ╰─────╯    │
               │               │
@@ -164,7 +164,7 @@ Consistent across all charts. References design tokens:
 ### Center Text
 
 - Line 1: formatted number (e.g., "1,234.56")
-- Line 2: "NOVA total" in neutral-500
+- Line 2: "AUR total" in neutral-500
 
 ### Legend
 
@@ -176,8 +176,8 @@ Consistent across all charts. References design tokens:
 ```jsx
 <figure aria-label="Token distribution">
   <figcaption className="sr-only">
-    Token distribution: 65% earned (803 NOVA), 25% staked (309 NOVA),
-    10% redeemed (123 NOVA)
+    Token distribution: 65% earned (803 AUR), 25% staked (309 AUR),
+    10% redeemed (123 AUR)
   </figcaption>
   {/* Recharts PieChart */}
 </figure>

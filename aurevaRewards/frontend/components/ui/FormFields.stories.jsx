@@ -12,7 +12,7 @@ export default {
 };
 
 const selectOptions = [
-  { value: 'nova', label: 'AUR token' },
+  { value: 'AUR', label: 'AUR token' },
   { value: 'xlm', label: 'XLM' },
   { value: 'usdc', label: 'USDC' },
 ];
@@ -34,17 +34,17 @@ export const TextInputError = () => (
 TextInputError.storyName = 'TextInput / Error';
 
 export const TextInputDisabled = () => (
-  <TextInput label="Email" value="user@nova.app" disabled />
+  <TextInput label="Email" value="user@aureva.app" disabled />
 );
 TextInputDisabled.storyName = 'TextInput / Disabled';
 
 export const TextInputReadOnly = () => (
-  <TextInput label="Token ID" value="NOVA-001" readOnly />
+  <TextInput label="Token ID" value="AUR-001" readOnly />
 );
 TextInputReadOnly.storyName = 'TextInput / ReadOnly';
 
 export const TextInputWithHint = () => (
-  <TextInput label="Username" hint="3–20 characters, letters and numbers only." placeholder="nova_user" />
+  <TextInput label="Username" hint="3–20 characters, letters and numbers only." placeholder="aureva_user" />
 );
 TextInputWithHint.storyName = 'TextInput / With Hint';
 
@@ -81,7 +81,7 @@ export const FormSelectError = () => (
 FormSelectError.storyName = 'FormSelect / Error';
 
 export const FormSelectDisabled = () => (
-  <FormSelect label="Asset" options={selectOptions} value="nova" disabled />
+  <FormSelect label="Asset" options={selectOptions} value="AUR" disabled />
 );
 FormSelectDisabled.storyName = 'FormSelect / Disabled';
 
@@ -194,7 +194,7 @@ export const AllStatesGallery = () => {
 
       <FormSelect label="FormSelect (default)" options={selectOptions} placeholder="Choose…" />
       <FormSelect label="FormSelect (error)" options={selectOptions} value="" error="Required" />
-      <FormSelect label="FormSelect (disabled)" options={selectOptions} value="nova" disabled />
+      <FormSelect label="FormSelect (disabled)" options={selectOptions} value="AUR" disabled />
 
       <Checkbox label="Checkbox (default)" />
       <Checkbox label="Checkbox (error)" error="Required" />

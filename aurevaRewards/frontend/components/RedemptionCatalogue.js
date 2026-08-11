@@ -136,7 +136,7 @@ export default function RedemptionCatalogue() {
       if (publicKey && ISSUER_PUBLIC) {
         const server = new Horizon.Server(HORIZON_URL);
         const account = await server.loadAccount(publicKey);
-        const novaAsset = new Asset('NOVA', ISSUER_PUBLIC);
+        const aurAsset = new Asset('AUR', ISSUER_PUBLIC);
 
         const tx = new TransactionBuilder(account, {
           fee: BASE_FEE,
@@ -145,7 +145,7 @@ export default function RedemptionCatalogue() {
           .addOperation(
             Operation.payment({
               destination: ISSUER_PUBLIC, // burn back to issuer
-              asset: novaAsset,
+              asset: aurAsset,
               amount: String(totalCost),
             })
           )

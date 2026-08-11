@@ -9,7 +9,7 @@ const { getUserByWallet } = require('../db/userRepository');
  * ---------------------------------------------------------------------------
  * BALANCE MUTATION → CACHE INVALIDATION MAP
  * ---------------------------------------------------------------------------
- * Every service/method that mutates a user's NOVA balance or off-chain points
+ * Every service/method that mutates a user's AUR balance or off-chain points
  * MUST call the corresponding cache invalidation below after a successful mutation.
  *
  * | # | Mutation Path | Service / Route | Method | Cache Key(s) Invalidated | Invalidation Call |

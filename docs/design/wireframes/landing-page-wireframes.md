@@ -16,7 +16,7 @@ Low-fidelity wireframes for the Aureva Rewards marketing / introduction page. Th
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  [NOVA LOGO]                              [Docs]  [Launch App]  │
+│  [AUREVA LOGO]                              [Docs]  [Launch App]  │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │          Loyalty Rewards,                  ┌──────────────┐    │
@@ -36,7 +36,7 @@ Low-fidelity wireframes for the Aureva Rewards marketing / introduction page. Th
 - Sub-headline: one-sentence value proposition (≤ 20 words)
 - Primary CTA button: "Get Started — Free" → `/onboard`
 - Secondary CTA: "View Docs" → `/docs`
-- Token icon visual: animated NOVA coin (Lottie or CSS) — right-aligned on desktop, centred on mobile
+- Token icon visual: animated AUR coin (Lottie or CSS) — right-aligned on desktop, centred on mobile
 
 ---
 
@@ -52,7 +52,7 @@ Low-fidelity wireframes for the Aureva Rewards marketing / introduction page. Th
 │  │              │  │              │  │              │  │     │ │
 │  │ Shop at any  │  │ Exchange for │  │ Lock tokens  │  │Earn │ │
 │  │ partner and  │  │ gift cards,  │  │ and earn     │  │bonus│ │
-│  │ earn NOVA    │  │ merch, or    │  │ yield on     │  │NOVA │ │
+│  │ earn AUR    │  │ merch, or    │  │ yield on     │  │AUR │ │
 │  │ tokens on    │  │ crypto       │  │ your balance │  │for  │ │
 │  │ every txn.   │  │ cashback.    │  │ over time.   │  │each │ │
 │  │              │  │              │  │              │  │ref. │ │
@@ -66,8 +66,8 @@ Low-fidelity wireframes for the Aureva Rewards marketing / introduction page. Th
 |---|------|-------|-----------|
 | 1 | 🪙 | Earn Points | Shop at any partner merchant and earn AUR tokens on every transaction. |
 | 2 | 🎁 | Redeem Rewards | Exchange tokens for gift cards, merchandise, or crypto cashback instantly. |
-| 3 | 📈 | Stake Tokens | Lock your NOVA balance and earn yield — no minimum, no lock-in period. |
-| 4 | 👥 | Refer Friends | Share your referral link and earn bonus NOVA for every friend who joins. |
+| 3 | 📈 | Stake Tokens | Lock your AUR balance and earn yield — no minimum, no lock-in period. |
+| 4 | 👥 | Refer Friends | Share your referral link and earn bonus AUR for every friend who joins. |
 
 ---
 
@@ -82,7 +82,7 @@ Low-fidelity wireframes for the Aureva Rewards marketing / introduction page. Th
 │   │   [PIE CHART PLACEHOLDER]│   │                           │  │
 │   │                          │   │  Rewards Pool    40%      │  │
 │   │   Total Supply:          │   │  Ecosystem Fund  20%      │  │
-│   │   1,000,000,000 NOVA     │   │  Team & Advisors 15%      │  │
+│   │   1,000,000,000 AUR     │   │  Team & Advisors 15%      │  │
 │   │                          │   │  Public Sale     15%      │  │
 │   │                          │   │  Reserve         10%      │  │
 │   └──────────────────────────┘   └───────────────────────────┘  │

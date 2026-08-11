@@ -9,22 +9,22 @@ const server = new Horizon.Server(HORIZON_URL, { timeout: 15000 });
 
 /**
  * Fetches the current AUR token balance for a wallet.
- * Returns '0' if the account has no NOVA trustline.
+ * Returns '0' if the account has no AUR trustline.
  * Requirements: 8.3
  *
  * @param {string} walletAddress - Stellar public key
- * @returns {Promise<string>} NOVA balance string
+ * @returns {Promise<string>} AUR balance string
  */
-export async function getNOVABalance(walletAddress) {
+export async function getAURBalance(walletAddress) {
   try {
     const account = await server.loadAccount(walletAddress);
-    const novaBalance = account.balances.find(
+    const aurBalance = account.balances.find(
       (b) =>
         b.asset_type !== 'native' &&
-        b.asset_code === 'NOVA' &&
+        b.asset_code === 'AUR' &&
         b.asset_issuer === ISSUER_PUBLIC
     );
-    return novaBalance ? novaBalance.balance : '0';
+    return aurBalance ? aurBalance.balance : '0';
   } catch (err) {
     if (err.response?.status === 404) return '0';
     throw err;
@@ -32,7 +32,7 @@ export async function getNOVABalance(walletAddress) {
 }
 
 /**
- * Fetches the full NOVA transaction history for a wallet from Horizon.
+ * Fetches the full AUR transaction history for a wallet from Horizon.
  * Handles cursor-based pagination to retrieve all records (up to 500).
  * Requirements: 6.1, 6.4
  *
@@ -51,13 +51,13 @@ export async function getTransactionHistory(walletAddress) {
       .call();
 
     while (page.records.length > 0) {
-      const novaPayments = page.records.filter(
+      const aurPayments = page.records.filter(
         (r) =>
           r.type === 'payment' &&
-          r.asset_code === 'NOVA' &&
+          r.asset_code === 'AUR' &&
           r.asset_issuer === ISSUER_PUBLIC
       );
-      transactions.push(...novaPayments);
+      transactions.push(...aurPayments);
       if (transactions.length >= 500) break;
       page = await page.next();
     }

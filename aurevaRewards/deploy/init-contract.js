@@ -63,16 +63,16 @@ function validateEnv(network) {
  *
  * @param {Horizon.Server} server
  * @param {string} distributionPublic
- * @param {Asset}  novaAsset
+ * @param {Asset}  aurAsset
  * @returns {Promise<string>} balance string e.g. "1000000.0000000"
  */
-async function getNovaBalance(server, distributionPublic, novaAsset) {
+async function getAURBalance(server, distributionPublic, aurAsset) {
   const account = await server.loadAccount(distributionPublic);
   const balance = account.balances.find(
     (b) =>
       b.asset_type !== 'native' &&
-      b.asset_code   === novaAsset.code &&
-      b.asset_issuer === novaAsset.issuer
+      b.asset_code   === aurAsset.code &&
+      b.asset_issuer === aurAsset.issuer
   );
   return balance ? balance.balance : '0';
 }
@@ -116,7 +116,7 @@ async function initContract({ network, logger = null, deploymentId = null }) {
 
   const issuerPublic       = process.env.ISSUER_PUBLIC;
   const distributionPublic = process.env.DISTRIBUTION_PUBLIC;
-  const novaAsset          = new Asset(cfg.assetCode, issuerPublic);
+  const aurAsset          = new Asset(cfg.assetCode, issuerPublic);
 
   // Use provided logger or create a standalone one
   const log = logger || Logger.begin({
@@ -175,14 +175,14 @@ async function initContract({ network, logger = null, deploymentId = null }) {
   }
 
   // ── Step 4: Verify initial supply was received ────────────────────────────
-  const novaBalance = await getNovaBalance(server, distributionPublic, novaAsset);
-  const hasSupply   = parseFloat(novaBalance) > 0;
+  const aurBalance = await getAURBalance(server, distributionPublic, aurAsset);
+  const hasSupply   = parseFloat(aurBalance) > 0;
 
   if (hasSupply) {
     log.step({
       name:   'Verify initial supply',
       status: Status.SUCCESS,
-      data:   { novaBalance, expectedSupply: cfg.initialSupply },
+      data:   { aurBalance, expectedSupply: cfg.initialSupply },
     });
   } else {
     log.step({
@@ -211,7 +211,7 @@ async function initContract({ network, logger = null, deploymentId = null }) {
       distribution: {
         publicKey:   distributionPublic,
         xlmBalance:  distributionXlm,
-        novaBalance: novaBalance,
+        aurBalance: aurBalance,
       },
     },
     horizonUrl:   cfg.horizonUrl,
@@ -227,7 +227,7 @@ async function initContract({ network, logger = null, deploymentId = null }) {
   });
 
   console.log(`\n✅  Contract initialized successfully.`);
-  console.log(`    AUR balance in Distribution Account: ${novaBalance}`);
+  console.log(`    AUR balance in Distribution Account: ${aurBalance}`);
   console.log(`    Contract state written to: ${CONTRACT_STATE_PATH}\n`);
 
   return contractState;

@@ -43,7 +43,7 @@ export default function WalletConnect() {
         <div style={{ flex: 1 }}>
           <p style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>Connected Wallet</p>
           <p style={{ fontFamily: 'monospace', fontWeight: 600 }}>{truncateAddress(publicKey)}</p>
-          <p style={{ color: 'var(--accent)', fontWeight: 700 }}>{formatTokenAmount(balance)} NOVA</p>
+          <p style={{ color: 'var(--accent)', fontWeight: 700 }}>{formatTokenAmount(balance)} AUR</p>
         </div>
         <button className="btn btn-secondary" onClick={handleDisconnect}>Disconnect</button>
       </div>

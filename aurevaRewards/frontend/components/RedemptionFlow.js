@@ -37,7 +37,7 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
           api.get(`/api/wallet/balance?address=${walletAddress}`),
         ]);
         setCampaigns(campRes.data?.data || []);
-        setBalance(balRes.data?.data?.nova ?? balRes.data?.balance ?? 0);
+        setBalance(balRes.data?.data?.aur ?? ?? balRes.data?.balance ?? 0);
       } catch {
         setError('Failed to load campaigns or balance.');
       }
@@ -48,7 +48,7 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
   function validateAmount(val) {
     const n = Number(val);
     if (!val || isNaN(n) || n <= 0) { setAmountError('Enter a positive amount.'); return false; }
-    if (n > Number(balance)) { setAmountError(`Insufficient balance. Available: ${formatTokenAmount(balance)} NOVA`); return false; }
+    if (n > Number(balance)) { setAmountError(`Insufficient balance. Available: ${formatTokenAmount(balance)} AUR`); return false; }
     setAmountError('');
     return true;
   }
@@ -60,12 +60,12 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
     try {
       const server = new Horizon.Server(HORIZON_URL);
       const account = await server.loadAccount(walletAddress);
-      const novaAsset = new Asset('NOVA', ISSUER_PUBLIC);
+      const aurAsset = new Asset('AUR', ISSUER_PUBLIC);
 
       const tx = new TransactionBuilder(account, { fee: BASE_FEE, networkPassphrase: NETWORK_PASSPHRASE })
         .addOperation(Operation.payment({
           destination: selectedCampaign.merchant_wallet,
-          asset: novaAsset,
+          asset: aurAsset,
           amount: String(amount),
         }))
         .setTimeout(180)
@@ -115,7 +115,7 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
                 onClick={() => { setSelectedCampaign(c); setStep(STEPS.AMOUNT); }}
               >
                 <span className="campaign-name">{c.name}</span>
-                <span className="campaign-rate">Rate: {c.reward_rate} NOVA / perk</span>
+                <span className="campaign-rate">Rate: {c.reward_rate} AUR / perk</span>
               </button>
             </li>
           ))}
@@ -130,8 +130,8 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
       <div className="redemption-flow">
         <h2 className="redemption-title">Enter Amount</h2>
         <p className="muted">Campaign: <strong>{selectedCampaign.name}</strong></p>
-        <p className="muted">Balance: <strong>{formatTokenAmount(balance)} NOVA</strong></p>
-        <label className="label" htmlFor="redeem-amount">Amount to Redeem (NOVA)</label>
+        <p className="muted">Balance: <strong>{formatTokenAmount(balance)} AUR</strong></p>
+        <label className="label" htmlFor="redeem-amount">Amount to Redeem (AUR)</label>
         <input
           id="redeem-amount"
           className={`input ${amountError ? 'input-error' : ''}`}
@@ -165,9 +165,9 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
         {error && <p className="error">{error}</p>}
         <dl className="confirm-details">
           <dt>Campaign</dt><dd>{selectedCampaign.name}</dd>
-          <dt>Tokens to burn</dt><dd>{formatTokenAmount(amount)} NOVA</dd>
+          <dt>Tokens to burn</dt><dd>{formatTokenAmount(amount)} AUR</dd>
           <dt>Perk value received</dt><dd>{perkValue}</dd>
-          <dt>Exchange rate</dt><dd>{selectedCampaign.reward_rate} per NOVA</dd>
+          <dt>Exchange rate</dt><dd>{selectedCampaign.reward_rate} per AUR</dd>
         </dl>
         <div className="flow-actions">
           <button className="btn btn-secondary" onClick={() => setStep(STEPS.AMOUNT)}>Back</button>
@@ -194,7 +194,7 @@ export default function RedemptionFlow({ walletAddress, onSuccess }) {
     <div className="redemption-flow redemption-success">
       <div className="success-icon" aria-hidden="true">✅</div>
       <h2 className="redemption-title">Redemption Successful!</h2>
-      <p>You redeemed <strong>{formatTokenAmount(amount)} NOVA</strong> via <strong>{selectedCampaign.name}</strong>.</p>
+      <p>You redeemed <strong>{formatTokenAmount(amount)} AUR</strong> via <strong>{selectedCampaign.name}</strong>.</p>
       <p>
         Transaction:{' '}
         <TransactionLink

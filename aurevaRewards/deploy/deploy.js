@@ -117,7 +117,7 @@ async function hasTrustline(server, publicKey, asset) {
  * @param {Asset}  asset
  * @returns {Promise<{balance: string, hasTokens: boolean}>}
  */
-async function getNovaBalance(server, publicKey, asset) {
+async function getAurBalance(server, publicKey, asset) {
   const account = await server.loadAccount(publicKey);
   const b = account.balances.find(
     (bal) =>
@@ -141,7 +141,7 @@ async function deploy({ network, dryRun = false }) {
   const distributionKeypair = Keypair.fromSecret(process.env.DISTRIBUTION_SECRET);
   const issuerPublic        = issuerKeypair.publicKey();
   const distributionPublic  = distributionKeypair.publicKey();
-  const novaAsset           = new Asset(cfg.assetCode, issuerPublic);
+  const aurAsset           = new Asset(cfg.assetCode, issuerPublic);
 
   // ── Banner ─────────────────────────────────────────────────────────────────
   console.log('\n╔══════════════════════════════════════════════════════╗');
@@ -238,7 +238,7 @@ async function deploy({ network, dryRun = false }) {
     // ── Step 3: Establish AUR trustline ────────────────────────────────────
     console.log('[3/6] Establishing AUR trustline on Distribution Account...');
 
-    const trustlineExists = await hasTrustline(server, distributionPublic, novaAsset);
+    const trustlineExists = await hasTrustline(server, distributionPublic, aurAsset);
 
     if (trustlineExists) {
       log.step({ name: 'Establish AUR trustline', status: Status.SKIPPED, data: { reason: 'already_exists' } });
@@ -249,7 +249,7 @@ async function deploy({ network, dryRun = false }) {
         fee:              String(cfg.baseFee),
         networkPassphrase: cfg.networkPassphrase,
       })
-        .addOperation(Operation.changeTrust({ asset: novaAsset }))
+        .addOperation(Operation.changeTrust({ asset: aurAsset }))
         .setTimeout(cfg.txTimeout)
         .build();
 
@@ -272,8 +272,8 @@ async function deploy({ network, dryRun = false }) {
     // ── Step 4: Issue initial AUR supply ───────────────────────────────────
     console.log('[4/6] Issuing initial AUR supply...');
 
-    const { balance: currentBalance, hasTokens } = await getNovaBalance(
-      server, distributionPublic, novaAsset
+    const { balance: currentBalance, hasTokens } = await getAurBalance(
+      server, distributionPublic, aurAsset
     );
 
     if (hasTokens) {
@@ -292,7 +292,7 @@ async function deploy({ network, dryRun = false }) {
         .addOperation(
           Operation.payment({
             destination: distributionPublic,
-            asset:       novaAsset,
+            asset:       aurAsset,
             amount:      cfg.initialSupply,
           })
         )

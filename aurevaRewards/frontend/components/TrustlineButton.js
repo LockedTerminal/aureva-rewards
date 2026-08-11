@@ -6,7 +6,7 @@ import api from '../lib/api';
 import TransactionLink from './TransactionLink';
 
 /**
- * Detects whether the connected wallet has a NOVA trustline and, if not,
+ * Detects whether the connected wallet has a AUR trustline and, if not,
  * prompts the user to establish one before proceeding with a reward claim.
  *
  * Flow:
@@ -19,7 +19,7 @@ import TransactionLink from './TransactionLink';
  *
  * @param {{ onSuccess?: () => void, assetCode?: string, issuer?: string }} props
  */
-export default function TrustlineButton({ onSuccess, assetCode = 'NOVA', issuer }) {
+export default function TrustlineButton({ onSuccess, assetCode = 'AUR', issuer }) {
   const { publicKey, signTransaction } = useWallet();
   const [trustlineExists, setTrustlineExists] = useState(null); // null = checking
   const [status, setStatus] = useState('idle'); // idle | loading | done | error
@@ -76,7 +76,7 @@ export default function TrustlineButton({ onSuccess, assetCode = 'NOVA', issuer 
   return (
     <div className="rounded-xl border border-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-700 p-4 space-y-2">
       <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-        ⚠️ A NOVA trustline is required before you can receive rewards.
+        ⚠️ A AUR trustline is required before you can receive rewards.
       </p>
       <button
         className="btn btn-secondary"
@@ -87,7 +87,7 @@ export default function TrustlineButton({ onSuccess, assetCode = 'NOVA', issuer 
           ? 'Establishing trustline…'
           : status === 'done'
           ? '✓ Trustline active'
-          : 'Establish NOVA Trustline'}
+          : 'Establish AUR trustline'}
       </button>
       {message && (
         <p className={`text-sm ${status === 'error' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>

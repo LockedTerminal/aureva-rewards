@@ -55,10 +55,10 @@ router.post('/', authenticateMerchant, validateCreateCampaign, async (req, res, 
     const { name, tokenAmount, rewardPerAction, startDate, endDate } = req.body;
     const merchant = req.merchant;
 
-    // Balance check: merchant's NOVA balance must cover the tokenAmount
+    // Balance check: merchant's AUR balance must cover the tokenAmount
     let balance;
     try {
-      balance = await getNOVABalance(merchant.wallet_address);
+      balance = await getAURBalance(merchant.wallet_address);
     } catch {
       balance = '0';
     }

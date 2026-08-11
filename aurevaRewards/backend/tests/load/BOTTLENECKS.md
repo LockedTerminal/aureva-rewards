@@ -45,9 +45,9 @@
 
 | # | Bottleneck | Likely cause |
 |---|-----------|--------------|
-| 1 | **Horizon API call on cache miss** | `getNOVABalance` makes an outbound HTTP request to Stellar Horizon. Horizon p95 is ~300–800 ms, which alone can breach the 500 ms SLA on cache misses. |
+| 1 | **Horizon API call on cache miss** | `getAURBalance` makes an outbound HTTP request to Stellar Horizon. Horizon p95 is ~300–800 ms, which alone can breach the 500 ms SLA on cache misses. |
 | 2 | **Redis cache TTL too short (30 s)** | With 100 VUs and a 30 s TTL, cache-miss rate is high. Each miss triggers a Horizon call. |
-| 3 | **Sequential DB + Horizon calls** | `getUserById` (DB) and `getNOVABalance` (Horizon) are called sequentially. They are independent and can be parallelised. |
+| 3 | **Sequential DB + Horizon calls** | `getUserById` (DB) and `getAURBalance` (Horizon) are called sequentially. They are independent and can be parallelised. |
 | 4 | **No stale-while-revalidate** | When the cache expires, all concurrent requests for the same user ID hit Horizon simultaneously (thundering herd). |
 
 ### Remediation
@@ -56,7 +56,7 @@
    ```js
    const [user, tokenBalance] = await Promise.all([
      getUserById(userId),
-     getNOVABalance(stellarPublicKey),
+     getAURBalance(stellarPublicKey),
    ]);
    ```
 
@@ -74,7 +74,7 @@
    }
    ```
 
-4. **Circuit-break Horizon calls** — the codebase already uses `opossum`; wrap `getNOVABalance` in a circuit breaker so Horizon outages don't cascade into 500 errors.
+4. **Circuit-break Horizon calls** — the codebase already uses `opossum`; wrap `getAURBalance` in a circuit breaker so Horizon outages don't cascade into 500 errors.
 
 ---
 

@@ -186,7 +186,7 @@ All components live in `AurevaRewards/frontend/components/ui/`. Each component u
 │  Campaign Name (H3)              │
 │  Start: Jan 1 → End: Dec 31      │
 │                                  │
-│  Issued: 45,000 / 100,000 NOVA   │
+│  Issued: 45,000 / 100,000 AUR   │
 │  [Progress bar — 45%]            │
 │                                  │
 │  [View Details] [Edit]           │

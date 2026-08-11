@@ -110,7 +110,7 @@ describe("Wallet Routes", () => {
         success: true,
         balances: {
           native: { XLM: "1000.0000000" },
-          tokens: { NOVA: { balance: "500.0000000" } },
+          tokens: { AUR: { balance: "500.0000000" } },
         },
       };
 
@@ -219,7 +219,7 @@ describe("Wallet Routes", () => {
           {
             id: "payment-1",
             hash: "tx-hash-1",
-            asset: "NOVA",
+            asset: "AUR",
             amount: "100.0000000",
           },
         ],

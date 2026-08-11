@@ -184,7 +184,7 @@ PORT=3002
 
 ### 3.1 `AxiosError: Request failed with status code 404` when loading an account
 
-**Symptom:** Backend logs show a 404 from Horizon when trying to load an account. The `stellarService.js` `getNOVABalance` function returns `"0"` unexpectedly, or reward issuance fails.
+**Symptom:** Backend logs show a 404 from Horizon when trying to load an account. The `stellarService.js` `getAURBalance` function returns `"0"` unexpectedly, or reward issuance fails.
 
 **Cause:** The Stellar account (`ISSUER_PUBLIC` or `DISTRIBUTION_PUBLIC`) does not exist on the network, or has not been funded (activated).
 

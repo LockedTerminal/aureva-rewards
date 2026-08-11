@@ -63,10 +63,10 @@ class Logger {
    * @param {string} options.network   - 'testnet' | 'mainnet'
    * @param {string} options.issuer    - Issuer public key
    * @param {string} options.distribution - Distribution public key
-   * @param {string} [options.assetCode]  - Defaults to 'NOVA'
+   * @param {string} [options.assetCode]  - Defaults to 'AUR'
    * @returns {Logger}
    */
-  static begin({ network, issuer, distribution, assetCode = 'NOVA' }) {
+  static begin({ network, issuer, distribution, assetCode = 'AUR' }) {
     ensureLogsDir();
 
     const startedAt    = new Date();

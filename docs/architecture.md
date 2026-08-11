@@ -225,7 +225,7 @@ Backend Job              Redis                 Socket.IO            User Browser
 
 | Service / Route | Stellar Interaction | Contract |
 |---|---|---|
-| `stellarService.getNOVABalance()` | Horizon account query | — |
+| `stellarService.getAURBalance()` | Horizon account query | — |
 | `trustline` route | Horizon account balances | — |
 | `rewards` route | Soroban invoke | `aureva-rewards` |
 | `drops` route | Horizon tx submit | — |

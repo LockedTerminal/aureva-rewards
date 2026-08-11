@@ -14,7 +14,7 @@ jest.mock('../../../blockchain/stellarService', () => ({
     transactions: jest.fn(),
     payments: jest.fn(),
   },
-  NOVA: { code: 'NOVA', issuer: 'GISSUER' },
+  AUR: { code: 'AUR', issuer: 'GISSUER' },
   isValidStellarAddress: jest.fn((addr) => /^G[A-Z0-9]{55}$/.test(addr)),
 }));
 
@@ -199,7 +199,7 @@ describe('getWalletHistory', () => {
   });
 
   it('returns Horizon data on success', async () => {
-    const mockRecords = [{ type: 'payment', asset_code: 'NOVA', asset_issuer: 'GISSUER', amount: '5' }];
+    const mockRecords = [{ type: 'payment', asset_code: 'AUR', asset_issuer: 'GISSUER', amount: '5' }];
     stellarService.server.payments.mockReturnValue({
       forAccount: jest.fn().mockReturnValue({
         order: jest.fn().mockReturnValue({

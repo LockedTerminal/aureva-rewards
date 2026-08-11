@@ -1,7 +1,7 @@
 .PHONY: help logging-up logging-down secrets-up secrets-down staging-up staging-down cdn-deploy preview-deploy production-deploy
 
 help:
-	@echo "Nova Rewards DevOps Infrastructure Commands"
+	@echo "AUR Rewards DevOps Infrastructure Commands"
 	@echo ""
 	@echo "Logging:"
 	@echo "  make logging-up          - Start Loki, Prometheus, Grafana, Alertmanager stack"

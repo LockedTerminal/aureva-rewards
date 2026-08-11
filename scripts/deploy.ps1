@@ -1,4 +1,4 @@
-# deploy.ps1 — Deploy all Nova Rewards contracts to testnet or mainnet.
+# deploy.ps1 — Deploy all Aureva Rewards contracts to testnet or mainnet.
 #
 # Usage:
 #   $env:NETWORK="testnet"; .\scripts\deploy.ps1
@@ -190,20 +190,20 @@ if (-not (Test-Path $DeployOut)) {
 }
 
 # ── Deployment order ──────────────────────────────────────────────────────────
-# 1. nova_token  (no deps)
-# 2. distribution (needs nova_token contract ID)
-# 3. reward_pool, vesting, referral, nova_rewards (no inter-deps)
+# 1. aur_token  (no deps)
+# 2. distribution (needs aur_token contract ID)
+# 3. reward_pool, vesting, referral, aureva_rewards (no inter-deps)
 # 4. admin_roles (last — governs all others)
 
-# 1. nova_token
-$NovaTokenId = Deploy-Contract "nova_token_contract_id" "nova_token" @(
+# 1. aur_token
+$AurTokenId = Deploy-Contract "aur_token_contract_id" "aur_token" @(
     "--admin", $AdminAddress
 )
 
 # 2. distribution
 $DistributionId = Deploy-Contract "distribution_contract_id" "distribution" @(
     "--admin",    $AdminAddress,
-    "--token-id", $NovaTokenId
+    "--token-id", $AurTokenId
 )
 
 # 3a. reward_pool
@@ -221,8 +221,8 @@ $ReferralId = Deploy-Contract "referral_contract_id" "referral" @(
     "--admin", $AdminAddress
 )
 
-# 3d. nova_rewards
-$NovaRewardsId = Deploy-Contract "nova_rewards_contract_id" "nova_rewards" @(
+# 3d. aureva_rewards
+$AurevaRewardsId = Deploy-Contract "aureva_rewards_contract_id" "aureva_rewards" @(
     "--admin", $AdminAddress
 )
 
@@ -237,12 +237,12 @@ $AdminRolesId = Deploy-Contract "admin_roles_contract_id" "admin_roles" @(
 # ── Post-deployment verification ──────────────────────────────────────────────
 
 Log "Running post-deployment verification..."
-Verify-Contract $NovaTokenId    "balance"     @("--addr", $AdminAddress)
+Verify-Contract $AurTokenId    "balance"     @("--addr", $AdminAddress)
 Verify-Contract $RewardPoolId   "get_balance" @()
 Verify-Contract $VestingId      "get_admin"   @()
 Verify-Contract $ReferralId     "get_admin"   @()
 Verify-Contract $DistributionId "get_admin"   @()
-Verify-Contract $NovaRewardsId  "get_admin"   @()
+Verify-Contract $AurevaRewardsId  "get_admin"   @()
 Verify-Contract $AdminRolesId   "get_admin"   @()
 
 # ── Summary ───────────────────────────────────────────────────────────────────

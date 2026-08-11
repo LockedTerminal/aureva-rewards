@@ -1,9 +1,9 @@
 const logger = require('../lib/logger');
 const {
   server,
-  NOVA,
+  AUR,
   isValidStellarAddress,
-  getNOVABalance,
+  getAURBalance,
 } = require("../../blockchain/stellarService");
 const {
   Horizon,
@@ -71,11 +71,11 @@ class WalletService {
       // Verify account exists on Stellar network
       const account = await server.loadAccount(publicKey);
 
-      // Check if account has required trustlines for NOVA
-      const novaTrustline = account.balances.find(
+      // Check if account has required trustlines for AUR
+      const aurTrustline = account.balances.find(
         (balance) =>
           balance.asset_type !== "native" &&
-          balance.asset_code === "NOVA" &&
+          balance.asset_code === "AUR" &&
           balance.asset_issuer === ISSUER_PUBLIC,
       );
 
@@ -84,11 +84,11 @@ class WalletService {
         walletType,
         accountExists: true,
         sequence: account.sequence,
-        novaTrustline: novaTrustline
+        aurTrustline: aurTrustline
           ? {
-              balance: novaTrustline.balance,
-              limit: novaTrustline.limit,
-              issuer: novaTrustline.asset_issuer,
+              balance: aurTrustline.balance,
+              limit: aurTrustline.limit,
+              issuer: aurTrustline.asset_issuer,
             }
           : null,
         nativeBalance:
@@ -375,12 +375,12 @@ class WalletService {
 
       const payments = await paymentsBuilder.call();
 
-      // Filter for NOVA transactions and add metadata
-      const novaTransactions = payments.records
+      // Filter for AUR transactions and add metadata
+      const aurTransactions = payments.records
         .filter(
           (record) =>
             record.type === "payment" &&
-            ((record.asset_code === "NOVA" &&
+            ((record.asset_code === "AUR" &&
               record.asset_issuer === ISSUER_PUBLIC) ||
               record.asset_type === "native"),
         )
@@ -402,7 +402,7 @@ class WalletService {
 
       return {
         success: true,
-        transactions: novaTransactions,
+        transactions: aurTransactions,
         cursor: payments.next ? payments.next.cursor : null,
         hasMore: payments.records.length === limit,
       };
@@ -444,7 +444,7 @@ class WalletService {
       })
         .addOperation(
           Operation.changeTrust({
-            asset: NOVA,
+            asset: AUR,
             limit: limit,
           }),
         )

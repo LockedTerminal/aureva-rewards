@@ -12,7 +12,7 @@ import { formatTokenAmount } from '../lib/formatting';
  *   state        - current modal state
  *   action       - human label e.g. "Redeem", "Stake", "Transfer"
  *   amount       - token amount string
- *   asset        - asset code, default "NOVA"
+ *   asset        - asset code, default "AUR"
  *   feeEstimate  - fee string e.g. "0.00001 XLM"
  *   walletAddress - truncated or full address shown in confirm step
  *   irreversible - boolean, shows warning banner when true
@@ -28,7 +28,7 @@ export default function TransactionModal({
   state = 'confirm',
   action = 'Transaction',
   amount,
-  asset = 'NOVA',
+  asset = 'AUR',
   feeEstimate,
   walletAddress,
   irreversible = false,
@@ -70,7 +70,7 @@ export default function TransactionModal({
 /* ── Sub-steps ─────────────────────────────────────────────────────────── */
 
 function ConfirmStep({ action, amount, asset, feeEstimate, walletAddress, irreversible, onConfirm, onClose }) {
-  const formattedAmount = asset === 'NOVA' ? formatTokenAmount(amount) : amount;
+  const formattedAmount = asset === 'AUR' ? formatTokenAmount(amount) : amount;
   return (
     <>
       <h2 id="tx-modal-title" className="tx-modal-title">Confirm {action}</h2>

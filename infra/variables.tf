@@ -1,7 +1,7 @@
 variable "app_name" {
   description = "Application name"
   type        = string
-  default     = "nova-rewards"
+  default     = "aureva-rewards"
 }
 
 variable "aws_region" {
@@ -34,13 +34,13 @@ variable "ec2_security_group_id" {
 variable "db_name" {
   description = "Initial database name"
   type        = string
-  default     = "nova_rewards"
+  default     = "aureva_rewards"
 }
 
 variable "db_master_username" {
   description = "RDS master username"
   type        = string
-  default     = "nova_master"
+  default     = "aureva_master"
 }
 
 variable "environment" {
@@ -112,7 +112,7 @@ variable "certificate_arn" {
 variable "app_secret_name" {
   description = "Secrets Manager secret name"
   type        = string
-  default     = "nova-rewards/production/app-secrets"
+  default     = "aureva-rewards/production/app-secrets"
 }
 variable "cloudwatch_error_threshold" {
   description = "Number of ERROR log lines in 5 minutes that triggers the alarm"

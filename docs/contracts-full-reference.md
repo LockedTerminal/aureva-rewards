@@ -146,7 +146,7 @@ Requires `staker` auth. Returns principal + accrued yield. Enforces cooldown per
 #### `claim_staking_reward(staker) → i128`
 Requires `staker` auth. Claims yield without touching principal. Resets `last_claimed_at`.
 
-#### `swap_for_xlm(user, nova_amount, min_xlm_out, path)`
+#### `swap_for_xlm(user, aur_amount, min_xlm_out, path)`
 Requires `user` auth. Burns AUR tokens and swaps for XLM via the DEX router. Enforces daily limit. Panics if swap config not set.
 
 #### `snapshot_account(account)`
@@ -165,18 +165,18 @@ Admin-only. Runs the migration logic for the pending version then increments `Mi
 
 | Topics | Data | Trigger |
 |--------|------|---------|
-| `("nova_rwd", "init")` | `(admin, aureva_token, schema_version)` | `initialize` |
-| `("nova_rwd", "paused")` | `(procedure, timestamp)` | `pause` / `pause_for_recovery` |
-| `("nova_rwd", "resumed")` | `timestamp` | `unpause` / `resume` |
-| `("nova_rwd", "emrg_ps")` | `expiry_timestamp` | `emergency_pause` |
-| `("nova_rwd", "staked")` | `(staker, amount, timestamp)` | `stake` |
-| `("nova_rwd", "unstaked")` | `(staker, amount, yield, timestamp)` | `unstake` |
+| `("aur_rwd", "init")` | `(admin, aureva_token, schema_version)` | `initialize` |
+| `("aur_rwd", "paused")` | `(procedure, timestamp)` | `pause` / `pause_for_recovery` |
+| `("aur_rwd", "resumed")` | `timestamp` | `unpause` / `resume` |
+| `("aur_rwd", "emrg_ps")` | `expiry_timestamp` | `emergency_pause` |
+| `("aur_rwd", "staked")` | `(staker, amount, timestamp)` | `stake` |
+| `("aur_rwd", "unstaked")` | `(staker, amount, yield, timestamp)` | `unstake` |
 | `("claimed", staker)` | `(reward, timestamp)` | `claim_staking_reward` |
-| `("nova_rwd", "swapped")` | `(user, nova_in, xlm_out)` | `swap_for_xlm` |
+| `("aur_rwd", "swapped")` | `(user, aur_in, xlm_out)` | `swap_for_xlm` |
 | `("recovery", "snapshot")` | `(account, balance, timestamp)` | `snapshot_account` |
 | `("recovery", "restored")` | `(account, balance, timestamp)` | `restore_account` |
 | `("recovery", "operator")` | `recovery_admin` | `set_recovery_admin` |
-| `("nova_rwd", "upgraded")` | `new_wasm_hash` | `upgrade` |
+| `("aur_rwd", "upgraded")` | `new_wasm_hash` | `upgrade` |
 
 ### Usage Example
 

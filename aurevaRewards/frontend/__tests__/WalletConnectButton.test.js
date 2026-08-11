@@ -25,7 +25,7 @@ jest.mock('../lib/freighter', () => ({
 }));
 
 jest.mock('../lib/horizonClient', () => ({
-  getNOVABalance: jest.fn(() => Promise.resolve('100.0000000')),
+  getAURBalance: jest.fn(() => Promise.resolve('100.0000000')),
   getTransactionHistory: jest.fn(() => Promise.resolve([])),
 }));
 
@@ -81,7 +81,7 @@ describe('WalletConnectButton — component states', () => {
     render(<WalletConnectButton />);
 
     expect(screen.getByText(/GABCDE…EF12/)).toBeInTheDocument();
-    expect(screen.getByText(/250.*NOVA/)).toBeInTheDocument();
+    expect(screen.getByText(/250.*AUR/)).toBeInTheDocument();
     expect(screen.getByText('Testnet')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /disconnect/i })).toBeInTheDocument();
   });
@@ -238,8 +238,8 @@ describe('walletStore — actions', () => {
   });
 
   it('rehydrate() refreshes balance for persisted publicKey', async () => {
-    const { getNOVABalance, getTransactionHistory } = require('../lib/horizonClient');
-    getNOVABalance.mockResolvedValue('500.0000000');
+    const { getAURBalance, getTransactionHistory } = require('../lib/horizonClient');
+    getAURBalance.mockResolvedValue('500.0000000');
     getTransactionHistory.mockResolvedValue([{ id: 'tx1' }]);
 
     useWalletStore.setState({ publicKey: 'GPERSISTED', hydrated: false });
@@ -252,8 +252,8 @@ describe('walletStore — actions', () => {
   });
 
   it('rehydrate() clears stale publicKey on failure', async () => {
-    const { getNOVABalance } = require('../lib/horizonClient');
-    getNOVABalance.mockRejectedValue(new Error('Network error'));
+    const { getAURBalance } = require('../lib/horizonClient');
+    getAURBalance.mockRejectedValue(new Error('Network error'));
 
     useWalletStore.setState({ publicKey: 'GSTALE', hydrated: false });
 

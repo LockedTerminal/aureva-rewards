@@ -18,7 +18,7 @@ import api from './api';
  * @property {string}  [description]
  * @property {string}  [category]        - e.g. "food", "retail", "travel"
  * @property {string}  [rewardType]      - e.g. "cashback", "points", "token"
- * @property {number}  rewardRate        - NOVA per unit
+ * @property {number}  rewardRate        - AUR per unit
  * @property {string}  [merchantId]
  * @property {string}  [merchantName]
  * @property {string}  [merchantLogo]

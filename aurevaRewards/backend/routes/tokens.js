@@ -10,7 +10,7 @@ const tokenTransferService = require('../services/tokenTransferService');
  *     summary: Transfer AUR tokens to another wallet
  *     description: >
  *       Validates the destination address and amount, checks the sender's
- *       on-chain NOVA balance, submits a Stellar payment operation, waits
+ *       on-chain AUR balance, submits a Stellar payment operation, waits
  *       for ledger confirmation, and records the transfer in the
  *       transactions table.
  *     security:
@@ -28,7 +28,7 @@ const tokenTransferService = require('../services/tokenTransferService');
  *                 description: Recipient's Stellar public key
  *               amount:
  *                 type: string
- *                 description: Amount of NOVA to transfer (up to 7 decimal places)
+ *                 description: Amount of AUR to transfer (up to 7 decimal places)
  *               signerSecret:
  *                 type: string
  *                 description: Secret key of the sender's linked wallet

@@ -54,13 +54,13 @@ async function distributeRewards({ toWallet, amount }) {
   );
 
   // 3. Check Distribution Account has sufficient AUR balance
-  const novaBalance = distributionAccount.balances.find(
+  const aurBalance = distributionAccount.balances.find(
     (b) =>
       b.asset_type !== 'native' &&
       b.asset_code === AUR.code &&
       b.asset_issuer === AUR.issuer
   );
-  const available = novaBalance ? parseFloat(novaBalance.balance) : 0;
+  const available = aurBalance ? parseFloat(aurBalance.balance) : 0;
   if (available < parseFloat(amount)) {
     const err = new Error(
       `Distribution Account has insufficient AUR balance. Available: ${available}, Requested: ${amount}`

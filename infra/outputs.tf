@@ -1,6 +1,6 @@
 output "rds_endpoint" {
   description = "RDS instance endpoint (host:port)"
-  value       = "${aws_db_instance.nova.address}:${aws_db_instance.nova.port}"
+  value       = "${aws_db_instance.AUR.address}:${aws_db_instance.AUR.port}"
 }
 
 output "rds_secret_arn" {

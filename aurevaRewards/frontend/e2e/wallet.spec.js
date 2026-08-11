@@ -50,7 +50,7 @@ test.describe('Wallet Integration', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          balances: [{ asset_code: 'NOVA', asset_type: 'credit_alphanum4', balance: '250.0000000' }],
+          balances: [{ asset_code: 'AUR', asset_type: 'credit_alphanum4', balance: '250.0000000' }],
         }),
       })
     );
@@ -61,7 +61,7 @@ test.describe('Wallet Integration', () => {
     await expect(page.locator(`text=${fakeKey.slice(0, 4)}`)).toBeVisible({ timeout: 8_000 });
   });
 
-  test('NOVA balance is displayed on dashboard', async ({ page }) => {
+  test('AUR balance is displayed on dashboard', async ({ page }) => {
     const fakeKey = 'GAHJJJKMOKYE4RVPZEWZTKH5FVI4PA3VL7GK2LFNUBSGBV3QLBDQBQD';
     await page.goto('/dashboard');
     await page.evaluate((key) => {
@@ -73,13 +73,13 @@ test.describe('Wallet Integration', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          balances: [{ asset_code: 'NOVA', asset_type: 'credit_alphanum4', balance: '500.0000000' }],
+          balances: [{ asset_code: 'AUR', asset_type: 'credit_alphanum4', balance: '500.0000000' }],
         }),
       })
     );
 
     await page.reload();
-    await expect(page.locator('text=/500|NOVA/i')).toBeVisible({ timeout: 8_000 });
+    await expect(page.locator('text=/500|AUR/i')).toBeVisible({ timeout: 8_000 });
   });
 
   test('disconnect wallet clears the public key from UI', async ({ page }) => {

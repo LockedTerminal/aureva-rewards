@@ -41,7 +41,7 @@ describe('CampaignCard — active campaign', () => {
   it('renders reward rate', () => {
     render(<CampaignCard campaign={baseCampaign} onViewDetails={jest.fn()} />);
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('NOVA')).toBeInTheDocument();
+    expect(screen.getByText('AUR')).toBeInTheDocument();
   });
 
   it('shows Active status badge', () => {

@@ -90,7 +90,7 @@ Your wallet address will then appear on your dashboard.
 
 ### 16. What is a "trustline" and why do I need to set one up?
 
-Before your wallet can receive AUR tokens, it needs to be told to accept them — this is called a trustline. It's a one-time setup step. On your dashboard, click the **Add NOVA Trustline** button. Freighter will show you a security confirmation — click **Approve**. You only need to do this once.
+Before your wallet can receive AUR tokens, it needs to be told to accept them — this is called a trustline. It's a one-time setup step. On your dashboard, click the **Add AUR Trustline** button. Freighter will show you a security confirmation — click **Approve**. You only need to do this once.
 
 ### 17. What is staking, and how does it work?
 
@@ -109,7 +109,7 @@ Yes. You can unstake at any time. Your yield is calculated up to the moment you 
 
 ### 19. What does "swap for XLM" mean?
 
-XLM is the native currency of the Stellar network. If you'd like to convert some of your AUR tokens into XLM (for example, to cover small network fees), you can use the swap feature on your dashboard. You set the amount of NOVA to convert and a minimum amount of XLM you're willing to accept. If the exchange rate meets your minimum, the swap completes automatically.
+XLM is the native currency of the Stellar network. If you'd like to convert some of your AUR tokens into XLM (for example, to cover small network fees), you can use the swap feature on your dashboard. You set the amount of AUR to convert and a minimum amount of XLM you're willing to accept. If the exchange rate meets your minimum, the swap completes automatically.
 
 ### 20. Is my wallet safe? What security steps does Aureva Rewards take?
 

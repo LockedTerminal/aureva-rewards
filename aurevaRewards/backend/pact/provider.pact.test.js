@@ -33,7 +33,7 @@ jest.mock('../../blockchain/stellarService', () => ({
   server: {},
   AUR: {},
   isValidStellarAddress: jest.fn().mockReturnValue(true),
-  getNOVABalance: jest.fn().mockResolvedValue('0'),
+  getAURBalance: jest.fn().mockResolvedValue('0'),
 }));
 jest.mock('../../blockchain/sendRewards', () => ({ sendRewards: jest.fn() }));
 jest.mock('../../blockchain/issueAsset', () => ({}));
